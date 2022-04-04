@@ -1,0 +1,94 @@
+package Matching.SouP.crawler.inflearn;
+
+import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class InflearnService {
+    private static String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
+    private final InflearnRepository inflearnRepository;
+
+
+    public List<Inflearn> findAll(){
+        return inflearnRepository.findAll();
+    }
+
+    public void getInflearnPostData() throws IOException {
+        System.out.println("인프런 크롤링 시작.");
+        init();
+        int start = recentPost();
+        System.out.println("pass");
+        int Page = startPage(start);
+        while(Page>=0){
+            Document doc = Jsoup.connect(urlInf + "?page=" + Page).get();  // 페이지 선택.
+            for (int i = 20; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
+                Elements element = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child("+i+")");
+                String link = element.select("a").attr("href");
+                String number = link.substring(9);
+                link = "https://www.inflearn.com"+link;
+                int num = Integer.parseInt(number);
+                if(num<=start)
+                    continue;   //이미 불러온 글이면 저장 X
+                Document realPost = Jsoup.connect(link).get();
+                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text();
+                String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
+                String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
+                String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
+                Elements title = element.select("a > div > div.question__info > div.question__title");
+                String postName = title.select("h3").text();
+                        String pass = title.select("span").text();
+
+                if(pass.equals("모집완료 ")){
+                    continue;  //모집완료이면 패스
+                }
+                Elements tags = element.select("a > div > div.question__info > div.question__tags");
+                // 태그는 아직 못 가져오겠음.. css 선택자를 공부해야됨
+                int tagCount = tags.select("button").size();
+                StringBuilder stack= new StringBuilder();
+                for (int j = 1; j <= tagCount; j++) {
+                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
+                }
+                if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
+                Inflearn post = new Inflearn(num,postName,content,userName,date,stack.toString(),link,talk);
+                inflearnRepository.save(post);
+                System.out.println(post);
+            }
+            Page--;
+        }
+    }
+    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+        Inflearn temp = new Inflearn();
+        temp.setNum(478000);
+        temp.setPostName("기준점");
+        inflearnRepository.save(temp);
+    }
+
+    private int startPage(int start) throws IOException {
+        int page=1;
+        /**
+         * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
+         * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됌
+         */
+        System.out.println("start =  "+start);
+        while(true){
+            Document doc = Jsoup.connect(urlInf + "?page="+page).get();
+            String sNum = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child(1) > a").attr("href").substring(9);
+            int num = Integer.parseInt(sNum);
+            System.out.println(page+"페이지의 첫 글 번호 : "+num+"  ,    디비에 가장 최근 저장 된 글 번호 : "+start);
+            if(num<start){
+                return page-1;
+            }
+            page++;
+        }
+    }
+    public int recentPost(){
+        return inflearnRepository.findRecent().intValue();
+    }
+}
