@@ -13,5 +13,6 @@
 
 ![dd](https://user-images.githubusercontent.com/94730032/161501482-63a008af-a6ba-4694-ac68-9f8861138cbe.png)
 <hr>
+https://www.erdcloud.com/d/MzegBAtjNYtDrfEFh
 
  `사용 툴 : : erdcloud, mockaroo, postman, h2, mysql`

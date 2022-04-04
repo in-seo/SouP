@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>SouP | 로그인</title>
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+</head>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-flex">
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url(img/dogs/top-slider-img-01.png")></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">렛플에 오신걸 환영합니다!</h4>
+                                    </div>
+                                    <form class="user">
+                                        <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="이메일" name="email"></div>
+                                        <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="패스워드" name="password"></div>
+                                        <div class="mb-3">
+                                            <div class="custom-control custom-checkbox small">
+                                                <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">로그인 저장</label></div>
+                                            </div>
+                                        </div><button class="btn btn-primary d-block btn-user w-100" type="submit">로그인</button>
+                                        <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Login with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Login with Facebook</a>
+                                        <hr>
+                                    </form>
+                                    <div class="text-center"><a class="small" href="forgot-password.html">아이디를 잊으셨나요?</a></div>
+                                    <div class="text-center"><a class="small" href="register.html">렛플이 처음이신가요?</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/bs-init.js"></script>
+    <script src="assets/js/theme.js"></script>
+</body>
+
+</html>
