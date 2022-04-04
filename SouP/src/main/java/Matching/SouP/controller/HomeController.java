@@ -14,5 +14,29 @@ public class HomeController {
         return "index";
     }
 
+    @RequestMapping("/login")
+    public String login() {
+        log.info("login controller");
+        return "login";
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+        log.info("regi controller");
+        return "register";
+    }
+
+    @RequestMapping("/profile")
+    public String profile() {
+        log.info("profile controller");
+        return "profile";
+    }
+
+    @RequestMapping("/lounge")
+    public String lounge() {
+        log.info("lounge controller");
+        return "lounge";
+    }
+
 
 }

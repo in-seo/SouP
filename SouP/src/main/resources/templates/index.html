@@ -1,278 +1,144 @@
 <!DOCTYPE html>
-<html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>프로젝트/스터디 크롤링 웹</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-</head>
 
-<body>
-    <nav class="navbar navbar-light navbar-expand-lg navigation-clean">
-        <div class="container">
-            <a class="navbar-brand" href="#"></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1"><a href="/" style="margin-left:1rem;">메인</a><a href="/projectList" style="margin-left:1rem;">프로젝트 현황</a><a href="#" style="margin-left:1rem;">스토리</a><a href="#" style="margin-left:1rem;">라운지</a><a href="/crawl" style="margin-left: 30rem; color: cadetblue">크롤링 현황 (OKKY,Inflearn,Hola)</a><a href="/buildProject" style="margin-left:1rem; color: rosybrown">프로젝트 생성</a><a href="#" style="margin-left:1rem;">가입</a><a style="margin-left:1rem;">/</a><a href="#" style="margin-left:1rem;"> 로그인</a></div>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-<!--    <div class="simple-slider">-->
-<!--        <div class="swiper-container">-->
-<!--            <div class="swiper-wrapper">-->
-<!--                <div class="swiper-slide" style="background: url(assets/img/top-main-img-2.png) center center / cover no-repeat;"></div>-->
-<!--                <div class="swiper-slide" style="background: url(assets/img/top-main-img-4.png) center center / cover no-repeat;"></div>-->
-<!--                <div class="swiper-slide" style="background: url(assets/img/top-slider-img-01.png) center center / cover no-repeat;"></div>-->
-<!--                <div class="swiper-slide" style="background: url(assets/img/top-slider-img-02.png) center center / cover no-repeat;"></div>-->
-<!--            </div>-->
-<!--            <div class="swiper-pagination"></div>-->
-<!--            <div class="swiper-button-prev"></div>-->
-<!--            <div class="swiper-button-next"></div>-->
-<!--        </div>-->
-<!--    </div>-->
-    <section class="photo-gallery"></section>
-    <section class="projects-horizontal">
-        <div class="container">
-            <div class="intro"></div>
-        </div>
-    </section>
-    <section class="projects-horizontal">
-        <div class="container">
-            <div class="intro">
-                <h2 class="text-center">새로운 프로젝트/스터디</h2>
-            </div>
-            <div class="row projects">
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/desk.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
+<head>
+    <title>SouP | 메인</title>
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <div th:replace="/fragments/aside.html :: fragment-aside"></div>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <div th:replace="/fragments/nav.html :: fragment-nav"></div>
+                <div class="container-fluid">
+                    <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                        <h3 class="text-dark mb-0">새로운 프로젝트/스터디</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"></i>&nbsp;프로젝트 생성하기</a>
                     </div>
-                </div>
-                <div class="col-sm-6 item">
                     <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/building.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/loft.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/minibus.jpeg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="intro">
-                <h2 class="text-center">핫한 스토리 </h2>
-            </div>
-            <div class="row projects">
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/desk.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/building.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/loft.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/minibus.jpeg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="intro">
-                <h2 class="text-center">모집중인 프로젝트/스터디 </h2>
-            </div>
-            <div class="row projects">
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/desk.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/building.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/loft.jpg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 item">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/minibus.jpeg"></a></div>
-                        <div class="col">
-                            <h3 class="name">Project Name</h3>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="openChat" >
-            <p style="font-size:30px">렛플- 오픈챗</p>
-            <p >당신의 아이디어 대해 의견을 나누어 보세요</p>
-            <a>오픈챗 입장하기</a>
-        </div>
-        <section class="projects-horizontal">
-            <div class="container">
-                <div class="intro"> 
-                    <h2 class="text-center">같이 해요 </h2>
-                </div>
-                <div class="row projects">
-                    <div class="col-sm-6 item">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/desk.jpg"></a></div>
-                            <div class="col">
-                                <h3 class="name">Project Name</h3>
-                                
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-heart text-gray-700"><span style="padding-left: 0.5rem;">1</span></i></div>
+                                        </div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-file fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 item">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/building.jpg"></a></div>
-                            <div class="col">
-                                <h3 class="name">Project Name</h3>
-                                
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-heart text-gray-700"><span style="padding-left: 0.5rem;">1</span></i></div>
+                                        </div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-file fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 item">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/loft.jpg"></a></div>
-                            <div class="col">
-                                <h3 class="name">Project Name</h3>
-                                
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-heart text-gray-700"><span style="padding-left: 0.5rem;">1</span></i></div>
+                                        </div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-file fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 item">
-                        <div class="row">
-                            <div class="col-md-12 col-lg-5"><a href="#"><img class="img-fluid" src="assets/img/minibus.jpeg"></a></div>
-                            <div class="col">
-                                <h3 class="name">Project Name</h3>
-                                
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-heart text-gray-700"><span style="padding-left: 0.5rem;">1</span></i></div>
+                                        </div>
+                                            <div class="col-auto"><i class="fas fa-thin fa-file fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="d-sm-flex justify-content-between align-items-center mb-4">
+                            <h3 class="text-dark mb-0">핫한 스토리</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"></i>&nbsp;게시판 글 생성하기</a>
+                        </div>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>작성자</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>게시판글 제목</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-xl-3 mb-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span>카테고리</span></div>
+                                            <div class="text-dark fw-bold h5 mb-0"><span>프로젝트 제목</span></div>
+                                        </div>
+                                        <div class="col-auto"><i class="fas fa-calendar fa-2x text-gray-300"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
                     </div>
                 </div>
             </div>
-        </section>
-        <footer class="footer-clean">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3>바로가기</h3>
-                        <ul>
-                            <li><a href="#">렛플인</a></li>
-                            <li><a href="#">프로젝트</a></li>
-                            <li><a href="#">스토리</a></li>
-                            <li><a href="#">라운지</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3>이용안내</h3>
-                        <ul>
-                            <li><a href="#">공지사항</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-4 col-md-3 item">
-                        <h3>관련사이트</h3>
-                        <ul>
-                            <li><a href="#">네이버 블로그</a></li>
-                            <li><a href="#">티스토리 블로그</a></li>
-                            <li><a href="#">인스타그램</a></li>
-                            <li><a href="#">Velog</a></li>
-                            <li><a href="#">Medium</a></li>
-                        </ul>
-                    </div>
-                    
-                </div>
-            </div>
-        </footer>
-        <footer class="footer-basic">
-            <ul class="list-inline">
-                <li class="list-inline-item"><a>어썸크루
-                    사업등록번호 : 619-39-00615
-                    대표 : 이승준
-                    통신판매신고번호 : 제 2020-서울마포-1796호</a></li>
-                <li class="list-inline-item"><a>주소 : 서울특별시 마포구 신수동 22-35 하나테크노빌 1002호
-                    TEL : 070.8064.3497
-                    개인정보담당자 : 이승준
-                     help@letspl.me</a></li>
-            </ul>
-            <p class="copyright">Copyright ⓒ 2022 LETSPL. All rights reserved</p>
-        </footer>
-    </section>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
-    <script src="/assets/js/Lightbox-Gallery.js"></script>
-    <script src="/assets/js/Simple-Slider.js"></script>
+        </div>
+    </div>
+
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/chart.min.js"></script>
+    <script src="js/bs-init.js"></script>
+    <script src="js/theme.js"></script>
 </body>
 
 </html>
