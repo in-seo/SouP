@@ -1,0 +1,28 @@
+spring:
+  # DB 연결
+  datasource:
+    # 설치된 H2 DB와 연결 URL
+    url: jdbc:h2:tcp://localhost/~/SouP
+    # 접속을 위한 드라이버
+    driver-class-name: org.h2.Driver
+    # springboot 2.4 부터는 username이 꼭 있어야합니다. 없으면 에러가 발생합니다.
+    username: sa
+  jpa:
+    # JPA가 수행하는 SQL을 볼 수 있다.
+    show-sql: true
+    # 객체를 보고 자동으로 테이블 생성 여부. 생성 - create, 비생성 - none
+    # 테스트이기 때문에 create로 설정하practice며
+    # 실제로는 none 으로 합니다. create이면 기존의 테이블을 전부 밀어버립니다.
+    hibernate:
+      ddl-auto: create
+  # 콘솔 확인 을 위한 always
+  output:
+    ansi:
+      enabled: always
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+# 파라미터 확인을 위한 trace
+#logging:
+#  level:
+#    org.hibernate.type: trace
