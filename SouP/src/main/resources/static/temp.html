@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>SouP | 메인</title>
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:replace="/fragments/aside.html :: fragment-aside"></div>
+    <div class="d-flex flex-column" id="content-wrapper">
+        <div id="content">
+            <div th:replace="/fragments/nav.html :: fragment-nav"></div>
+
+            <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="js/chart.min.js"></script>
+<script src="js/bs-init.js"></script>
+<script src="js/theme.js"></script>
+</body>
+
+</html>
