@@ -31,7 +31,6 @@
                 <li class="nav-item"></li>
             </ul>
         </div>
-        </div>
     </nav>
 
     <div class="container">
@@ -52,7 +51,7 @@
                             <p>**아이디어를 기반으로 앱/웹 등 서비스를 만드는 유형입니다. 심사가 진행 ( 1영업일 이내 )되며, 승인시 렛플앱 푸시 및 이메일로 홍보됩니다**</p>
                         <hr class="my-2">
                         <div class="col-sm-6 row-cols-1">
-                            <h4 class="mb-1 col-lg-4">* 프로젝트명</h4><p style="color: darkgrey;">! 직관적인 프로젝트명을 사용하시면 클릭률이 올라갑니다.</p></label>
+                            <h4 class="mb-1 col-lg-4">* 프로젝트명</h4><p style="color: darkgrey;">! 직관적인 프로젝트명을 사용하시면 클릭률이 올라갑니다.</p>
                             <input type="text" th:field="*{name}" class="form-control-lg" id="projectName" placeholder="3~20글자로 적어주세요 예)승차거부 신고앱" value="" required="">
                             <div class="invalid-feedback">Valid first name is required.</div>
                         </div>
@@ -175,11 +174,11 @@
     </footer>
     </section>
     <script> window.addEventListener('load', () => { const forms = document.getElementsByClassName('validation-form'); Array.prototype.filter.call(forms, (form) => { form.addEventListener('submit', function (event) { if (form.checkValidity() === false) { event.preventDefault(); event.stopPropagation(); } form.classList.add('was-validated'); }, false); }); }, false); </script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/6.4.8/swiper-bundle.min.js"></script>
-    <script src="assets/js/Lightbox-Gallery.js"></script>
-    <script src="assets/js/Simple-Slider.js"></script>
+    <script src="js/Lightbox-Gallery.js"></script>
+    <script src="js/Simple-Slider.js"></script>
 </body>
 
 </html>
