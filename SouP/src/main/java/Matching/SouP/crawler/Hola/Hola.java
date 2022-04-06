@@ -6,8 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-@Getter @Setter
-@ToString
+@Getter @ToString
 @Entity
 @SequenceGenerator(name="Hola_SEQ_GEN",sequenceName = "Hola_SEQ")
 public class Hola {
