@@ -56,9 +56,7 @@ public class OkkyService {
     }
 
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky();
-        temp.setNum(1193300);
-        temp.setPostName("기준점");
+        Okky temp = new Okky("1194000","임시 기준점","","","","","","","");
         okkyRepository.save(temp);
     }
 

@@ -5,9 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 import javax.persistence.*;
 
-@Getter
-@Setter
-@ToString
+@Getter @ToString
 @Entity
 //@SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ") //프로젝트랑 공유!
 public class Campick {

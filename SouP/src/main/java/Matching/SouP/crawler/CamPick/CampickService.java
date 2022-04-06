@@ -92,13 +92,9 @@ public class CampickService {
         Campick temp1 = new Campick(198900,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","dfa");
         campickRepository.save(temp1);
     }
+
     public List<Campick> findAll(){
         return campickRepository.findAll();
-    }
-    public int recentPost(){
-        Long recent = campickRepository.findRecent();
-        Optional<Campick> recentPost = campickRepository.findById(recent);
-        return recentPost.get().getNum();  //캠픽의 글 번호
     }
 
 }
