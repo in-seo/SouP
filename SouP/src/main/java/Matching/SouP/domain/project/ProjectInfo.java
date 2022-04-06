@@ -1,5 +1,6 @@
 package Matching.SouP.domain.project;
 
+import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.project.form.*;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter @Setter
 @SequenceGenerator(name = "ProjectInfo_SEQ_GEN",sequenceName = "ProjectInfo_SEQ") //초기 값 1, 재할당 50마다
 @ToString
-public class ProjectInfo {
+public class ProjectInfo extends BaseTimeEntity {
     public ProjectInfo(String projectName, String text, String stack, String data) {
         this.projectName = projectName;
         this.text = text;
@@ -67,12 +68,6 @@ public class ProjectInfo {
     //프로젝트 생성 일시
     @Column(name = "Project_ipdate")
     private LocalDateTime ipDate;  //프로젝트 생성일자
-
-    //프로젝트 검수 완료 일시
-    @Column(name = "Project_update")
-    private LocalDateTime upDate;
-
-    private boolean inspect = false;  //true 시 검수완료!!!!!!
 
 
     @OneToMany(mappedBy = "people")

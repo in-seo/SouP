@@ -1,5 +1,6 @@
 package Matching.SouP.domain.project;
 
+import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.People;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @ToString
 @SequenceGenerator(name = "Question_SEQ_GEN",sequenceName = "Question_SEQ") //초기 값 1, 재할당 50마다
-public class Project_Question {
+public class Project_Question extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Question_SEQ")

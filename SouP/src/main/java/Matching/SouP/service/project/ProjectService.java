@@ -5,6 +5,7 @@ import Matching.SouP.domain.People;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.Project_Question;
+import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.repository.PeopleRepository;
 import Matching.SouP.repository.ProjectConnectRepository;
 import Matching.SouP.repository.ProjectInfoRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +28,7 @@ public class ProjectService {
 
     @Transactional
     public ProjectConnect addConnect(ProjectConnect connect, People people){  //임시 저장한 프로젝트 검수 완료 후 회원 연결.
-        connect.setAddTime(LocalDateTime.now());  //검수 완료한 시간 저장.   다른 회원과 연결 시 소식란에 시간 쓰기 위해서 등록.
         connect.setPeople(people);   //인원 연결
-        projectInfoRepository.findById(connect.getProjectInfo().getId()).get().setInspect(true); //검수완료 메서드
         return connect;
     }
 
@@ -54,6 +54,19 @@ public class ProjectService {
         return question.getId();
     }
 
+    public Long editProject(EditForm editForm,Long id){
+        Optional<ProjectInfo> byId = projectInfoRepository.findById(id);
+        if(byId.isPresent()) {
+            ProjectInfo edit = byId.get();
+            edit.setProjectName(editForm.getName());edit.setText(editForm.getText()); edit.setStack(editForm.getStack()); edit.setData(editForm.getData());
+            edit.setMeetType(editForm.getMeeting());edit.setMethod(editForm.getMethod());edit.setPlace(editForm.getPlace());
+            edit.setType(editForm.getProject_Type());edit.setPlatform(editForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
+        } else{
+            System.out.println("해당 게시글이 없습니다. id="+ id);
+        }
+        return id;
+    }
+
 
     public List<ProjectConnect> findProjectList(){
         return projectConnectRepository.findAll();
@@ -61,5 +74,9 @@ public class ProjectService {
 
     public ProjectConnect findProjectByName(String ProjectName){
         return projectConnectRepository.findProjectByName(ProjectName);
+    }
+
+    public Optional<ProjectInfo> findById(Long id){
+        return projectInfoRepository.findById(id);
     }
 }

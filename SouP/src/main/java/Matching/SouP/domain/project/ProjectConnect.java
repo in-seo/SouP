@@ -1,5 +1,6 @@
 package Matching.SouP.domain.project;
 
+import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.People;
 
 import lombok.Getter;
@@ -11,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter
 @SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ", allocationSize = 1) //초기 값 1, 재할당 50마다
-public class ProjectConnect {
+public class ProjectConnect extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Project_SEQ")
@@ -25,9 +26,6 @@ public class ProjectConnect {
     @ManyToOne
     @JoinColumn(name="projectInfo_id")
     private ProjectInfo projectInfo;
-
-
-    private LocalDateTime addTime; //프로젝트<->회원 연결된 시각
 
     public static ProjectConnect createConnect(ProjectInfo info){  //생성메서드
         ProjectConnect connect = new ProjectConnect();
