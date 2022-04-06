@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @SequenceGenerator(name = "People_SEQ_GEN",sequenceName = "People_SEQ") //초기 값 1, 재할당 50마다
-public class People {
+public class People extends BaseTimeEntity{
 
     @Id
     @Column(name = "people_id")
