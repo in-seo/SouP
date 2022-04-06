@@ -6,6 +6,7 @@ import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.project.EditForm;
+import Matching.SouP.dto.project.ProjectForm;
 import Matching.SouP.repository.PeopleRepository;
 import Matching.SouP.repository.ProjectConnectRepository;
 import Matching.SouP.repository.ProjectInfoRepository;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,10 +33,12 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long tempSave(ProjectInfo projectInfo){  //프로젝트정보 임시저장, 사람과 연결 전
-        projectInfo.setIpDate(LocalDateTime.now());
-        ProjectInfo save = projectInfoRepository.save(projectInfo);
-        ProjectConnect.createConnect(projectInfo);  //임시 연결
+    public Long tempSave(ProjectForm pForm){  //프로젝트정보 임시저장, 사람과 연결 전
+        ProjectInfo newProject = new ProjectInfo(pForm.getName(),pForm.getText(),pForm.getStack(),pForm.getData());
+        newProject.setMeetType(pForm.getMeet_Type());newProject.setMethod(pForm.getMethod());newProject.setPlace(pForm.getPlace());
+        newProject.setType(pForm.getProject_Type());newProject.setPlatform(pForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
+        ProjectInfo save = projectInfoRepository.save(newProject);
+        ProjectConnect.createConnect(newProject);  //임시 연결
         return save.getId();
     }
 
@@ -54,17 +56,21 @@ public class ProjectService {
         return question.getId();
     }
 
-    public Long editProject(EditForm editForm,Long id){
+    @Transactional
+    public ProjectInfo editProject(EditForm editForm,Long id){
         Optional<ProjectInfo> byId = projectInfoRepository.findById(id);
         if(byId.isPresent()) {
+            System.out.println("진입");
             ProjectInfo edit = byId.get();
-            edit.setProjectName(editForm.getName());edit.setText(editForm.getText()); edit.setStack(editForm.getStack()); edit.setData(editForm.getData());
-            edit.setMeetType(editForm.getMeeting());edit.setMethod(editForm.getMethod());edit.setPlace(editForm.getPlace());
-            edit.setType(editForm.getProject_Type());edit.setPlatform(editForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
+            System.out.println(editForm.toString());
+            edit.setProjectName(editForm.getProjectName());edit.setText(editForm.getText());
+            edit.setStack(editForm.getStack()); edit.setData(editForm.getData());
+            System.out.println(edit.toString());
+            return edit;
         } else{
             System.out.println("해당 게시글이 없습니다. id="+ id);
+            return byId.get();
         }
-        return id;
     }
 
 
@@ -72,6 +78,12 @@ public class ProjectService {
         return projectConnectRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public List<ProjectInfo> findAllDesc(){
+        return projectInfoRepository.findAllDesc();//.stream().map(ProjectInfo-> new ProjectInfo(ProjectInfo)).collect(Collectors.toList()); //람다;;
+    }
+
+    @Transactional(readOnly = true)
     public ProjectConnect findProjectByName(String ProjectName){
         return projectConnectRepository.findProjectByName(ProjectName);
     }

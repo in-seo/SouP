@@ -19,6 +19,7 @@
             display: inline-block;width: 200px;
         }
     </style>
+
 </head>
 <body>
     <nav class="navbar navbar-light navbar-expand-lg navigation-clean">
@@ -67,21 +68,10 @@
                         </div>
                         <hr class="my-4">
 
-
-<!--                        <div class="row gy-3">-->
-<!--                            <div class="mb-3">-->
-<!--                                <h4 class="mb-3 col-lg-2">* 대표 이미지</h4>-->
-<!--                                <p style="color: darkgrey">! 프로젝트 분야를 선택하거나 또는 업로드 해주세요.</p>-->
-<!--                                <img src="https://retaintechnologies.com/wp-content/uploads/2020/04/Project-Management-Mantenimiento-1.jpg" width="500" height="250">-->
-<!--                                <label for="Project_image" class="form-label">후에 파일 삽입시 js로 이미지 파일 교체</label>-->
-<!--                                <input type="file" class="form-control" id="Project_image">-->
-<!--                            </div>-->
-<!--                        </div>  사용 안할 예정-->
-
                         <div class="row g-3">
                             <h4 class="mb-1 col-lg-4">*미팅 방법 및 지역 선택</h4>
                             <div class="col-5">
-                                <select th:field="*{meeting}" class="form-select"> <!--projectForm으로 들어갈 값-->
+                                <select th:field="*{meet_Type}" class="form-select"> <!--projectForm으로 들어갈 값-->
                                     <option value="">미팅 방법 선택</option>
                                     <option th:each="meetType : ${meetTypes}" th:value="${meetType.name()}" th:text="${meetType.description}"></option>
                                 </select>
@@ -107,7 +97,7 @@
                             <p style="color: darkgrey">! 설명이 풍부한 프로젝트는 ,아닌 프로젝트에 비해 지원율이 50% 높습니다.</p>
                             <div class="input-group">
                                 <span class="input-group-text"><b>프로젝트 설명</b></span>
-                                <textarea class="form-control" th:field="*{explain}" aria-label="explain" rows="5" ></textarea>
+                                <textarea class="form-control" th:field="*{text}" aria-label="explain" rows="5" ></textarea>
                             </div>
                         </div>
                         <hr class="my-4">
@@ -118,7 +108,7 @@
                             <label class="form-control">참고 자료 <small>(프로젝트 기획에 참고한 자료 주소를 기재해주세요)</small></label>
                             <input class="form-control form-control-lg" type="text" th:field="*{data}" placeholder="https://github.com/..." aria-label=".form-control-lg example">
                         </div>
-                        <button class="w-100 btn btn-primary btn-lg" type="submit"><b>프로젝트 생성</b></button>
+                        <button class="w-100 btn btn-primary btn-lg" type="submit" id="btn-create" onclick="alert('프로젝트가 게시 되었습니다.')"><b>프로젝트 생성</b></button>
                     </form>
                 </div>
         </main>
@@ -173,6 +163,7 @@
         <p class="copyright">Copyright ⓒ 2022 LETSPL. All rights reserved</p>
     </footer>
     </section>
+    <script src="js/jquery.js"></script>
     <script> window.addEventListener('load', () => { const forms = document.getElementsByClassName('validation-form'); Array.prototype.filter.call(forms, (form) => { form.addEventListener('submit', function (event) { if (form.checkValidity() === false) { event.preventDefault(); event.stopPropagation(); } form.classList.add('was-validated'); }, false); }); }, false); </script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.10.0/baguetteBox.min.js"></script>

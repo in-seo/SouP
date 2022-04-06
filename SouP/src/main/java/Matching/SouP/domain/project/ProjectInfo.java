@@ -27,6 +27,19 @@ public class ProjectInfo extends BaseTimeEntity {
     protected ProjectInfo() {
     }
 
+    public ProjectInfo(ProjectInfo entity) {
+
+        this.projectName = entity.getProjectName();
+        this.method = entity.getMethod();
+        this.platform = entity.getPlatform();
+        this.text = entity.getText();
+        this.stack = entity.getStack();
+        this.data = entity.getData();
+        this.type = entity.getType();
+        this.meetType = entity.getMeetType();
+        this.place = entity.getPlace();
+    }
+
     @Id
     @Column(name = "projectInfo_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ProjectInfo_SEQ")
@@ -64,10 +77,6 @@ public class ProjectInfo extends BaseTimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     private Project_Place place;
-
-    //프로젝트 생성 일시
-    @Column(name = "Project_ipdate")
-    private LocalDateTime ipDate;  //프로젝트 생성일자
 
 
     @OneToMany(mappedBy = "people")

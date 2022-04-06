@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +22,15 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
+    @GetMapping("/project")
+    public String project(Model model){
+        List<ProjectInfo> all = projectService.findAllDesc();
+        model.addAttribute("p",all);
+        return "project";
+    }
+
     @GetMapping("/buildProject")
     public String addProject(Model model) {
-        init();
         model.addAttribute("PForm", new ProjectForm());
         log.info("Project controller");
         return "buildProject";
@@ -31,26 +38,29 @@ public class ProjectController {
 
     @PostMapping("/buildProject")
     public String saveProject(ProjectForm pForm){
-        ProjectInfo newProject = new ProjectInfo(pForm.getName(),pForm.getText(),pForm.getStack(),pForm.getData());
-        newProject.setMeetType(pForm.getMeeting());newProject.setMethod(pForm.getMethod());newProject.setPlace(pForm.getPlace());
-        newProject.setType(pForm.getProject_Type());newProject.setPlatform(pForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
-        projectService.tempSave(newProject); //왜 temp 냐면  사람과 연결을 안해서.
-        System.out.println(pForm.toString());System.out.println(newProject.toString());
+        Long temp = projectService.tempSave(pForm);//왜 temp 냐면  사람과 연결을 안해서.
+//        System.out.println(pForm.toString());System.out.println(newProject.toString());
         return "redirect:/";
     }
 
-    @PutMapping("/project/edit/{id}")
-    public String updateProject(EditForm editForm, @PathVariable Long id){
-        projectService.editProject(editForm,id);
-        return "redirect:/";
-    }
 
     @GetMapping("/project/edit/{id}")
-    public String Edit(Model model){
+    public String Edit(@PathVariable Long id, Model model){
         model.addAttribute("EditForm", new EditForm());
+        ProjectInfo oldProject = projectService.findById(id).get();
+        model.addAttribute("old",oldProject);
         log.info("start edit");
-        return ""; //수정 폼 필요!!!!!!!
+        return "editProject";
     }
+
+    @PostMapping("/project/edit/{id}")
+    public String updateProject(EditForm editForm, @PathVariable Long id, Model model){
+        System.out.println("진입");
+        projectService.editProject(editForm, id);
+        System.out.println("수정완료");
+        return "redirect:/";
+    }
+
 
     @GetMapping("/projectList")
     public String ProjectList(Model model){
@@ -99,14 +109,21 @@ public class ProjectController {
         return list;
     } //출시 플랫폼
 
+    @PostConstruct
     public void init(){
         for (int i=0; i<5; i++){
+            ProjectForm pForm = new ProjectForm();
+            pForm.setName("프로젝트 "+i);
+            pForm.setText("설명 : "+i);
+            pForm.setStack("보유 기술:xxx"+i*10);
+            pForm.setData("agowaenawio"+i);
             ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
-            project.setMeetType(MeetType.NONE);
-            project.setType(Project_Type.ETC);
-            project.setPlace(Project_Place.SEOUL);
-            project.setMethod(Project_Method.PROJECT);
-            projectService.tempSave(project);
+            pForm.setMeet_Type(MeetType.NONE);
+            pForm.setProject_Type(Project_Type.ETC);
+            pForm.setPlace(Project_Place.SEOUL);
+            pForm.setPlatform(Project_Platform.APP);
+            pForm.setMethod(Project_Method.PROJECT);
+            projectService.tempSave(pForm);
         }  //필요없음
     }
 }
