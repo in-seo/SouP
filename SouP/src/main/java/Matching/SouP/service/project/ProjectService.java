@@ -73,6 +73,17 @@ public class ProjectService {
         }
     }
 
+    @Transactional
+    public void deleteProject(Long id) {
+        Optional<ProjectInfo> del = projectInfoRepository.findById(id);
+        if(del.isPresent()){
+            ProjectInfo delete = del.get();
+            projectInfoRepository.delete(delete);
+        }
+        else
+            System.out.println("존재하지 않는 게시글");
+    }
+
 
     public List<ProjectConnect> findProjectList(){
         return projectConnectRepository.findAll();
@@ -91,4 +102,6 @@ public class ProjectService {
     public Optional<ProjectInfo> findById(Long id){
         return projectInfoRepository.findById(id);
     }
+
+
 }
