@@ -44,21 +44,28 @@ public class ProjectController {
     }
 
 
+
     @GetMapping("/project/edit/{id}")
     public String Edit(@PathVariable Long id, Model model){
         model.addAttribute("EditForm", new EditForm());
         ProjectInfo oldProject = projectService.findById(id).get();
         model.addAttribute("old",oldProject);
-        log.info("start edit");
+        log.info("Edit Controller");
         return "editProject";
     }
 
     @PostMapping("/project/edit/{id}")
-    public String updateProject(EditForm editForm, @PathVariable Long id, Model model){
-        System.out.println("진입");
+    public String updateProject(EditForm editForm, @PathVariable Long id){
         projectService.editProject(editForm, id);
         System.out.println("수정완료");
-        return "redirect:/";
+        return "redirect:/project";
+    }
+
+    @PostMapping("/project/delete/{id}")
+    public String delete(@PathVariable Long id){
+        projectService.deleteProject(id);
+        log.info("delete Controller");
+        return "redirect:/project"; //리다이렉트
     }
 
 

@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>SouP | 메인</title>
+    <title>SouP | 수정</title>
     <div th:replace="/fragments/header.html :: fragment-header"></div>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body id="page-top">
 <div id="wrapper">
@@ -12,50 +13,56 @@
     <div class="d-flex flex-column" id="content-wrapper">
         <div id="content">
             <div th:replace="/fragments/nav.html :: fragment-nav"></div>
-            <div class="container-fluid">
 
-                <h2>게시글 수정</h2>
-                <h4>현재 4항목만 수정 가능합니다.</h4>
-                <div class="col-md-12">
-                    <div class="col-md-4">
-                        <form th:action="@{/project/edit/{id}(id=${old.id})}" th:object="${EditForm}" method="post">
-                            <div class="form-group">
-                                <label for="id">글 번호</label>
-                                <input type="text" class="form-control" id="id" th:value="${old.id}" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="projectName">제목</label>
-                                <input type="text" class="form-control" id="projectName" th:field="*{projectName}" th:value="${old.projectName}">
-                            </div>
-                            <div class="form-group">
-                                <label for="text">내용</label>
-                                <textarea class="form-control" id="text" th:field="*{text}" th:value="${old.text}"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="stack">스택</label>
-                                <input type="text" class="form-control" id="stack" th:field="*{stack}" th:value="${old.stack}">
-                            </div>
-                            <div class="form-group">
-                                <label for="data">참고자료</label>
-                                <input type="text" class="form-control" id="data" th:field="*{data}" th:value="${old.data}">
-                            </div>
-                            <a href="/" role="button" class="btn btn-secondary">취소</a>
-                            <button type="submit" class="btn btn-primary" id="btn-update"  onclick="alert('프로젝트가 수정 되었습니다.'); window.location.href ='/project'">수정 완료</button>
-                            <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
-                        </form>
-                    </div>
+            <form th:action="@{/project/edit/{id}(id=${old.id})}" th:object="${EditForm}" method="post">
+                <div class="form-group">
+                    <label for="id">글 번호</label>
+                    <input type="text" class="form-control" id="id" th:value="${old.id}" readonly>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="projectName">제목</label>
+                    <input type="text" class="form-control" id="projectName" th:field="*{projectName}" th:value="${old.projectName}">
+                </div>
+                <div class="form-group">
+                    <label for="text">내용</label>
+                    <textarea class="form-control" id="text" th:field="*{text}" th:value="${old.text}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="stack">스택</label>
+                    <input type="text" class="form-control" id="stack" th:field="*{stack}" th:value="${old.stack}">
+                </div>
+                <div class="form-group">
+                    <label for="data">참고자료</label>
+                    <input type="text" class="form-control" id="data" th:field="*{data}" th:value="${old.data}">
+                </div>
+                <a href="/" role="button" class="btn btn-secondary">취소</a>
+                <button type="submit" class="btn btn-primary" id="btn-update"  onclick="alert('프로젝트가 수정 되었습니다.'); window.location.href ='/project'">수정 완료</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">삭제</button>
+                <script>
+                    $("#btn-delete").click(function deleteProject(){
+                        var id = $("#id").val();
+                        console.log(id);
+                        $.ajax({
+                            type: 'POST',
+                            url: '/project/delete/'+id,
+                            dataType: 'json',
+                            contentType:'application/json; charset=utf-8'
+                        })
+                        alert('글이 삭제 되었습니다.');
+                        window.location.replace("/project");
+                     });
+                </script>
+
+            </form>
             <div th:replace="/fragments/footer.html :: fragment-footer"></div>
         </div>
     </div>
-
 </div>
 
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="js/chart.min.js"></script>
-<script src="js/bs-init.js"></script>
-<script src="js/theme.js"></script>
+<script src="/bootstrap/js/bootstrap.min.js"></script>
+<script src="/js/chart.min.js"></script>
+<script src="/js/bs-init.js"></script>
+<script src="/js/theme.js"></script>
 </body>
 
 </html>
