@@ -40,3 +40,4 @@ out/
 *.iml
 out
 gen
+application-oauth.properties
