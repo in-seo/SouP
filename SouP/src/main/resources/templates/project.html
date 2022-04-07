@@ -18,14 +18,14 @@
                 <div class="row">
                     <div class="col-md-6">
                         <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
-                        {{#userName}}
-                        Logged in as: <span id="user">{{userName}}</span>
+                        <div th:if="${userName!=null}">
+                        Logged in as: <span id="user" th:text="${userName}"></span>
+                        </div>
                         <a href="/logout" class="btn btn-info active" role="button">Logout</a>
-                        {{/userName}}
-                        {{^userName}}
+                        <div th:unless="${userName!=null}">
                         <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
                         <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
-                        {{/userName}}
+                        </div>
                     </div>
                 </div>
                 <br>
