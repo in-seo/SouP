@@ -1,5 +1,6 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.form.*;
 import Matching.SouP.dto.project.EditForm;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +21,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ProjectController {
-
+    private final HttpSession httpSession;
     private final ProjectService projectService;
 
     @GetMapping("/project")
     public String project(Model model){
         List<ProjectInfo> all = projectService.findAllDesc();
         model.addAttribute("p",all);
+        SessionUser user = (SessionUser) httpSession.getAttribute("user");
+
+        if(user != null){
+            model.addAttribute("userName", user.getName());
+        }
+
         return "project";
     }
 
@@ -42,7 +50,6 @@ public class ProjectController {
 //        System.out.println(pForm.toString());System.out.println(newProject.toString());
         return "redirect:/";
     }
-
 
 
     @GetMapping("/project/edit/{id}")
@@ -63,6 +70,7 @@ public class ProjectController {
 
     @PostMapping("/project/delete/{id}")
     public String delete(@PathVariable Long id){
+        System.out.println("진입");
         projectService.deleteProject(id);
         log.info("delete Controller");
         return "redirect:/project"; //리다이렉트
