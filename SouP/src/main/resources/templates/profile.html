@@ -4,6 +4,13 @@
 <head>
     <title>SouP | 메인</title>
     <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <style>
+        input::placeholder {
+            font-size: smaller;
+            color: lightslategray;
+            font-style: italic;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -87,18 +94,22 @@
                                             <p class="text-primary m-0 fw-bold">프로필 설정</p>
                                         </div>
                                         <div class="card-body">
-                                            <form>
+                                            <form th:action="@{/profile}" th:object="${UForm}" method="post">
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="username"><strong>이름</strong></label><input class="form-control" type="text" id="username" placeholder="이름" name="username"></div>
+                                                        <div class="mb-3"><label class="form-label" for="username" ><strong>이름</strong></label><input class="form-control" type="text" th:value="${user.name}" id="username" placeholder="이름" name="username" readonly></div>
+                                                        <div class="mb-3"><label class="form-label" for="id" ><strong>회원 고유 id</strong></label><input class="form-control" type="text" th:field="*{id}" th:value="${UForm.id}" id="id" placeholder="id" name="id" readonly></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="email"><strong>이메일 주소 </strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email"></div>
+                                                        <div class="mb-3"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:field="*{email}" th:value="${user.email}" id="email" placeholder="user@example.com" name="email" ></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="name"><strong>추가할거 아무거나</strong></label><input class="form-control" type="text" id="last_name" placeholder="추가할거 아무거나" name="last_name"></div>
+                                                        <div class="mb-3"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:field="*{nickName}" th:text="${user.nickName}" id="nickName" placeholder="닉네임" name="nickName"></div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="mb-3"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:field="*{stack}" th:text="${user.stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit">저장</button></div>
