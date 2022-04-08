@@ -17,14 +17,15 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
+                        <a href="/buildProject" role="button" class="btn btn-primary" style="float: left; margin-left: 5%">글 등록</a>
                         <div th:if="${userName!=null}">
-                        Logged in as: <span id="user" th:text="${userName}"></span>
+                        <p style="float: left; margin-left: 5%">Logged in as: </p><span id="user" th:text="${userName}" style="float: left; margin-left: 5%"></span>
+                        <a href="/logout" class="btn btn-info active" role="button" style="float: left; margin-left: 5%">Logout</a>
                         </div>
-                        <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+
                         <div th:unless="${userName!=null}">
-                        <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
-                        <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button">Naver Login</a>
+                        <a href="/oauth2/authorization/google" class="btn btn-success active" role="button" style="float: left; margin-left: 5%">Google Login</a>
+                        <a href="/oauth2/authorization/naver" class="btn btn-secondary active" role="button" style="float: left; margin-left: 5%">Naver Login</a>
                         </div>
                     </div>
                 </div>

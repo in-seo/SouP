@@ -1,5 +1,6 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.form.*;
@@ -25,10 +26,9 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/project")
-    public String project(Model model){
+    public String project(Model model, @LoginUser SessionUser user){
         List<ProjectInfo> all = projectService.findAllDesc();
         model.addAttribute("p",all);
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
 
         if(user != null){
             model.addAttribute("userName", user.getName());

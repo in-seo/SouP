@@ -1,5 +1,7 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.config.auth.LoginUser;
+import Matching.SouP.config.auth.dto.SessionUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,10 @@ public class HomeController {
     }
 
     @RequestMapping("/profile")
-    public String profile() {
+    public String profile(@LoginUser SessionUser user) {
         log.info("profile controller");
+
+
         return "profile";
     }
 
