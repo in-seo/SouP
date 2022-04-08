@@ -101,7 +101,8 @@
                                                         <div class="mb-3"><label class="form-label" for="id" ><strong>회원 고유 id</strong></label><input class="form-control" type="text" th:field="*{id}" th:value="${UForm.id}" id="id" placeholder="id" name="id" readonly></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:field="*{email}" th:value="${user.email}" id="email" placeholder="user@example.com" name="email" ></div>
+                                                        <div class="mb-3" th:if="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:value="${user.email}" id="email" name="email" readonly></div>
+                                                        <div class="mb-3" th:unless="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email"></div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
