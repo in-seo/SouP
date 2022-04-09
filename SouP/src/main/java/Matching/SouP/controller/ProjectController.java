@@ -70,7 +70,6 @@ public class ProjectController {
 
     @PostMapping("/project/delete/{id}")
     public String delete(@PathVariable Long id){
-        System.out.println("진입");
         projectService.deleteProject(id);
         log.info("delete Controller");
         return "redirect:/project"; //리다이렉트
