@@ -1,5 +1,6 @@
 package Matching.SouP.domain.user;
 
+import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,12 +9,13 @@ import lombok.ToString;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Getter
 @NoArgsConstructor
 @Entity
 @ToString
-public class User {
+public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,7 @@ public class User {
     private String name;
 
     @Column
+    @NotEmpty(message = "이메일이 있어야 합니다.")
     private String email;
 
     @Column
