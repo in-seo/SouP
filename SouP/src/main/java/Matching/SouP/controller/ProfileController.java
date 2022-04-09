@@ -9,8 +9,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.util.Optional;
 
@@ -21,8 +26,13 @@ public class ProfileController {
     private final UserRepository userRepository;
 
     @GetMapping("/profile")
-    public String profile(@LoginUser SessionUser user, Model model) {
+    public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
         log.info("profile controller");
+        if(user==null){
+            attributes.addFlashAttribute("msg","회원가입 후 이용하실 수 있습니다.");
+            return "redirect:/";
+        }
+
         Optional<User> User = userRepository.findByEmail(user.getEmail());
         if(User.isPresent()){
             model.addAttribute("user",User.get());
@@ -40,5 +50,25 @@ public class ProfileController {
         User user = userRepository.findById(userForm.getId()).get();
         user.updateProfile(userForm);  //이메일이 있다면 정식멤버 승인.
         return "redirect:/";
+    }
+
+    @PostMapping("/checkEmail")
+    @ResponseBody
+    public boolean checkEmail(@RequestParam("email") String email){
+        Optional<User> Email = userRepository.findByEmail(email);
+        boolean valid;
+        if(Email.isPresent()) valid = false;  // 사용 불가능
+        else valid = true;  // 이메일 사용 가능
+        return valid;
+    }
+
+    @PostMapping("/checknick")
+    @ResponseBody
+    public boolean checknick(@RequestParam("nick") String nick){
+        Optional<User> Nick = userRepository.findByNick(nick);
+        boolean valid;
+        if(Nick.isPresent()) valid = false;  // 사용 불가능
+        else valid = true;  // 이메일 사용 가능
+        return valid;
     }
 }

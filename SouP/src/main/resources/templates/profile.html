@@ -4,12 +4,65 @@
 <head>
     <title>SouP | 메인</title>
     <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
+    <script>
+        var cnt=0;
+        function checkEmail(){
+            var email = $('#email').val();
+            $.ajax({
+                url:'/checkEmail',
+                type:'post',
+                async:false,
+                data:{email:email},
+                success:function(valid){
+                    if(valid){
+                        $('.email_ok').css("display","inline-block");
+                        $('.email_already').css("display", "none");
+                    }
+                    else{
+                        $('.email_already').css("display","inline-block");
+                        $('.email_ok').css("display", "none");
+                    }
+                },
+                error:function(){
+                    alert("에러입니다;");
+                }
+            });
+        };
+        function checknick(){
+            var nick = $('#nickName').val();
+            $.ajax({
+                url:'/checknick',
+                type:'post',
+                async : false,
+                data:{nick:nick},
+                success:function(valid){
+                    console.log("성공!!");
+                    if(valid){
+                        $('.nick_ok').css("display","inline-block");
+                        $('.nick_already').css("display", "none");
+                    }
+                    else{
+                        $('.nick_already').css("display","inline-block");
+                        $('.nick_ok').css("display", "none");
+                    }
+                },
+                error:function(){
+                    alert("에러입니다;");
+                }
+            });
+        };
+    </script>
     <style>
         input::placeholder {
             font-size: smaller;
             color: lightslategray;
             font-style: italic;
         }
+        .email_ok{color:#fff; display: none;}
+        .email_already{color:#6A82FB; display: none;}
+        .nick_ok{color:#fff; display: none;}
+        .nick_already{color:#6A82FB; display: none;}
     </style>
 </head>
 
@@ -91,7 +144,7 @@
                                 <div class="col">
                                     <div class="card shadow mb-3">
                                         <div class="card-header py-3">
-                                            <p class="text-primary m-0 fw-bold">프로필 설정</p>
+                                            <p class="text-primary m-0 fw-bold">프로필 설정  <small>**주의** 가입시 이메일 제공 하지 않았던 분은 재가입 해야 합니다.</small> </p>
                                         </div>
                                         <div class="card-body">
                                             <form th:action="@{/profile}" th:object="${UForm}" method="post">
@@ -101,16 +154,22 @@
                                                         <div class="mb-3"><label class="form-label" for="id" ><strong>회원 고유 id</strong></label><input class="form-control" type="text" th:field="*{id}" th:value="${UForm.id}" id="id" placeholder="id" name="id" readonly></div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3" th:if="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:value="${user.email}" id="email" name="email" readonly></div>
-                                                        <div class="mb-3" th:unless="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email"></div>
+                                                        <div class="mb-3" th:if="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:value="${user.email}" name="email" readonly></div>
+                                                        <div class="mb-3" th:unless="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" required oninput="checkEmail()"></div>
+                                                        <span class="email_ok">사용 가능한 이메일입니다.</span>
+                                                        <span class="email_already">누군가 이 이메일을 사용하고 있어요.</span>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:field="*{nickName}" th:text="${user.nickName}" id="nickName" placeholder="닉네임" name="nickName"></div>
+                                                        <div class="mb-3" th:if="${user.nickName}!=null"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:value="${user.nickName}" placeholder="닉네임" name="nickName" readonly></div>
+                                                        <div class="mb-3" th:unless="${user.nickName}!=null"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:field="*{nickName}" id="nickName" placeholder="닉네임" name="nickName" oninput="checknick()"></div>
+                                                        <span class="nick_ok">사용 가능한 닉네임입니다.</span>
+                                                        <span class="nick_already">누군가 이 닉네임을 사용하고 있어요.</span>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="mb-3"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:field="*{stack}" th:text="${user.stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
+                                                        <div class="mb-3" th:if="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:value="${user.stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
+                                                        <div class="mb-3" th:unless="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:field="*{stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit">저장</button></div>

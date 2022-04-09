@@ -4,6 +4,13 @@
 <head>
     <title>SouP | 메인</title>
     <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <script th:inline="javascript">
+        var resultMsg = [[${msg}]];
+            if (resultMsg != null) {
+                //만약 resultMsg가 있다면 alert
+                alert(resultMsg);
+            }
+    </script>
 </head>
 <body id="page-top">
     <div id="wrapper">
