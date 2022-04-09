@@ -25,7 +25,6 @@ public class User extends BaseTimeEntity {
     private String name;
 
     @Column
-    @NotEmpty(message = "이메일이 있어야 합니다.")
     private String email;
 
     @Column
