@@ -28,7 +28,19 @@ public class OAuthAttributes {
         // 여기서 네이버와 카카오 등 구분 (ofNaver, ofKakao)
         if("naver".equals(registrationId)) return ofNaver("id",attributes);
         else if("kakao".equals(registrationId)) return ofKakao("id", attributes);
+        else if("facebook".equals(registrationId)) return ofFaceBook(userNameAttributeName,attributes);
         return ofGoogle(userNameAttributeName, attributes);
+    }
+    private static OAuthAttributes ofFaceBook(String userNameAttributeName, Map<String, Object> attributes){
+        System.out.println(attributes);
+        return OAuthAttributes.builder()
+                .name((String) attributes.get("name"))
+                .email((String) attributes.get("email"))
+                .picture((String) attributes.get("profile_image_url"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+
     }
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes){
         Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
