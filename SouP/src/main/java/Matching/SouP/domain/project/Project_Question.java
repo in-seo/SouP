@@ -1,7 +1,7 @@
 package Matching.SouP.domain.project;
 
 import Matching.SouP.domain.BaseTimeEntity;
-import Matching.SouP.domain.People;
+import Matching.SouP.domain.user.User;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +10,6 @@ import lombok.ToString;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
@@ -29,20 +28,17 @@ public class Project_Question extends BaseTimeEntity {
     @Column(nullable = false, length = 120)
     private String content;
 
-    @Column(name = "write_date")
-    private LocalDateTime localDateTime;  //작성시간
-
     @ManyToOne
-    @JoinColumn(name = "people_id")
-    private People people;
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "projectInfo_id")
     private ProjectInfo projectInfo;
 
-    public void setPeople(People people){
-        this.people = people;
-        people.getQuestionList().add(this);
+    public void setUser(User user){
+        this.user = user;
+        user.getQuestionList().add(this);
     }
 
     public void setProjectInfo(ProjectInfo projectInfo){

@@ -1,16 +1,13 @@
 package Matching.SouP.service.project;
 
 
-import Matching.SouP.domain.People;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.Project_Question;
+import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.ProjectForm;
-import Matching.SouP.repository.PeopleRepository;
-import Matching.SouP.repository.ProjectConnectRepository;
-import Matching.SouP.repository.ProjectInfoRepository;
-import Matching.SouP.repository.QuestionRepository;
+import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,24 +18,26 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ProjectService {
-    private final PeopleRepository peopleRepository;
+    private final UserRepository userRepository;
     private final ProjectConnectRepository projectConnectRepository;
     private final ProjectInfoRepository projectInfoRepository;
     private final QuestionRepository questionRepository;
 
     @Transactional
-    public ProjectConnect addConnect(ProjectConnect connect, People people){  //임시 저장한 프로젝트 검수 완료 후 회원 연결.
-        connect.setPeople(people);   //인원 연결
+    public ProjectConnect addConnect(ProjectConnect connect, User user){  //임시 저장한 프로젝트 검수 완료 후 회원 연결.
+        connect.setUser(user);   //인원 연결
         return connect;
     }
 
     @Transactional
-    public Long tempSave(ProjectForm pForm){  //프로젝트정보 임시저장, 사람과 연결 전
+    public Long tempSave(ProjectForm pForm, User user){  //프로젝트정보 임시저장, 사람과 연결 전
         ProjectInfo newProject = new ProjectInfo(pForm.getName(),pForm.getText(),pForm.getStack(),pForm.getData());
         newProject.setMeetType(pForm.getMeet_Type());newProject.setMethod(pForm.getMethod());newProject.setPlace(pForm.getPlace());
         newProject.setType(pForm.getProject_Type());newProject.setPlatform(pForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
+
         ProjectInfo save = projectInfoRepository.save(newProject);
-        ProjectConnect.createConnect(newProject);  //임시 연결
+        ProjectConnect connect = ProjectConnect.createConnect(newProject, user);//작성자와 프로젝트 연결
+        projectConnectRepository.save(connect);
         return save.getId();
     }
 
@@ -47,11 +46,11 @@ public class ProjectService {
     }
 
     @Transactional
-    public Long addQuestion(Long projectId,Long peopleId, Project_Question question){  //댓글추가메서드./  생성은따로만들예정
+    public Long addQuestion(Long projectId,Long userId, Project_Question question){  //댓글추가메서드./  생성은따로만들예정
         ProjectInfo projectInfo = projectInfoRepository.findById(projectId).get();
-        People writer = peopleRepository.findById(peopleId);
+        User writer = userRepository.findById(userId).get();
         question.setProjectInfo(projectInfo);  //어떤 프로젝트에 대한 질문인지?
-        question.setPeople(writer);  // 어떤 사람이 쓴 댓글인지?
+        question.setUser(writer);  // 어떤 사람이 쓴 댓글인지?
         questionRepository.save(question);
         return question.getId();
     }

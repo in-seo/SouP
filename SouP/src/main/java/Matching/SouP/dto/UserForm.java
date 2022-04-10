@@ -11,6 +11,8 @@ public class UserForm {
     private String email;
     private String nickName;
     private String stack;
+    private String favor;
+    private String portfolio;
 
     public UserForm(Long id) {
         this.id = id;
