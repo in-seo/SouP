@@ -6,7 +6,6 @@
     <div th:replace="/fragments/header.html :: fragment-header"></div>
     <script src="/bootstrap/js/jquery-3.6.0.min.js"></script>
     <script>
-        var cnt=0;
         function checkEmail(){
             var email = $('#email').val();
             $.ajax({
@@ -18,10 +17,12 @@
                     if(valid){
                         $('.email_ok').css("display","inline-block");
                         $('.email_already').css("display", "none");
+                        btnActive();
                     }
                     else{
                         $('.email_already').css("display","inline-block");
                         $('.email_ok').css("display", "none");
+                        btnDisabled();
                     }
                 },
                 error:function(){
@@ -41,10 +42,12 @@
                     if(valid){
                         $('.nick_ok').css("display","inline-block");
                         $('.nick_already').css("display", "none");
+                        btnActive();
                     }
                     else{
                         $('.nick_already').css("display","inline-block");
                         $('.nick_ok').css("display", "none");
+                        btnDisabled();
                     }
                 },
                 error:function(){
@@ -52,6 +55,15 @@
                 }
             });
         };
+        function btnActive()  {
+            const target = document.getElementById('user');
+            target.disabled = false;
+        }
+
+        function btnDisabled()  {
+            const target = document.getElementById('user');
+            target.disabled = true;
+        }
     </script>
     <style>
         input::placeholder {
@@ -172,7 +184,7 @@
                                                         <div class="mb-3" th:unless="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:field="*{stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
                                                     </div>
                                                 </div>
-                                                <div class="mb-3"><button class="btn btn-primary btn-sm" type="submit">저장</button></div>
+                                                <div class="mb-3" ><button class="btn btn-primary btn-sm" id="user" type="submit">저장</button></div>
                                             </form>
                                         </div>
                                     </div>
