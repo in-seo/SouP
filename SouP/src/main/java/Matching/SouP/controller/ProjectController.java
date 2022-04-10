@@ -4,8 +4,10 @@ import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.form.*;
+import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.ProjectForm;
+import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,19 +19,19 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
 @Slf4j
 public class ProjectController {
-    private final HttpSession httpSession;
     private final ProjectService projectService;
+    private final UserRepository userRepository;
 
     @GetMapping("/project")
     public String project(Model model, @LoginUser SessionUser user){
         List<ProjectInfo> all = projectService.findAllDesc();
         model.addAttribute("p",all);
-
         if(user != null){
             model.addAttribute("userName", user.getName());
         }
@@ -45,9 +47,15 @@ public class ProjectController {
     }
 
     @PostMapping("/buildProject")
-    public String saveProject(ProjectForm pForm){
-        Long temp = projectService.tempSave(pForm);//왜 temp 냐면  사람과 연결을 안해서.
-//        System.out.println(pForm.toString());System.out.println(newProject.toString());
+    public String saveProject(ProjectForm pForm, @LoginUser SessionUser user){
+        Optional<User> User = userRepository.findByEmail(user.getEmail());
+        if(User.isPresent()){
+            Long temp = projectService.tempSave(pForm,User.get());//왜 temp 냐면  사람과 연결을 안해서.
+            System.out.println(projectService.findById(temp).get().toString());
+        }
+        else
+            System.out.println("존재하지 않는 회원이 게시글을 올리고 있습니다.");
+        System.out.println(User.get().toString());
         return "redirect:/";
     }
 
@@ -137,7 +145,9 @@ public class ProjectController {
             pForm.setPlace(Project_Place.SEOUL);
             pForm.setPlatform(Project_Platform.APP);
             pForm.setMethod(Project_Method.PROJECT);
-            projectService.tempSave(pForm);
+            User user = new User();
+            userRepository.save(user);
+            projectService.tempSave(pForm,user);
         }  //필요없음
     }
 }

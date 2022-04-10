@@ -79,7 +79,7 @@ public class ProjectInfo extends BaseTimeEntity {
     private Project_Place place;
 
 
-    @OneToMany(mappedBy = "people")
+    @OneToMany(mappedBy = "user")
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
 

@@ -1,32 +1,28 @@
 package Matching.SouP.domain.user;
 
 import Matching.SouP.domain.BaseTimeEntity;
+import Matching.SouP.domain.project.ProjectConnect;
+import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+
 
 @Getter
 @NoArgsConstructor
-@Entity
-@ToString
+@Entity @ToString
 public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long id;
 
     @Column
@@ -44,9 +40,23 @@ public class User extends BaseTimeEntity {
     @Column
     private String stack;
 
+    @Column
+    private String favor;
+    
+    @Column
+    private String portfolio; //포폴 링크
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
+
+    /**
+     * 회원<->프로젝트 다대다 관계 잇기위해 생성
+     **/
+    @OneToMany(mappedBy = "user")
+    private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트
 
     @Builder
     public User(String name, String email, String picture, Role role) {
@@ -73,6 +83,8 @@ public class User extends BaseTimeEntity {
         this.email = userForm.getEmail();
         this.nickName = userForm.getNickName();
         this.stack = userForm.getStack();
+        this.favor = userForm.getFavor();
+        this.portfolio=userForm.getPortfolio();
         return this;
     }
 

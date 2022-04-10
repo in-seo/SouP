@@ -1,18 +1,17 @@
 package Matching.SouP.domain.project;
 
 import Matching.SouP.domain.BaseTimeEntity;
-import Matching.SouP.domain.People;
 
+import Matching.SouP.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter @Setter
 @SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ", allocationSize = 1) //초기 값 1, 재할당 50마다
-public class ProjectConnect extends BaseTimeEntity {
+public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 테이블.
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Project_SEQ")
@@ -20,16 +19,17 @@ public class ProjectConnect extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="people_id")
-    private People people;
+    @JoinColumn(name="user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="projectInfo_id")
     private ProjectInfo projectInfo;
 
-    public static ProjectConnect createConnect(ProjectInfo info){  //생성메서드
+    public static ProjectConnect createConnect(ProjectInfo info, Matching.SouP.domain.user.User user){  //생성메서드
         ProjectConnect connect = new ProjectConnect();
         connect.setProjectInfo(info);
+        connect.setUser(user);
         return connect;
     }
 
@@ -39,9 +39,9 @@ public class ProjectConnect extends BaseTimeEntity {
         projectInfo.getProjectConnectList().add(this);
     }
 
-    public void setPeople(People people){
-        this.people=people;
-        people.getProjectConnectList().add(this);
+    public void setUser(User user){
+        this.user=user;
+        user.getProjectConnectList().add(this);
     }
 
 

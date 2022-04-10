@@ -33,7 +33,6 @@ import java.util.Optional;
 @Controller
 public class ProfileController {
     private final UserRepository userRepository;
-    private final PrincipalDetailService principalDetailService;
 
     @GetMapping("/profile")
     public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {

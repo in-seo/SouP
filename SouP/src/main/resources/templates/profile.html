@@ -15,13 +15,11 @@
                 data:{email:email},
                 success:function(valid){
                     if(valid){
-                        $('.email_ok').css("display","inline-block");
                         $('.email_already').css("display", "none");
                         btnActive();
                     }
                     else{
                         $('.email_already').css("display","inline-block");
-                        $('.email_ok').css("display", "none");
                         btnDisabled();
                     }
                 },
@@ -40,13 +38,11 @@
                 success:function(valid){
                     console.log("성공!!");
                     if(valid){
-                        $('.nick_ok').css("display","inline-block");
                         $('.nick_already').css("display", "none");
                         btnActive();
                     }
                     else{
                         $('.nick_already').css("display","inline-block");
-                        $('.nick_ok').css("display", "none");
                         btnDisabled();
                     }
                 },
@@ -163,12 +159,10 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="mb-3"><label class="form-label" for="username" ><strong>이름</strong></label><input class="form-control" type="text" th:value="${user.name}" id="username" placeholder="이름" name="username" readonly></div>
-                                                        <div class="mb-3"><label class="form-label" for="id" ><strong>회원 고유 id</strong></label><input class="form-control" type="text" th:field="*{id}" th:value="${UForm.id}" id="id" placeholder="id" name="id" readonly></div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="mb-3" th:if="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" th:value="${user.email}" name="email" readonly></div>
                                                         <div class="mb-3" th:unless="${user.email}!=null"><label class="form-label" for="email" ><strong>이메일 주소 </strong></label><input class="form-control" type="email" id="email" placeholder="user@example.com" name="email" required oninput="checkEmail()"></div>
-                                                        <span class="email_ok">사용 가능한 이메일입니다.</span>
                                                         <span class="email_already">누군가 이 이메일을 사용하고 있어요.</span>
                                                     </div>
                                                 </div>
@@ -176,12 +170,20 @@
                                                     <div class="col">
                                                         <div class="mb-3" th:if="${user.nickName}!=null"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:value="${user.nickName}" placeholder="닉네임" name="nickName" readonly></div>
                                                         <div class="mb-3" th:unless="${user.nickName}!=null"><label class="form-label" for="nickName"><strong>닉네임 설정</strong></label><input class="form-control" type="text" th:field="*{nickName}" id="nickName" placeholder="닉네임" name="nickName" oninput="checknick()"></div>
-                                                        <span class="nick_ok">사용 가능한 닉네임입니다.</span>
                                                         <span class="nick_already">누군가 이 닉네임을 사용하고 있어요.</span>
                                                     </div>
+                                                    <div class="col-md">
+                                                        <div class="mb-3"><label class="form-label" for="id" ><strong>회원 고유 id</strong></label><input class="form-control" type="text" th:field="*{id}" th:value="${UForm.id}" id="id" placeholder="id" name="id" readonly></div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
                                                     <div class="col">
-                                                        <div class="mb-3" th:if="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:value="${user.stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
+                                                        <div class="mb-3" th:if="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:value="${user.stack}" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
                                                         <div class="mb-3" th:unless="${user.stack}!=null"><label class="form-label" for="stack"><strong>기술 스택</strong></label><input class="form-control" type="text" th:field="*{stack}" id="stack" placeholder="자바, 리액트, AWS, 노드 ..." name="stack"></div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="mb-3" th:if="${user.favor}!=null"><label class="form-label" for="favor"><strong>관심 분야</strong></label><input class="form-control" type="text" th:value="${user.favor}" placeholder="검색 시 반영하고 싶은 관심 분야" name="favor"></div>
+                                                        <div class="mb-3" th:unless="${user.favor}!=null"><label class="form-label" for="favor"><strong>관심 분야</strong></label><input class="form-control" type="text" th:field="*{favor}" id="favor" placeholder="검색 시 반영하고 싶은 관심 분야" name="favor"></div>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3" ><button class="btn btn-primary btn-sm" id="user" type="submit">저장</button></div>
