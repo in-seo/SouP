@@ -46,6 +46,9 @@ public class User extends BaseTimeEntity {
     @Column
     private String portfolio; //포폴 링크
 
+    @Column
+    private int exp; //경험치  글을 보거나 댓글 달거나, 로그인 시?
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
