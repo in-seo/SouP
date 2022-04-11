@@ -16,9 +16,18 @@
                             </form>
                         </div>
                     </li>
-                    <a href="/register" style="margin-top: 30px; margin-right: 50px; color: #7abaff">임시 회원가입</a>
-                    <a href="/oauth2/authorization/google" class="btn btn-success active" role="button" style="margin-top: 30px; margin-right: 50px;">구글 로그인</a>
-                    <a href="/logout" class="btn btn-info active" role="button">로그아웃</a>
+                    <li class="nav-item dropdown no-arrow">
+                        <a onclick="registerDivBlock()" id ="registerclick" class="dropdown-toggle nav-link text-dark" aria-expanded="false"  href="#">
+                            가입</a>
+                    </li>
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="dropdown-toggle nav-link text-dark" aria-expanded="false"  href="#">
+                            /</a>
+                    </li>
+                    <li class="nav-item dropdown no-arrow">
+                        <a onclick="loginDivBlock()" id ="loginclick" class="dropdown-toggle nav-link text-dark" aria-expanded="false"  href="#">
+                            </span>로그인</a>
+                    </li>
                     <li class="nav-item dropdown no-arrow mx-1">
                         <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><span class="badge bg-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
                             <div class="dropdown-menu dropdown-menu-end dropdown-list animated--grow-in">
