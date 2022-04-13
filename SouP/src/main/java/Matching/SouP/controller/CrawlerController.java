@@ -30,7 +30,7 @@ public class CrawlerController {
         List<Okky> listOkky = okkyService.findAll();
         model.addAttribute("listOkky",listOkky);
 
-//        inflearnService.getInflearnPostData();
+        inflearnService.getInflearnPostData();
         List<Inflearn> listInf = inflearnService.findAll();
         model.addAttribute("listInf",listInf);
 

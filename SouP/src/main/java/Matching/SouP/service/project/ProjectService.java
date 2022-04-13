@@ -74,10 +74,13 @@ public class ProjectService {
 
     @Transactional
     public void deleteProject(Long id) {
-        Optional<ProjectInfo> del = projectInfoRepository.findById(id);
-        if(del.isPresent()){
-            ProjectInfo delete = del.get();
-            projectInfoRepository.delete(delete);
+        Optional<ProjectInfo> del1 = projectInfoRepository.findById(id);
+        Optional<ProjectConnect> del2 = projectConnectRepository.findById(id);
+        if(del1.isPresent() && del2.isPresent()){
+            ProjectInfo delete1 = del1.get();
+            ProjectConnect delete2 = del2.get();
+            projectInfoRepository.delete(delete1);
+            projectConnectRepository.delete(delete2);
         }
         else
             System.out.println("존재하지 않는 게시글");
