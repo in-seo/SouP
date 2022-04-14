@@ -1,5 +1,5 @@
 spring:
-  # DB 연결
+#   DB 연결
   datasource:
     # 설치된 H2 DB와 연결 URL
     url: jdbc:h2:tcp://localhost/~/SouP
