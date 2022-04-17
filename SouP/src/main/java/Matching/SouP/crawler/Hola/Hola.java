@@ -36,7 +36,9 @@ public class Hola {
         this.stack = stack;
     }
 
-    public Hola() {
-
+    protected Hola() {
+    }
+    public void makeStandardDate(String date) {
+        this.date = date;
     }
 }

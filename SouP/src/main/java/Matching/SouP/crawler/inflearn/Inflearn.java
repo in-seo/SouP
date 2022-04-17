@@ -39,4 +39,7 @@ public class Inflearn {
         this.link = link;
         this.talk = talk;
     }
+    public void makeStandardDate(String date) {
+        this.date = date;
+    }
 }

@@ -8,8 +8,11 @@ import Matching.SouP.crawler.inflearn.Inflearn;
 import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.crawler.okky.OkkyService;
+import Matching.SouP.domain.posts.Post;
+import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,8 @@ public class CrawlerController {
     private final InflearnService inflearnService;
     private final HolaService holaService;
     private final CampickService campickService;
+    private final PostService postService;
+
 
     @GetMapping("/crawl")
     public String crawlList(Model model) throws IOException, InterruptedException {
@@ -63,6 +68,12 @@ public class CrawlerController {
         obj.put("campick",campick);
 
         return obj;
+    }
+
+    @GetMapping("/projects")
+    public List<Post> projects(Pageable pageable) {
+        List<Post> posts = postService.findAllDesc();
+        return posts;
     }
 
 }

@@ -1,6 +1,7 @@
 package Matching.SouP.crawler.CamPick;
 
 
+import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -21,6 +22,7 @@ public class CampickService {
 
     private static String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
+    private final ConvertToPost convertToPost;
 
     public void getCampickPostData() throws InterruptedException {
         System.out.println("캠픽 크롤링 시작.");
@@ -32,7 +34,7 @@ public class CampickService {
             init();
             Long lastPost = campickRepository.findRecent();  //캠픽의 마지막 크롤링 글 번호
             System.out.println(lastPost);
-            scroll((JavascriptExecutor) driver); //무한 스크롤
+//            scroll((JavascriptExecutor) driver); //무한 스크롤
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("body > div > div.container > div.list");
@@ -57,8 +59,9 @@ public class CampickService {
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
                 String postName = eachPost.select("h2").text();
                 String views = eachPost.select("p.info > span:nth-child(2)").text();
-                Campick pick = new Campick(num,postName,content,userName,date,views,link,people,region);
+                Campick pick = new Campick(num,postName,content,userName,date,views,link,people,"",region);
                 campickRepository.save(pick);
+                convertToPost.campick(pick);
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +95,7 @@ public class CampickService {
     }
 
     private void init() {
-        Campick temp1 = new Campick(198900,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","dfa");
+        Campick temp1 = new Campick(204600,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","","dfa");
         campickRepository.save(temp1);
     }
 

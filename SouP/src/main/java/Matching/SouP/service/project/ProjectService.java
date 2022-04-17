@@ -1,6 +1,7 @@
 package Matching.SouP.service.project;
 
 
+import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.Project_Question;
@@ -22,6 +23,7 @@ public class ProjectService {
     private final ProjectConnectRepository projectConnectRepository;
     private final ProjectInfoRepository projectInfoRepository;
     private final QuestionRepository questionRepository;
+    private final ConvertToPost convertToPost;
 
     @Transactional
     public ProjectConnect addConnect(ProjectConnect connect, User user){  //임시 저장한 프로젝트 검수 완료 후 회원 연결.
@@ -36,6 +38,7 @@ public class ProjectService {
         ProjectInfo save = projectInfoRepository.save(newProject);
         ProjectConnect connect = ProjectConnect.createConnect(newProject, user);//작성자와 프로젝트 연결
         projectConnectRepository.save(connect);
+        convertToPost.soup(connect);
         return save.getId();
     }
 
