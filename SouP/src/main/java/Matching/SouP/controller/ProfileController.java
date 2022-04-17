@@ -1,7 +1,6 @@
 package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
-import Matching.SouP.config.auth.dto.PrincipalDetailService;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.UserForm;
@@ -13,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 

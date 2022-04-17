@@ -28,7 +28,6 @@ public class Okky {
     private String stack;
     private String views;
     private String talk; //연락 링크
-//    private String people;
 //    private String region;
     private boolean End = false;  //마감 여부
 

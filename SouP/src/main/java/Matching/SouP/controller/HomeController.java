@@ -41,7 +41,6 @@ public class HomeController {
     public String profile(@LoginUser SessionUser user) {
         log.info("profile controller");
 
-
         return "profile";
     }
 
