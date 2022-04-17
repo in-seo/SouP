@@ -66,7 +66,7 @@ public class CampickService {
 
     private Document click(WebDriver driver, int num) throws InterruptedException {
         driver.navigate().to("https://www.campuspick.com/study/view?id="+ num);
-        Thread.sleep(3000);
+        Thread.sleep(1000);
         Document realPost = Jsoup.parse(driver.getPageSource());
         driver.navigate().back();
         return realPost;
@@ -96,5 +96,7 @@ public class CampickService {
     public List<Campick> findAll(){
         return campickRepository.findAll();
     }
+
+    public List<Campick> findAllDesc() { return campickRepository.findAllDesc();}
 
 }

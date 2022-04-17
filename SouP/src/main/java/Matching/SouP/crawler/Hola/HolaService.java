@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.Hola;
 
+import Matching.SouP.crawler.CamPick.Campick;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -39,7 +40,7 @@ public class HolaService {
                     scroll((JavascriptExecutor) driver);
                     Elements eachPost = element.select("li:nth-child(" + i + ")");
                     driver.findElement(By.cssSelector("#root > div.main_appWrapper__3scwQ > div.main_app__2_XZu > main > ul > li:nth-child(" + i + ")")).click();
-                    Thread.sleep(3000);
+                    Thread.sleep(2000);
                     Document realPost = Jsoup.parse(driver.getPageSource());
                     String link = driver.getCurrentUrl();
                     driver.navigate().back();
@@ -87,4 +88,5 @@ public class HolaService {
     public List<Hola> findAll(){
         return holaRepository.findAll();
     }
+    public List<Hola> findAllDesc() { return holaRepository.findAllDesc();}
 }

@@ -9,15 +9,19 @@ import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.crawler.okky.OkkyService;
 import lombok.RequiredArgsConstructor;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
 
-@Controller
+//@Controller
 @RequiredArgsConstructor
+@RestController
 public class CrawlerController {
     private final OkkyService okkyService;
     private final InflearnService inflearnService;
@@ -26,7 +30,7 @@ public class CrawlerController {
 
     @GetMapping("/crawl")
     public String crawlList(Model model) throws IOException, InterruptedException {
-//        okkyService.getOkkyPostData();
+        okkyService.getOkkyPostData();
         List<Okky> listOkky = okkyService.findAll();
         model.addAttribute("listOkky",listOkky);
 
@@ -38,11 +42,27 @@ public class CrawlerController {
         List<Hola> listHola = holaService.findAll();
         model.addAttribute("listHola",listHola);
 
-//        campickService.getCampickPostData();
+        campickService.getCampickPostData();
         List<Campick> listCampick=  campickService.findAll();
         model.addAttribute("listCampick",listCampick);
 
         return "crawlList";
+    }
+
+    @GetMapping("/front-projects")
+    public JSONObject front() {
+        List<Okky> okky = okkyService.findAllDesc();
+        List<Inflearn> inflearn = inflearnService.findAllDesc();
+        List<Hola> hola = holaService.findAllDesc();
+        List<Campick> campick = campickService.findAllDesc();
+
+        JSONObject obj=new JSONObject();
+        obj.put("okky",okky);
+        obj.put("inflearn",inflearn);
+        obj.put("hola",hola);
+        obj.put("campick",campick);
+
+        return obj;
     }
 
 }

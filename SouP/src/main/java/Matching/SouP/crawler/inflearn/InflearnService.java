@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.inflearn;
 
+import Matching.SouP.crawler.Hola.Hola;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -67,7 +68,7 @@ public class InflearnService {
         }
     }
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Inflearn temp = new Inflearn(495000,"기준점","","","","","","");
+        Inflearn temp = new Inflearn(505627,"기준점","","","","","","");
         inflearnRepository.save(temp);
     }
 
@@ -92,4 +93,5 @@ public class InflearnService {
     public int recentPost(){
         return inflearnRepository.findRecent().intValue();
     }
+    public List<Inflearn> findAllDesc() { return inflearnRepository.findAllDesc();}
 }
