@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -105,31 +104,8 @@ public class ProjectController {
         }
         return list;
     } //프로젝트 유형 선택시 사용
-    @ModelAttribute("meetTypes")
-    public List<MeetType> meet(){
-        List<MeetType> list = new ArrayList<>();
-        for (MeetType value : MeetType.values()) {
-            list.add(value);
-        }
-        return list;
-    } //미팅 방법
-    @ModelAttribute("places")
-    public List<Project_Place> place(){
-        List<Project_Place> list = new ArrayList<>();
-        for (Project_Place value : Project_Place.values()) {
-            list.add(value);
-        }
-        return list;
-    } //지역
 
-    @ModelAttribute("platforms")
-    public List<Project_Platform> platform(){
-        List<Project_Platform> list = new ArrayList<>();
-        for (Project_Platform value : Project_Platform.values()) {
-            list.add(value);
-        }
-        return list;
-    } //출시 플랫폼
+
 
     @PostConstruct
     public void init(){
@@ -138,12 +114,9 @@ public class ProjectController {
             pForm.setName("프로젝트 "+i);
             pForm.setText("설명 : "+i);
             pForm.setStack("보유 기술:xxx"+i*10);
-            pForm.setData("agowaenawio"+i);
+            pForm.setLink("agowaenawio"+i);
             ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
-            pForm.setMeet_Type(MeetType.NONE);
             pForm.setProject_Type(Project_Type.ETC);
-            pForm.setPlace(Project_Place.SEOUL);
-            pForm.setPlatform(Project_Platform.APP);
             pForm.setMethod(Project_Method.PROJECT);
             User user = new User();
             userRepository.save(user);

@@ -67,31 +67,6 @@
                             </div>
                         </div>
                         <hr class="my-4">
-
-                        <div class="row g-3">
-                            <h4 class="mb-1 col-lg-4">*미팅 방법 및 지역 선택</h4>
-                            <div class="col-5">
-                                <select th:field="*{meet_Type}" class="form-select"> <!--projectForm으로 들어갈 값-->
-                                    <option value="">미팅 방법 선택</option>
-                                    <option th:each="meetType : ${meetTypes}" th:value="${meetType.name()}" th:text="${meetType.description}"></option>
-                                </select>
-                                <select th:field="*{place}" class="form-select"> <!--projectForm으로 들어갈 값-->
-                                    <option value="">지역 선택</option>
-                                    <option th:each="place : ${places}" th:value="${place.name()}" th:text="${place.description}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr class="my-4">
-                        <div class="row g-3 col-md">
-                            <h4 class="mb-1 col-lg-2">* 출시 플랫폼</h4>
-                            <div class="col-5">
-                                <select th:field="*{platform}" class="form-select"> <!--projectForm으로 들어갈 값-->
-                                    <option value="">출시 플랫폼 선택</option>
-                                    <option th:each="platform : ${platforms}" th:value="${platform.name()}" th:text="${platform.description}"></option>
-                                </select>
-                            </div>
-                        </div>
-                        <hr class="my-4">
                         <div class="row gy-2">
                             <h4 class="mb-1 col-lg-3">* 프로젝트 설명</h4>
                             <p style="color: darkgrey">! 설명이 풍부한 프로젝트는 ,아닌 프로젝트에 비해 지원율이 50% 높습니다.</p>
@@ -106,7 +81,7 @@
                             <label class="form-control">기술/언어</label>
                             <input class="form-control form-control-lg" type="text" th:field="*{stack}" placeholder="예)java, react, figma, photoshop, c++" aria-label=".form-control-lg example">
                             <label class="form-control">참고 자료 <small>(프로젝트 기획에 참고한 자료 주소를 기재해주세요)</small></label>
-                            <input class="form-control form-control-lg" type="text" th:field="*{data}" placeholder="https://github.com/..." aria-label=".form-control-lg example">
+                            <input class="form-control form-control-lg" type="text" th:field="*{link}" placeholder="https://github.com/..." aria-label=".form-control-lg example">
                         </div>
                         <button class="w-100 btn btn-primary btn-lg" type="submit" id="btn-create" onclick="alert('프로젝트가 게시 되었습니다.')"><b>프로젝트 생성</b></button>
                     </form>

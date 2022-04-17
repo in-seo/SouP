@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label for="data">참고자료</label>
-                    <input type="text" class="form-control" id="data" th:field="*{data}" th:value="${old.data}">
+                    <input type="text" class="form-control" id="data" th:field="*{data}" th:value="${old.getLink}">
                 </div>
                 <a href="/" role="button" class="btn btn-secondary">취소</a>
                 <button type="submit" class="btn btn-primary" id="btn-update"  onclick="alert('프로젝트가 수정 되었습니다.'); window.location.href ='/project'">수정 완료</button>
