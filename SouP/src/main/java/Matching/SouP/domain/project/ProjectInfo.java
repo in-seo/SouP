@@ -9,7 +9,6 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +17,11 @@ import java.util.List;
 @SequenceGenerator(name = "ProjectInfo_SEQ_GEN",sequenceName = "ProjectInfo_SEQ") //초기 값 1, 재할당 50마다
 @ToString
 public class ProjectInfo extends BaseTimeEntity {
-    public ProjectInfo(String projectName, String text, String stack, String data) {
+    public ProjectInfo(String projectName, String text, String stack, String link) {
         this.projectName = projectName;
         this.text = text;
         this.stack = stack;
-        this.data = data;
+        this.link = link;
     }//임시 생성자
     protected ProjectInfo() {
     }
@@ -31,13 +30,10 @@ public class ProjectInfo extends BaseTimeEntity {
 
         this.projectName = entity.getProjectName();
         this.method = entity.getMethod();
-        this.platform = entity.getPlatform();
         this.text = entity.getText();
         this.stack = entity.getStack();
-        this.data = entity.getData();
+        this.link = entity.getLink();
         this.type = entity.getType();
-        this.meetType = entity.getMeetType();
-        this.place = entity.getPlace();
     }
 
     @Id
@@ -45,18 +41,11 @@ public class ProjectInfo extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ProjectInfo_SEQ")
     private Long id;
 
-
-//    @OneToOne
-//    @JoinColumn(name = "image_id")
-//    private Project_image image; //이미지
-
     private String projectName; //닉네임
 
     @Enumerated(value = EnumType.STRING)
     private Project_Method method;  //프로젝트 OR 스터디  선택
 
-    @Enumerated(value = EnumType.STRING)
-    private Project_Platform platform;
 
     @NotNull
     @NotBlank
@@ -66,17 +55,11 @@ public class ProjectInfo extends BaseTimeEntity {
     @Column(name = "project_stack")
     private String stack; //기술, 언어
 
-    @Column(name = "project_data")
-    private String data;  //참고자료
+    @Column(name = "project_link")
+    private String link;  //참고자료
 
     @Enumerated(value = EnumType.STRING)
     private Project_Type type;  //프로젝트 분야
-
-    @Enumerated(value = EnumType.STRING)
-    private MeetType meetType;
-
-    @Enumerated(value = EnumType.STRING)
-    private Project_Place place;
 
 
     @OneToMany(mappedBy = "user")
