@@ -39,6 +39,9 @@ public class InflearnService {
                 Document realPost = Jsoup.connect(link).get();
                 String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text();
                 String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
+                if(content.length()>200) {
+                    content = content.substring(0, 199);
+                }
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
                 Elements title = element.select("a > div > div.question__info > div.question__title");
@@ -64,7 +67,7 @@ public class InflearnService {
         }
     }
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Inflearn temp = new Inflearn(478000,"기준점","","","","","","");
+        Inflearn temp = new Inflearn(495000,"기준점","","","","","","");
         inflearnRepository.save(temp);
     }
 
