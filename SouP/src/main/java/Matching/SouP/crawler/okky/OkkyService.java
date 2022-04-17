@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.okky;
 
+import Matching.SouP.crawler.inflearn.Inflearn;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -56,7 +57,7 @@ public class OkkyService {
     }
 
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1194000","임시 기준점","","","","","","","");
+        Okky temp = new Okky("1205244","임시 기준점","","","","","","","");
         okkyRepository.save(temp);
     }
 
@@ -89,5 +90,6 @@ public class OkkyService {
     public List<Okky> findAll(){
         return okkyRepository.findAll();
     }
+    public List<Okky> findAllDesc() { return okkyRepository.findAllDesc();}
 
 }
