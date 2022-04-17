@@ -32,7 +32,7 @@ public class CampickService {
             init();
             Long lastPost = campickRepository.findRecent();  //캠픽의 마지막 크롤링 글 번호
             System.out.println(lastPost);
-//            scroll((JavascriptExecutor) driver); //무한 스크롤
+            scroll((JavascriptExecutor) driver); //무한 스크롤
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("body > div > div.container > div.list");
@@ -51,6 +51,9 @@ public class CampickService {
                 String date = article.select("p.info > span:nth-child(1)").text();
                 String people = article.select("div > p:nth-child(6) > span").text();
                 String content = article.select("p.text").text();
+                if(content.length()>200) {
+                    content = content.substring(0, 199);
+                }
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
                 String postName = eachPost.select("h2").text();
                 String views = eachPost.select("p.info > span:nth-child(2)").text();
@@ -77,7 +80,7 @@ public class CampickService {
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys("insi2000");
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys("insi4426!");
         driver.findElement(By.cssSelector("#container > div.form > div > input.submit")).click();
-        Thread.sleep(3000);  //로그인 처리 대기
+        Thread.sleep(2000);  //로그인 처리 대기
     }
 
     private void scroll(JavascriptExecutor driver) throws InterruptedException {

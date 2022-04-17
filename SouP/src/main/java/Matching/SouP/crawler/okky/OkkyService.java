@@ -35,6 +35,9 @@ public class OkkyService {
                 String link = "https://okky.kr/article/"+num;
                 Document realPost = Jsoup.connect(link).get();
                 String content = realPost.select("#content-body > article").text();
+                if(content.length()>200) {
+                    content = content.substring(0, 199);
+                }
                 String talk = realPost.select("#content-body > article").select("a").attr("href");
                 String views = realPost.select("#article > div.panel.panel-default.clearfix.fa- > div.panel-heading.clearfix > div.content-identity.pull-right > div:nth-child(2)").text();
                 int size = realPost.select("#content-body > div").select("a").size();
@@ -42,7 +45,6 @@ public class OkkyService {
                 for (int j = 3; j <= size+1; j++) {
                     stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
                 }
-                Thread.sleep(1000);
                 String postName = title.select("h5 a").text();
                 if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감인듯
                 String userName = information.select("div > div > a").attr("title");
