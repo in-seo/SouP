@@ -31,10 +31,8 @@ public class ProjectService {
 
     @Transactional
     public Long tempSave(ProjectForm pForm, User user){  //프로젝트정보 임시저장, 사람과 연결 전
-        ProjectInfo newProject = new ProjectInfo(pForm.getName(),pForm.getText(),pForm.getStack(),pForm.getData());
-        newProject.setMeetType(pForm.getMeet_Type());newProject.setMethod(pForm.getMethod());newProject.setPlace(pForm.getPlace());
-        newProject.setType(pForm.getProject_Type());newProject.setPlatform(pForm.getPlatform());   // 그냥 폼 데이터들을 받는거.
-
+        ProjectInfo newProject = new ProjectInfo(pForm.getName(),pForm.getText(),pForm.getStack(),pForm.getLink());
+        newProject.setMethod(pForm.getMethod());newProject.setType(pForm.getProject_Type());// 그냥 폼 데이터들을 받는거.
         ProjectInfo save = projectInfoRepository.save(newProject);
         ProjectConnect connect = ProjectConnect.createConnect(newProject, user);//작성자와 프로젝트 연결
         projectConnectRepository.save(connect);
@@ -63,7 +61,7 @@ public class ProjectService {
             ProjectInfo edit = byId.get();
             System.out.println(editForm.toString());
             edit.setProjectName(editForm.getProjectName());edit.setText(editForm.getText());
-            edit.setStack(editForm.getStack()); edit.setData(editForm.getData());
+            edit.setStack(editForm.getStack()); edit.setLink(editForm.getData());
             System.out.println(edit.toString());
             return edit;
         } else{

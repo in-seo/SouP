@@ -20,7 +20,7 @@ public class Inflearn {
     private Long id;
     private int num;  //게시글 번호로 중복 크롤링 방지 예정
     private String postName;
-    @Column(columnDefinition = "LONGTEXT")
+    @Column(length = 220)
     private String content;
     private String userName;
     private String date;
