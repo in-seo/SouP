@@ -29,7 +29,7 @@ public class Campick {
     private String region;
     private boolean End = false;  //마감 여부
 
-    public Campick(int num, String postName, String content, String userName, String date, String views, String link, String people, String region) {
+    public Campick(int num, String postName, String content, String userName, String date, String views, String link, String people,String talk, String region) {
         this.num = num;
         this.postName = postName;
         this.content = content;
@@ -41,6 +41,8 @@ public class Campick {
         this.region = region;
     }
 //    private String stack;  후에 추가예정
-
+    public void makeStandardDate(String date) {
+        this.date = date;
+    }
 
 }

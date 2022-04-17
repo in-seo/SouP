@@ -27,7 +27,6 @@ public class ProjectInfo extends BaseTimeEntity {
     }
 
     public ProjectInfo(ProjectInfo entity) {
-
         this.projectName = entity.getProjectName();
         this.method = entity.getMethod();
         this.text = entity.getText();

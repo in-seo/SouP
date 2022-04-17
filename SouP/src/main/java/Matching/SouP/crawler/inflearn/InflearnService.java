@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.inflearn;
 
+import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.Hola.Hola;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -15,7 +16,7 @@ import java.util.List;
 public class InflearnService {
     private static String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
     private final InflearnRepository inflearnRepository;
-
+    private final ConvertToPost convertToPost;
 
     public List<Inflearn> findAll(){
         return inflearnRepository.findAll();
@@ -25,9 +26,8 @@ public class InflearnService {
         System.out.println("인프런 크롤링 시작.");
         init();
         int start = recentPost();
-        System.out.println("pass");
         int Page = startPage(start);
-        while(Page>=0){
+        while(Page>0){
             Document doc = Jsoup.connect(urlInf + "?page=" + Page).get();  // 페이지 선택.
             for (int i = 20; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                 Elements element = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child("+i+")");
@@ -38,8 +38,10 @@ public class InflearnService {
                 if(num<=start)
                     continue;   //이미 불러온 글이면 저장 X
                 Document realPost = Jsoup.connect(link).get();
-                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text();
+                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text().substring(2);
                 String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
+                if(content.length()<3)
+                    content=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
                 if(content.length()>200) {
                     content = content.substring(0, 199);
                 }
@@ -62,6 +64,7 @@ public class InflearnService {
                 if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
                 Inflearn post = new Inflearn(num,postName,content,userName,date,stack.toString(),link,talk);
                 inflearnRepository.save(post);
+                convertToPost.inflearn(post);
                 System.out.println(post);
             }
             Page--;

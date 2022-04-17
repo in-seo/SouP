@@ -1,6 +1,7 @@
 package Matching.SouP.dto.project;
 
-import Matching.SouP.domain.project.form.*;
+import Matching.SouP.domain.project.form.Project_Method;
+import Matching.SouP.domain.project.form.Project_Type;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

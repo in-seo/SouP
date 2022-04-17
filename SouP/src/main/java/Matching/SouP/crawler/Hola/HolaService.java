@@ -1,6 +1,7 @@
 package Matching.SouP.crawler.Hola;
 
 import Matching.SouP.crawler.CamPick.Campick;
+import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -20,7 +21,8 @@ import java.util.List;
 public class HolaService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
-    private WebElement element;
+    private final ConvertToPost convertToPost;
+
 
     public void getHolaPostData(){
         System.out.println("홀라 크롤링 시작.");
@@ -62,6 +64,7 @@ public class HolaService {
                     System.out.println(postName+" "+ stack+" " + views);
                     Hola hola = new Hola(postName,content,userName,date,views,link,talk,stack.toString());
                     holaRepository.save(hola);
+                    convertToPost.hola(hola);
                 }
             }
             else

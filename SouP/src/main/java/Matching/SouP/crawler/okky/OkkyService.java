@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.okky;
 
+import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.inflearn.Inflearn;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class OkkyService {
     private static String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
     private final OkkyRepository okkyRepository;
-
+    private final ConvertToPost convertToPost;
 
     public void getOkkyPostData() throws IOException, InterruptedException {
         System.out.println("오키 크롤링 시작.");
@@ -52,7 +53,7 @@ public class OkkyService {
 
                 Okky okky = new Okky(num,postName,content,userName,date,stack.toString(),views,link,talk);
                 okkyRepository.save(okky);
-                System.out.println(okky);
+                convertToPost.okky(okky);
             }
             Page--;
         }
