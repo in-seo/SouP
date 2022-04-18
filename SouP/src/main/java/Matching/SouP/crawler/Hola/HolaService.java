@@ -32,6 +32,7 @@ public class HolaService {
         try {
             init();
             Long postCount = holaRepository.findRecent();  //저장되어있는 Hola 사이트 글의 개수  홀라는 따로 해야된다 --> 첫글부터 긁어올거라
+
 //            scroll((JavascriptExecutor) driver);
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);

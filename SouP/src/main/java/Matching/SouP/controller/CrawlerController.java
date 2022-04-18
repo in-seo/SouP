@@ -12,11 +12,10 @@ import Matching.SouP.domain.posts.Post;
 import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -43,7 +42,7 @@ public class CrawlerController {
         List<Inflearn> listInf = inflearnService.findAll();
         model.addAttribute("listInf",listInf);
 
-        holaService.getHolaPostData();
+//        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
         List<Hola> listHola = holaService.findAll();
         model.addAttribute("listHola",listHola);
 
@@ -62,17 +61,17 @@ public class CrawlerController {
         List<Campick> campick = campickService.findAllDesc();
 
         JSONObject obj=new JSONObject();
-        obj.put("okky",okky);
-        obj.put("inflearn",inflearn);
-        obj.put("hola",hola);
-        obj.put("campick",campick);
+        obj.put("OKKY",okky);
+        obj.put("INFLEARN",inflearn);
+        obj.put("HOLA",hola);
+        obj.put("CAMPICK",campick);
 
         return obj;
     }
 
     @GetMapping("/projects")
-    public List<Post> projects(Pageable pageable) {
-        List<Post> posts = postService.findAllDesc();
+    public Page<Post> projects(Pageable pageable) {
+        Page<Post> posts = postService.findAllDesc(pageable);
         return posts;
     }
 
