@@ -14,26 +14,26 @@ public class Hola {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Hola_SEQ")
     private Long id;
+
     private String postName;
-    @Column(columnDefinition = "LONGTEXT")
     private String content;
     private String userName;
     private String date;
     private String link;
-    private String views;
     private String stack;
-    private String talk;
+    private String views;
+    private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 
-    public Hola(String postName, String content, String userName, String date, String views, String link, String talk, String stack) {
+    public Hola(String postName, String content, String userName, String date, String link, String stack, String views,  String talk) {
         this.postName = postName;
         this.content = content;
         this.userName = userName;
         this.date = date;
-        this.views = views;
         this.link = link;
-        this.talk = talk;
         this.stack = stack;
+        this.views = views;
+        this.talk = talk;
     }
 
     protected Hola() {

@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Entity
-//@SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ") //프로젝트랑 공유!
 public class Okky {
     protected Okky() {
     }
@@ -20,7 +19,6 @@ public class Okky {
 
     private int num;  //게시글 번호로 중복 크롤링 방지 예정
     private String postName;
-    @Column(columnDefinition = "LONGTEXT")
     private String content;
     private String userName;
     private String date;
@@ -28,10 +26,9 @@ public class Okky {
     private String stack;
     private String views;
     private String talk; //연락 링크
-//    private String region;
     private boolean End = false;  //마감 여부
 
-    public Okky(String num, String postName, String content, String userName, String date, String stack, String views, String link, String talk) {
+    public Okky(String num, String postName, String content, String userName, String date, String link, String stack, String views,  String talk) {
         this.num = Integer.parseInt(num);
         this.postName = postName;
         this.content = content;
@@ -42,6 +39,7 @@ public class Okky {
         this.link = link;
         this.talk = talk;
     }
+
 
     public void makeStandardDate(String date) {
         this.date = date;

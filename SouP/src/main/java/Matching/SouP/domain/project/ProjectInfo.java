@@ -15,7 +15,6 @@ import java.util.List;
 @Entity
 @Getter @Setter
 @SequenceGenerator(name = "ProjectInfo_SEQ_GEN",sequenceName = "ProjectInfo_SEQ") //초기 값 1, 재할당 50마다
-@ToString
 public class ProjectInfo extends BaseTimeEntity {
     public ProjectInfo(String projectName, String text, String stack, String link) {
         this.projectName = projectName;
@@ -33,6 +32,7 @@ public class ProjectInfo extends BaseTimeEntity {
         this.stack = entity.getStack();
         this.link = entity.getLink();
         this.type = entity.getType();
+        this.talk = entity.getTalk();
     }
 
     @Id
@@ -56,6 +56,8 @@ public class ProjectInfo extends BaseTimeEntity {
 
     @Column(name = "project_link")
     private String link;  //참고자료
+
+    private String talk;
 
     @Enumerated(value = EnumType.STRING)
     private Project_Type type;  //프로젝트 분야

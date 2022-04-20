@@ -12,6 +12,9 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	all {
+		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
 }
 
 repositories {
@@ -26,7 +29,7 @@ dependencies {
 	implementation 'org.jsoup:jsoup:1.13.1'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.session:spring-session-jdbc'
-	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.2'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.1'

@@ -33,12 +33,12 @@ public class CrawlerController {
 
 
     @GetMapping("/crawl")
-    public String crawlList(Model model) throws IOException, InterruptedException {
-        okkyService.getOkkyPostData();
+    public String crawlList(Model model) throws InterruptedException {
+//        okkyService.getOkkyPostData();
         List<Okky> listOkky = okkyService.findAll();
         model.addAttribute("listOkky",listOkky);
 
-        inflearnService.getInflearnPostData();
+//        inflearnService.getInflearnPostData();
         List<Inflearn> listInf = inflearnService.findAll();
         model.addAttribute("listInf",listInf);
 
@@ -71,8 +71,7 @@ public class CrawlerController {
 
     @GetMapping("/projects")
     public Page<Post> projects(Pageable pageable) {
-        Page<Post> posts = postService.findAllDesc(pageable);
-        return posts;
+        return postService.findAllDesc(pageable);
     }
 
 }

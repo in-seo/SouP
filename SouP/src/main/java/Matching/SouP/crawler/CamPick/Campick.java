@@ -16,6 +16,7 @@ public class Campick {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Project_SEQ")
     private Long id;
+
     private int num;  //게시글 번호로 중복 크롤링 방지 예정
     private String postName;
     @Column(columnDefinition = "LONGTEXT")
@@ -23,13 +24,14 @@ public class Campick {
     private String userName;
     private String date;
     private String link;
+    private String stack;
     private String views;
-    private String people;
     private String talk; //연락 링크
+    private String people;
     private String region;
     private boolean End = false;  //마감 여부
 
-    public Campick(int num, String postName, String content, String userName, String date, String views, String link, String people,String talk, String region) {
+    public Campick(int num, String postName, String content, String userName, String date, String link, String stack, String views,  String talk, String people, String region) {
         this.num = num;
         this.postName = postName;
         this.content = content;
@@ -37,8 +39,11 @@ public class Campick {
         this.date = date;
         this.views = views;
         this.link = link;
+        this.stack = stack;
+        this.talk = talk;
         this.people = people;
         this.region = region;
+
     }
 //    private String stack;  후에 추가예정
     public void makeStandardDate(String date) {
