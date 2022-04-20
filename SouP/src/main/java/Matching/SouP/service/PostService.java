@@ -14,9 +14,6 @@ public class PostService {
     private final PostsRepository postsRepository;
 
     public Page<Post> findAllDesc(Pageable pageable){
-        Page<Post> posts = postsRepository.findAllDesc(pageable);
-        return posts;
+        return postsRepository.findAllDesc(pageable);
     }
-
-
 }
