@@ -1,6 +1,8 @@
 package Matching.SouP.crawler.inflearn;
 
 import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.CrawlerService;
+import Matching.SouP.crawler.okky.Okky;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -15,7 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class InflearnService {
+public class InflearnService extends CrawlerService {
     private static final String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
     private final InflearnRepository inflearnRepository;
     private final ConvertToPost convertToPost;
@@ -36,18 +38,31 @@ public class InflearnService {
                 String link = element.select("a").attr("href");
                 String num = link.substring(9);
                 link = "https://www.inflearn.com"+link;
-                if(Integer.parseInt(num)<=start)
-                    continue;   //이미 불러온 글이면 저장 X
+                if(Integer.parseInt(num)<=start){
+                    continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
+                }
                 Document realPost = Jsoup.connect(link).get();
                 String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text().substring(2);
                 date = standard(date); //표준시간 변환
                 String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
                 if(content.length()<3)
                     content=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
+                    content+=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div > ul").text();
+
+                Elements tags = element.select("a > div > div.question__info > div.question__tags");
+                int tagCount = tags.select("button").size();
+                StringBuilder stack= new StringBuilder();
+                for (int j = 1; j <= tagCount; j++) {
+                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
+                }
+                if(stack.length()==0) stack = parseStack(content,stack);
+
+                String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
+                        if(talk.isEmpty()){talk = parseTalk(content,talk);}
                 if(content.length()>200) {
                     content = content.substring(0, 199);
                 }
-                String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
+
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
                 Elements title = element.select("a > div > div.question__info > div.question__title");
                 String postName = title.select("h3").text();
@@ -55,13 +70,6 @@ public class InflearnService {
 
                 if(pass.equals("모집완료 ")){
                     continue;  //모집완료이면 패스
-                }
-                Elements tags = element.select("a > div > div.question__info > div.question__tags");
-                // 태그는 아직 못 가져오겠음.. css 선택자를 공부해야됨
-                int tagCount = tags.select("button").size();
-                StringBuilder stack= new StringBuilder();
-                for (int j = 1; j <= tagCount; j++) {
-                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
                 }
                 if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
                 Inflearn post = new Inflearn(num,postName,content,userName,date,link, stack.toString(),talk);

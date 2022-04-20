@@ -3,6 +3,8 @@ package Matching.SouP.crawler.CamPick;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.*;
 
 @Getter @ToString
@@ -45,9 +47,13 @@ public class Campick {
         this.region = region;
 
     }
-//    private String stack;  후에 추가예정
     public void makeStandardDate(String date) {
         this.date = date;
+    }
+
+    @Transactional
+    public void updateViews(String views){
+        this.views = views;
     }
 
 }

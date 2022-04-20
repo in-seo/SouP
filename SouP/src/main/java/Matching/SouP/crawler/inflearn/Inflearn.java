@@ -3,6 +3,7 @@ package Matching.SouP.crawler.inflearn;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -42,4 +43,5 @@ public class Inflearn {
     public void makeStandardDate(String date) {
         this.date = date;
     }
+
 }

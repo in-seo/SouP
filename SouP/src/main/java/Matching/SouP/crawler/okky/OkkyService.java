@@ -1,6 +1,7 @@
 package Matching.SouP.crawler.okky;
 
 import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.inflearn.Inflearn;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OkkyService {
+public class OkkyService extends CrawlerService{
     private static String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
@@ -33,24 +34,40 @@ public class OkkyService {
                 Elements element = doc.select("#list-article > div.panel.panel-default.gathering-panel > ul > li:nth-child(" + i + ")");
                 Elements title = element.select("div.list-title-wrapper.clearfix");
                 Elements information = element.select("div.list-group-item-author.clearfix");
+
                 String postName = title.select("h5 a").text();
                     if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
                 String num= title.get(0).select("span").text().substring(1);
-                if(Integer.parseInt(num)<start)
-                    continue;   //이미 불러온 글이면 저장 X
+                if(Integer.parseInt(num)<=start){
+                    Okky update = okkyRepository.findByNum(Integer.parseInt(num));
+                    if(update!=null){
+                        String views = element.select("div.list-summary-wrapper.clearfix > div > ul > li:nth-child(3)").text();
+                        update.updateViews(views);
+                    }
+                    continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
+                }
                 String link = "https://okky.kr/article/"+num;
                 Document realPost = Jsoup.connect(link).get();
-                String content = realPost.select("#content-body > article").text();
-                if(content.length()>200) {
-                    content = content.substring(0, 199);
-                }
-                String talk = realPost.select("#content-body > article").select("a").attr("href");
-                String views = realPost.select("#article > div.panel.panel-default.clearfix.fa- > div.panel-heading.clearfix > div.content-identity.pull-right > div:nth-child(2)").text();
+
                 int size = realPost.select("#content-body > div").select("a").size();
                 StringBuilder stack= new StringBuilder();
                 for (int j = 3; j <= size+1; j++) {
                     stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
                 }
+
+                String content = realPost.select("#content-body > article").text();
+
+                if(stack.length()==0) stack = parseStack(content,stack);
+                String talk = realPost.select("#content-body > article").select("a").attr("href");
+                        if(talk.isEmpty()){ talk = parseTalk(content,talk);}
+
+                if(content.length()>200) {
+                    content = content.substring(0, 199);
+                }
+
+                String views = realPost.select("#article > div.panel.panel-default.clearfix.fa- > div.panel-heading.clearfix > div.content-identity.pull-right > div:nth-child(2)").text();
+
+
                 String userName = information.select("div > div > a").attr("title");
                 String date = information.select("div > div > div.date-created > span").text();
                 date = standard(date);
@@ -69,7 +86,7 @@ public class OkkyService {
     }
 
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1207000","임시 기준점","","","","","","","");
+        Okky temp = new Okky("1207000","임시 기준점","","","","","","122","");
         okkyRepository.save(temp);
     }
 
@@ -94,13 +111,9 @@ public class OkkyService {
 
     public int recentPost(){
         Long recent = okkyRepository.findRecent();
-        Optional<Okky> recentPost = okkyRepository.findById(recent);
-        return recentPost.get().getNum();
+        return recent.intValue();
     }
 
-    public List<Okky> findAll(){
-        return okkyRepository.findAll();
-    }
     public List<Okky> findAllDesc() { return okkyRepository.findAllDesc();}
 
 }

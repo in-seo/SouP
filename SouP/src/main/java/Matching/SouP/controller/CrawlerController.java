@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.IOException;
 import java.util.List;
 
-//@Controller
+
 @RequiredArgsConstructor
 @RestController
 public class CrawlerController {
@@ -33,24 +34,11 @@ public class CrawlerController {
 
 
     @GetMapping("/crawl")
-    public String crawlList(Model model) throws InterruptedException {
-//        okkyService.getOkkyPostData();
-        List<Okky> listOkky = okkyService.findAll();
-        model.addAttribute("listOkky",listOkky);
-
-//        inflearnService.getInflearnPostData();
-        List<Inflearn> listInf = inflearnService.findAll();
-        model.addAttribute("listInf",listInf);
-
-//        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
-        List<Hola> listHola = holaService.findAll();
-        model.addAttribute("listHola",listHola);
-
+    public void crawlList() throws InterruptedException, IOException {
+        okkyService.getOkkyPostData();
+        inflearnService.getInflearnPostData();
+        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
         campickService.getCampickPostData();
-        List<Campick> listCampick=  campickService.findAll();
-        model.addAttribute("listCampick",listCampick);
-
-        return "crawlList";
     }
 
     @GetMapping("/front-projects")

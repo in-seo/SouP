@@ -9,9 +9,12 @@ import java.util.List;
 
 @Repository
 public interface OkkyRepository extends JpaRepository<Okky,Long> {
-    @Query("select MAX(o.id) from Okky o")
+    @Query("select MAX(o.num) from Okky o")
     Long findRecent();
 
     @Query("select o from Okky o order by o.id DESC")
     List<Okky> findAllDesc();
+
+    @Query("select o from Okky o where o.num=:num")
+    Okky findByNum(int num);
 }
