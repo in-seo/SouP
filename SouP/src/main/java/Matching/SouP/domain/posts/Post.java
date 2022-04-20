@@ -2,11 +2,9 @@ package Matching.SouP.domain.posts;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity @ToString
@@ -25,30 +23,33 @@ public class Post {
     private String postName;
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
-
     private String userName;
-
-    private String stack;
-
+    private String date; //글 올라온 시간
     private String link;
-
+    private String stack;
+    private String views;
     private String talk;
-
-    private String ipDate; //글 올라온 시간
+    private boolean end = false;
 
     @Enumerated(value = EnumType.STRING)
     private Source source;  //ex) okky, inflearn, ...
 
+
     @Builder
-    public Post(Long id,String postName, String content, String userName, String stack, String link, String ipDate, String talk, Source source) {
-        this.postId= id;
+    public Post(Long postId, String postName, String content, String userName, String date, String link, String stack, String views, String talk, Source source) {
+        this.postId = postId;
         this.postName = postName;
         this.content = content;
         this.userName = userName;
-        this.stack = stack;
+        this.date = date;
         this.link = link;
-        this.ipDate = ipDate;
+        this.stack = stack;
+        this.views = views;
         this.talk = talk;
         this.source = source;
     }
+
+
+
+
 }

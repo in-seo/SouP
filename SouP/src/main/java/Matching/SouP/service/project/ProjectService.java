@@ -10,6 +10,7 @@ import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.ProjectForm;
 import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProjectService {
     private final UserRepository userRepository;
     private final ProjectConnectRepository projectConnectRepository;
@@ -60,15 +62,12 @@ public class ProjectService {
     public ProjectInfo editProject(EditForm editForm,Long id){
         Optional<ProjectInfo> byId = projectInfoRepository.findById(id);
         if(byId.isPresent()) {
-            System.out.println("진입");
             ProjectInfo edit = byId.get();
-            System.out.println(editForm.toString());
             edit.setProjectName(editForm.getProjectName());edit.setText(editForm.getText());
             edit.setStack(editForm.getStack()); edit.setLink(editForm.getData());
-            System.out.println(edit.toString());
             return edit;
         } else{
-            System.out.println("해당 게시글이 없습니다. id="+ id);
+            log.error("해당 게시글이 없습니다. id="+ id);
             return byId.get();
         }
     }
@@ -84,7 +83,7 @@ public class ProjectService {
             projectConnectRepository.delete(delete2);
         }
         else
-            System.out.println("존재하지 않는 게시글");
+            log.error("존재하지 않는 게시글");
     }
 
 
