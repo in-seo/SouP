@@ -46,51 +46,32 @@
 
             <thead>
             <tr>
-                <th>#id</th>
-                <td>게시글 번호</td>
-                <td>게시글명</td>
-                <td>작성자명</td>
+                <th>기존 글 번호</th>
+                <td>글 제목</td>
+                <td>내용</td>
+                <td>닉네임</td>
+                <td>날짜</td>
+                <td>링크</td>
+                <td>스택</td>
                 <td>조회수</td>
-                <td>작성 일자</td>
-                <td>링크(클릭 시 이동)</td>
+                <td>자료</td>
+                <td>원천</td>
+                <td>링크</td>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="okky : ${listOkky}">
-                <td th:text="${okky.id}"></td>
-                <td th:text="'#'+${okky.num}"></td>
-                <td th:text="${okky.postName}"></td>
-                <td th:text="${okky.userName}"></td>
-                <td th:text="${okky.views}"></td>
-                <td th:text="${okky.date}"></td>
-                <td th:onclick="|location.href='@{{link}(link=${okky.link})}'|"><a th:text="${okky.link}" style="color: #7abaff"></a></td>
-            </tr>
-            <tr th:each="inf : ${listInf}">
-                <td th:text="${inf.id}"></td>
-                <td th:text="'#'+${inf.num}"></td>
-                <td th:text="${inf.postName}"></td>
-                <td th:text="${inf.userName}"></td>
-                <td th:text="미정"></td>
-                <td th:text="${inf.content}"></td>
-                <td th:onclick="|location.href='@{{link}(link=${inf.link})}'|"><a th:text="${inf.link}" style="color: #6f42c1"></a></td>
-            </tr>
-            <tr th:each="hola : ${listHola}">
-                <td th:text="${hola.id}"></td>
-                <td th:text="'#'+${hola.id}"></td>
-                <td th:text="${hola.postName}"></td>
-                <td th:text="${hola.userName}"></td>
-                <td th:text="미정"></td>
-                <td th:text="${hola.stack}"></td>
-                <td th:text="미구현" style="color: #7abaff"></a></td>
-            </tr>
-            <tr th:each="pick : ${listCampick}">
-                <td th:text="${pick.id}"></td>
-                <td th:text="'#'+${pick.num}"></td>
-                <td th:text="${pick.postName}"></td>
-                <td th:text="${pick.userName}"></td>
-                <td th:text="${pick.views}"></td>
-                <td th:text="${pick.region}"></td>
-                <td th:onclick="|location.href='@{https://www.campuspick.com/study/view?id={num}(num=${pick.num})}'|" th:text="${pick.link}" style="color: #e83e8c"></a></td>
+            <tr th:each="post : ${posts}">
+                <td th:text="${post.postId}"></td>
+                <td th:text="${post.postName}"></td>
+                <td th:text="${post.content}"></td>
+                <td th:text="${post.userName}"></td>
+                <td th:text="${post.date}"></td>
+                <td th:text="${post.link}"></td>
+                <td th:text="${post.stack}"></td>
+                <td th:text="${post.views}"></td>
+                <td th:text="${post.talk}"></td>
+                <td th:text="${post.source}"></td>
+                <td th:onclick="|location.href='@{{link}(link=${post.link})}'|"><a th:text="${post.link}" style="color: #7abaff"></a></td>
             </tr>
             </tbody>
         </table>

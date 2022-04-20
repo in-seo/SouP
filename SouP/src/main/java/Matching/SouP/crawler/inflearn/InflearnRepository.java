@@ -1,6 +1,5 @@
 package Matching.SouP.crawler.inflearn;
 
-import Matching.SouP.crawler.Hola.Hola;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,4 +13,7 @@ public interface InflearnRepository extends JpaRepository<Inflearn,Long> {
 
     @Query("select i from Inflearn i order by i.id DESC")
     List<Inflearn> findAllDesc();
+
+    @Query("select i from Inflearn i where i.num=:num")
+    Inflearn findByNum(int num);
 }

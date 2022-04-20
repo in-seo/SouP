@@ -3,6 +3,7 @@ package Matching.SouP.crawler.okky;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -43,5 +44,9 @@ public class Okky {
 
     public void makeStandardDate(String date) {
         this.date = date;
+    }
+    @Transactional
+    public void updateViews(String views){
+        this.views = views;
     }
 }

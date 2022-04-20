@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -15,5 +17,9 @@ public class PostService {
 
     public Page<Post> findAllDesc(Pageable pageable){
         return postsRepository.findAllDesc(pageable);
+    }
+
+    public List<Post> findAllByDesc(){
+        return postsRepository.findAllDesc();
     }
 }

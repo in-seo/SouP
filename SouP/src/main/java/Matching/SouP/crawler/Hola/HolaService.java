@@ -2,6 +2,7 @@ package Matching.SouP.crawler.Hola;
 
 import Matching.SouP.crawler.CamPick.Campick;
 import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HolaService {
+public class HolaService extends CrawlerService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
@@ -50,13 +51,14 @@ public class HolaService {
                     String link = driver.getCurrentUrl();
                     driver.navigate().back();
                     String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").text();
+                    String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
+                    if(talk.isEmpty()){talk = parseTalk(content,talk);}
                     if(content.length()>200) {
                         content = content.substring(0, 199);
                     }
                     String userName = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_user__1XYmH > div").text();
                     String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
                     date=standard(date);
-                    String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
                     String postName = eachPost.select("h1").text();
                     StringBuilder stack= new StringBuilder();
                     int length= eachPost.select("li").size();
@@ -71,7 +73,7 @@ public class HolaService {
                 }
             }
             else
-                log.error("불러올 글이 없습니다!");
+                log.warn("불러올 글이 없습니다!");
         }catch (Exception e) {
             e.printStackTrace();
         } finally {

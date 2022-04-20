@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.CamPick;
 
+import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.project.ProjectInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,5 +15,8 @@ import java.util.List;
 
     @Query("select c from Campick c order by c.id DESC")
     List<Campick> findAllDesc();
+
+    @Query("select c from Campick c where c.num=:num")
+    Campick findByNum(int num);
 }
 
