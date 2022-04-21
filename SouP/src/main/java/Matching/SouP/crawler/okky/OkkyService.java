@@ -2,7 +2,6 @@ package Matching.SouP.crawler.okky;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
-import Matching.SouP.crawler.inflearn.Inflearn;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -10,10 +9,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,6 @@ public class OkkyService extends CrawlerService{
     private final ConvertToPost convertToPost;
 
     public void getOkkyPostData() throws IOException{
-        init();
         int start = recentPost();
         log.info("OKKY 크롤링 시작. {}번부터",start);
         int Page = startPage(start);
@@ -53,11 +51,13 @@ public class OkkyService extends CrawlerService{
                 StringBuilder stack= new StringBuilder();
                 for (int j = 3; j <= size+1; j++) {
                     stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
+                    if(j==5)
+                        break; //3개까지만저장
                 }
 
                 String content = realPost.select("#content-body > article").text();
 
-                if(stack.length()==0) stack = parseStack(content,stack);
+                if(stack.length()==0) stack = parseStack(postName,content,stack);
                 String talk = realPost.select("#content-body > article").select("a").attr("href");
                         if(talk.isEmpty()){ talk = parseTalk(content,talk);}
 
@@ -85,8 +85,9 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
+    @PostConstruct
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1207000","임시 기준점","","","","","","122","");
+        Okky temp = new Okky("1208000","임시 기준점","","","","","","122","");
         okkyRepository.save(temp);
     }
 

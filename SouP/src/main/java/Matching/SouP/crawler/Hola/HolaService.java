@@ -1,6 +1,5 @@
 package Matching.SouP.crawler.Hola;
 
-import Matching.SouP.crawler.CamPick.Campick;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
@@ -12,9 +11,9 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -33,9 +32,8 @@ public class HolaService extends CrawlerService {
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
         try {
-            init();
             Long postCount = holaRepository.findRecent();  //저장되어있는 Hola 사이트 글의 개수  홀라는 따로 해야된다 --> 첫글부터 긁어올거라
-//            scroll((JavascriptExecutor) driver);  //전체스크롤
+            scroll((JavascriptExecutor) driver);  //전체스크롤
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > div.main_appWrapper__3scwQ > div.main_app__2_XZu > main > ul");
@@ -65,6 +63,8 @@ public class HolaService extends CrawlerService {
                     for (int j = 1; j <= length; j++) {
                         stack.append(eachPost.select(" ul > li:nth-child(" + j + ")").text());
                         stack.append(" ");
+                        if(length==3)
+                            break;
                     }
                     String views = eachPost.select(" section > div:nth-child(2) > p").text();
                     Hola hola = new Hola(postName,content,userName,date,link,stack.toString(),views,talk);
@@ -95,6 +95,7 @@ public class HolaService extends CrawlerService {
         }
     }
 
+    @PostConstruct
     private void init() {
         Hola temp1 = new Hola("클론프로젝트 하실분 !","dd","dd","dd","dd","","null","111");
         Hola temp2 = new Hola("사이드프로젝트 그룹원을 모집합니다)","dd","dd","dd","111","dd","dd","ddd");

@@ -11,11 +11,10 @@ import Matching.SouP.crawler.okky.OkkyService;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,6 +23,7 @@ import java.util.List;
 
 
 @RequiredArgsConstructor
+@Slf4j
 @RestController
 public class CrawlerController {
     private final OkkyService okkyService;
@@ -39,6 +39,7 @@ public class CrawlerController {
         inflearnService.getInflearnPostData();
         holaService.getHolaPostData();  //잠깐보류  오래걸려서.
         campickService.getCampickPostData();
+        log.info("크롤링 종료");
     }
 
     @GetMapping("/front-projects")
