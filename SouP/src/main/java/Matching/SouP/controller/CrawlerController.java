@@ -35,14 +35,14 @@ public class CrawlerController {
     private final PostService postService;
 
 
-    @GetMapping("/crawl")
-//    @Scheduled(fixedDelay = 50000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
+//    @GetMapping("/crawl")
+    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
-//        okkyService.getOkkyPostData();
-//        inflearnService.getInflearnPostData();
+        okkyService.getOkkyPostData();
+        inflearnService.getInflearnPostData();
         holaService.getHolaPostData();  //잠깐보류  오래걸려서.
-//        campickService.getCampickPostData();
+        campickService.getCampickPostData();
         log.info("크롤링 종료");
     }
 
