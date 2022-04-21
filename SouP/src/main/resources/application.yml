@@ -14,7 +14,7 @@ spring:
     # 테스트이기 때문에 create로 설정하practice며
     # 실제로는 none 으로 합니다. create이면 기존의 테이블을 전부 밀어버립니다.
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   # 콘솔 확인 을 위한 always
   output:
     ansi:

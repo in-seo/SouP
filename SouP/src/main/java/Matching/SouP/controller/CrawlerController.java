@@ -15,10 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -34,11 +36,13 @@ public class CrawlerController {
 
 
     @GetMapping("/crawl")
+//    @Scheduled(fixedDelay = 50000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
-        okkyService.getOkkyPostData();
-        inflearnService.getInflearnPostData();
+        log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
+//        okkyService.getOkkyPostData();
+//        inflearnService.getInflearnPostData();
         holaService.getHolaPostData();  //잠깐보류  오래걸려서.
-        campickService.getCampickPostData();
+//        campickService.getCampickPostData();
         log.info("크롤링 종료");
     }
 

@@ -89,8 +89,8 @@ public class HolaService extends CrawlerService {
 
     private void scroll(JavascriptExecutor driver) throws InterruptedException {
         var stTime = new Date().getTime(); //현재시간
-        while (new Date().getTime() < stTime + 1000) { //5초 동안 무한스크롤 지속
-            Thread.sleep(300); //리소스 초과 방지
+        while (new Date().getTime() < stTime + 2000) { //5초 동안 무한스크롤 지속
+            Thread.sleep(500); //리소스 초과 방지
             driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         }
     }
@@ -102,6 +102,7 @@ public class HolaService extends CrawlerService {
         holaRepository.save(temp1);
         holaRepository.save(temp2);
     }
+
     public List<Hola> findAll(){
         return holaRepository.findAll();
     }
