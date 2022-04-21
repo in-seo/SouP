@@ -4,7 +4,6 @@ package Matching.SouP.crawler.CamPick;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.crawler.okky.Okky;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -15,8 +14,8 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -34,7 +33,6 @@ public class CampickService extends CrawlerService {
         login(driver); //로그인 수행
         driver.get(urlCampick);
         try {
-            init();
             Long lastPost = campickRepository.findRecent();  //캠픽의 마지막 크롤링 글 번호
             log.info("캠픽 크롤링 시작. {}번 부터",lastPost);
             scroll((JavascriptExecutor) driver); //무한 스크롤
@@ -56,6 +54,7 @@ public class CampickService extends CrawlerService {
                     }
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
                 }
+                String postName = eachPost.select("h2").text();
                 Document realPost = click(driver, num); //그 글 클릭 및 되돌아가기
                 Elements article = realPost.select("body > div > div > article");
                 String userName = article.select("p.profile").text();
@@ -63,14 +62,15 @@ public class CampickService extends CrawlerService {
                 date = standard(date);
                 String people = article.select("div > p:nth-child(6) > span").text();
                 String content = article.select("p.text").text();
+                content = content +"\n 캠퍼스픽 글은 로그인 없이 볼 수 없음에 원본링크를 첨부합니다. : "+link;  //캠픽 글들은 이렇게 해주자. 로그인없이 볼 수가 없음.
 
                 String talk="";
-                if(talk.isEmpty()){talk = parseTalk(content,talk);}
+                talk = parseTalk(content,talk);
 
                 StringBuilder stack=new StringBuilder();
-                stack = parseStack(content,stack);
+                stack = parseStack(postName,content,stack);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
-                String postName = eachPost.select("h2").text();
+
                 String views = eachPost.select("p.info > span:nth-child(2)").text();
                 Campick pick = new Campick(num,postName,content,userName,date,link,stack.toString(),views,talk,people,region);
                 campickRepository.save(pick);
@@ -107,7 +107,7 @@ public class CampickService extends CrawlerService {
     }
 
 
-    private void scroll(JavascriptExecutor driver) throws InterruptedException {
+    private void scroll(JavascriptExecutor driver) {
 //        var stTime = new Date().getTime(); //현재시간
 //        while (new Date().getTime() < stTime + 2500) { //5초 동안 무한스크롤 지속
 //            Thread.sleep(500); //리소스 초과 방지
@@ -115,9 +115,10 @@ public class CampickService extends CrawlerService {
 //        }  //글 120개
     }
 
+    @PostConstruct
     private void init() {
-        Campick temp1 = new Campick(204600,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","","dfa","");
-        campickRepository.save(temp1);
+        Campick temp = new Campick(205000,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","","dfa","");
+        campickRepository.save(temp);
     }
 
     public List<Campick> findAll(){

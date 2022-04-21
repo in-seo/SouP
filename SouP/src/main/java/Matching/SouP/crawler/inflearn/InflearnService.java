@@ -2,7 +2,6 @@ package Matching.SouP.crawler.inflearn;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
-import Matching.SouP.crawler.okky.Okky;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -10,6 +9,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +27,6 @@ public class InflearnService extends CrawlerService {
     }
 
     public void getInflearnPostData() throws IOException {
-        init();
         int start = recentPost();
         log.info("인프런 크롤링 시작. {}번부터",start);
         int Page = startPage(start);
@@ -35,6 +34,8 @@ public class InflearnService extends CrawlerService {
             Document doc = Jsoup.connect(urlInf + "?page=" + Page).get();  // 페이지 선택.
             for (int i = 20; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                 Elements element = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child("+i+")");
+                Elements title = element.select("a > div > div.question__info > div.question__title");
+                String postName = title.select("h3").text();
                 String link = element.select("a").attr("href");
                 String num = link.substring(9);
                 link = "https://www.inflearn.com"+link;
@@ -54,8 +55,10 @@ public class InflearnService extends CrawlerService {
                 StringBuilder stack= new StringBuilder();
                 for (int j = 1; j <= tagCount; j++) {
                     stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
+                    if(j==3)
+                        break;
                 }
-                if(stack.length()==0) stack = parseStack(content,stack);
+                if(stack.length()==0) stack = parseStack(postName,content,stack);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
                         if(talk.isEmpty()){talk = parseTalk(content,talk);}
@@ -64,8 +67,6 @@ public class InflearnService extends CrawlerService {
                 }
 
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
-                Elements title = element.select("a > div > div.question__info > div.question__title");
-                String postName = title.select("h3").text();
                         String pass = title.select("span").text();
 
                 if(pass.equals("모집완료 ")){
@@ -79,6 +80,7 @@ public class InflearnService extends CrawlerService {
             Page--;
         }
     }
+    @PostConstruct
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
         Inflearn temp = new Inflearn("505700","기준점","","","","","","");
         inflearnRepository.save(temp);

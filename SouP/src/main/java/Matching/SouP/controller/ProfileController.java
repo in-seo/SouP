@@ -50,12 +50,11 @@ public class ProfileController {
         }
 
     }
-    @PostMapping("/profile")
+    @PostMapping("/profile")  //Post요청 시
     public String profile(UserForm userForm) {
-        System.out.println("userForm = " + userForm.toString());
         User user = userRepository.findById(userForm.getId()).get();
         user.updateProfile(userForm);  //이메일이 있다면 정식멤버 승인.
-        sessionReset(user);
+        sessionReset(user); //회원등급 GUEST -> USER로 변환
         return "redirect:/";
     }
     public void sessionReset(User user){

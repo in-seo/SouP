@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface HolaRepository extends JpaRepository<Hola,Long> {
-    @Query("select MAX(h.id) from Hola h")
+    @Query("select COUNT(h) from Hola h")
     Long findRecent();
 
     @Query("select h from Hola h order by h.id DESC")
