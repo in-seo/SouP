@@ -41,8 +41,8 @@ public class CrawlerController {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
         okkyService.getOkkyPostData();
         inflearnService.getInflearnPostData();
-        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
-        campickService.getCampickPostData();
+//        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
+//        campickService.getCampickPostData();
         log.info("크롤링 종료");
     }
 
@@ -66,5 +66,13 @@ public class CrawlerController {
     public Page<Post> projects(Pageable pageable) {
         return postService.findAllDesc(pageable);
     }
+
+    @GetMapping("/projects/recent")
+    public Post recentPost(){
+        return postService.findRecentPost();
+    }
+
+    @GetMapping("/projects/hot")
+    public List<Post> hotPost() {return postService.findAllNDaysBefore(3);}
 
 }
