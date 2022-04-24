@@ -49,16 +49,16 @@ public class RestController {
     @PostMapping("/lounge/add")
     @Transactional
     public void addLounge(@LoginUser SessionUser user, @RequestBody LoungeForm form){ //댓글 추가
-//        Optional<User> User = userRepository.findByEmail(user.getEmail());
-        Lounge lounge = new Lounge(form.getContent());
-//        if(User.isPresent())
-//            lounge.setUser(User.get());
-//        else{
-            User anonymous = new User("익명", "dd", "dd", Role.USER);
-            userRepository.save(anonymous);
-            lounge.setUser(anonymous);
-//        }
-        loungeRepository.save(lounge);
+        if(user==null){
+            log.warn("라운지는 회원가입 후 이용가능");
+        }
+        else{
+            Optional<User> User = userRepository.findByEmail(user.getEmail());
+            Lounge lounge = new Lounge(form.getContent());
+            lounge.setUser(User.get());
+            loungeRepository.save(lounge);
+        }
+
     }
     @GetMapping("/lounge")
     public JSONArray showLounge(){ //댓글 추가
