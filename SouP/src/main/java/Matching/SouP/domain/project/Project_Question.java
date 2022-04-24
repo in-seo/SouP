@@ -14,11 +14,10 @@ import javax.validation.constraints.Size;
 @Entity
 @Getter @Setter
 @ToString
-@SequenceGenerator(name = "Question_SEQ_GEN",sequenceName = "Question_SEQ") //초기 값 1, 재할당 50마다
 public class Project_Question extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Question_SEQ")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Question_id")
     private Long id;
 

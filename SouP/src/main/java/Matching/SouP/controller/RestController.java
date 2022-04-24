@@ -1,60 +1,76 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.config.auth.LoginUser;
+import Matching.SouP.config.auth.dto.SessionUser;
+import Matching.SouP.domain.posts.Lounge;
+import Matching.SouP.domain.project.Project_Question;
+import Matching.SouP.domain.user.Role;
+import Matching.SouP.domain.user.User;
+import Matching.SouP.dto.LoungeForm;
+import Matching.SouP.dto.project.QuestionForm;
+import Matching.SouP.repository.LoungeRepository;
 
-
-import Matching.SouP.crawler.CamPick.Campick;
-import Matching.SouP.crawler.CamPick.CampickService;
-import Matching.SouP.crawler.Hola.Hola;
-import Matching.SouP.crawler.Hola.HolaService;
-import Matching.SouP.crawler.inflearn.Inflearn;
-import Matching.SouP.crawler.inflearn.InflearnService;
-import Matching.SouP.crawler.okky.Okky;
-import Matching.SouP.crawler.okky.OkkyService;
+import Matching.SouP.repository.QuestionRepository;
+import Matching.SouP.repository.UserRepository;
+import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.ui.Model;
+import lombok.extern.slf4j.Slf4j;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-//@org.springframework.web.bind.annotation.RestController
-//@RequiredArgsConstructor
-//public class RestController {
-//    private final OkkyService okkyService;
-//    private final InflearnService inflearnService;
-//    private final HolaService holaService;
-//    private final CampickService campickService;
-//
-//    @GetMapping("https://www.okky.kr/api/community-posts/study")
-//    public List<Okky> okky(Model model) throws IOException, InterruptedException {
-//        okkyService.getOkkyPostData();
-//        List<Okky> listOkky = okkyService.findAll();
-//
-//        return listOkky;
-//    }
-//
-//    @GetMapping("https://www.inflearn.com/api/community-posts/study")
-//    public List<Inflearn> inflearn(Model model) throws IOException, InterruptedException {
-//        inflearnService.getInflearnPostData();
-//        List<Inflearn> listInf = inflearnService.findAll();
-//
-//        return listInf;
-//    }
-//
-//    @GetMapping("https://holaworld.io/api/community-posts/study")
-//    public List<Hola> hola(Model model) throws IOException, InterruptedException {
-//        System.out.println("api 발동");
-//        holaService.getHolaPostData();
-//        List<Hola> listHola = holaService.findAll();
-//        return listHola;
-//    }
-//
-//    @GetMapping("https://www.campuspick.com/api/community-posts/study")
-//    public List<Campick> campick(Model model) throws IOException, InterruptedException {
-//        campickService.getCampickPostData();
-//        List<Campick> listCampick=  campickService.findAll();
-//
-//        return listCampick;
-//    }
-//
-//}
+
+@Slf4j
+@RequiredArgsConstructor
+@org.springframework.web.bind.annotation.RestController
+public class RestController {
+
+    private final ProjectService projectService;
+    private final UserRepository userRepository;
+    private final LoungeRepository loungeRepository;
+    private final QuestionRepository questionRepository;
+
+    @PostMapping("/project/{id}/addQuestion")
+    public void addQuestion(@PathVariable Long id, @LoginUser SessionUser user, @RequestBody QuestionForm form){ //댓글 추가
+        User presentUser = userRepository.findByEmail(user.getEmail()).get();
+        Project_Question question = new Project_Question();
+        question.setContent(form.getContent());
+        projectService.addQuestion(id, presentUser.getId(),question);
+    }
+
+    @PostMapping("/lounge/add")
+    @Transactional
+    public void addLounge(@LoginUser SessionUser user, @RequestBody LoungeForm form){ //댓글 추가
+//        Optional<User> User = userRepository.findByEmail(user.getEmail());
+        Lounge lounge = new Lounge(form.getContent());
+//        if(User.isPresent())
+//            lounge.setUser(User.get());
+//        else{
+            User anonymous = new User("익명", "dd", "dd", Role.USER);
+            userRepository.save(anonymous);
+            lounge.setUser(anonymous);
+//        }
+        loungeRepository.save(lounge);
+    }
+    @GetMapping("/lounge")
+    public JSONArray showLounge(){ //댓글 추가
+        List<Lounge> loungeList = loungeRepository.findAllDesc();
+        JSONArray arr = new JSONArray();
+        for (Lounge lounge : loungeList) {
+            JSONObject obj=new JSONObject();
+            obj.put("user",lounge.getUser().getName());
+            obj.put("content",lounge.getContent());
+            obj.put("date",lounge.getCreatedDate().toString());
+            arr.add(obj);
+        }
+        return arr;
+    }
+}
