@@ -36,7 +36,7 @@ public class CrawlerController {
 
 
 //    @GetMapping("/crawl")
-    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
+//    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
         okkyService.getOkkyPostData();

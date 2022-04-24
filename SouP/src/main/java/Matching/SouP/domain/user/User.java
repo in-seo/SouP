@@ -1,6 +1,7 @@
 package Matching.SouP.domain.user;
 
 import Matching.SouP.domain.BaseTimeEntity;
+import Matching.SouP.domain.posts.Lounge;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
@@ -50,13 +51,10 @@ public class User extends BaseTimeEntity {
     @Column
     private String portfolio; //포폴 링크
 
-    @Column
-    private int exp; //경험치  글을 보거나 댓글 달거나, 로그인 시?
-
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
     /**
@@ -64,6 +62,9 @@ public class User extends BaseTimeEntity {
      **/
     @OneToMany(mappedBy = "user")
     private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트
+
+    @OneToMany(mappedBy = "user")
+    private List<Lounge> loungeList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {
