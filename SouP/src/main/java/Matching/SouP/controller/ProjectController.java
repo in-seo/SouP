@@ -4,6 +4,7 @@ import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.project.form.*;
+import Matching.SouP.domain.user.Role;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.ProjectForm;
@@ -69,8 +70,8 @@ public class ProjectController {
     }
 
     @PostMapping("/project/edit/{id}")
-    public String updateProject(EditForm editForm, @PathVariable Long id){
-        projectService.editProject(editForm, id);
+    public String updateProject(@LoginUser User user, EditForm editForm, @PathVariable Long id){
+        projectService.editProject(user, editForm, id);
         System.out.println("수정완료");
         return "redirect:/project";
     }
@@ -118,7 +119,7 @@ public class ProjectController {
             ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
             pForm.setProject_Type(Project_Type.ETC);
             pForm.setMethod(Project_Method.PROJECT);
-            User user = new User();
+            User user = new User("샤","asjfla@gmail.com","asdfljaweifa.com", Role.USER);
             userRepository.save(user);
             projectService.tempSave(pForm,user);
         }  //필요없음

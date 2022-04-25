@@ -7,9 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectConnectRepository extends JpaRepository<ProjectConnect,Long> {
 
-    @Query("select p from ProjectInfo p where p.projectName = :projectName")
-    ProjectConnect findProjectByName(@Param("projectName") String projectName);
 
-//    @Query("select l.id from Project p join People l on p.people.id = l.id")
-//    People findPeopleListInProject(Long projectId);
+    @Query("select c from ProjectConnect c where c.projectInfo.id=:id")
+    ProjectConnect findProjectConnectByProjectInfo(Long id);
 }

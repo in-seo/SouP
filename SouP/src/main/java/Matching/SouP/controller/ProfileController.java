@@ -38,7 +38,6 @@ public class ProfileController {
             attributes.addFlashAttribute("msg","회원가입 후 이용하실 수 있습니다.");
             return "redirect:/";
         }
-
         Optional<User> User = userRepository.findByEmail(user.getEmail());
         if(User.isPresent()){
             model.addAttribute("user",User.get());

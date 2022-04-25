@@ -1,12 +1,12 @@
 package Matching.SouP.domain.posts;
 
 import Matching.SouP.domain.BaseTimeEntity;
-import Matching.SouP.domain.user.User;
 import lombok.Getter;
 import lombok.ToString;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -15,14 +15,16 @@ public class Lounge extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lounge_id")
     private Long id;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @OneToMany(mappedBy = "lounge", cascade = CascadeType.REMOVE)
+    private List<LoungeConnect> loungeConnectList = new ArrayList<>();
+
+    private int fav =0;
 
     public Lounge(String content) {
         this.content = content;
@@ -31,8 +33,10 @@ public class Lounge extends BaseTimeEntity {
     protected Lounge() {
     }
 
-    public void setUser(User user) {
-        this.user = user;
-        user.getLoungeList().add(this);
+    public void plusFav() {
+        fav++;
+    }
+    public void minusFav() {
+        if(fav>0) fav--;
     }
 }
