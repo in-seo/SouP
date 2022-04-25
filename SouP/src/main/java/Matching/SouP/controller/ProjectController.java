@@ -16,7 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -110,7 +109,7 @@ public class ProjectController {
 
     @PostConstruct
     public void init(){
-        for (int i=0; i<5; i++){
+        for (int i=1; i<2; i++){
             ProjectForm pForm = new ProjectForm();
             pForm.setName("프로젝트 "+i);
             pForm.setText("설명 : "+i);

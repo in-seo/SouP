@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class OkkyService extends CrawlerService{
-    private static String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
+    private static final String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
 
@@ -39,7 +39,7 @@ public class OkkyService extends CrawlerService{
                 if(Integer.parseInt(num)<=start){
                     Okky update = okkyRepository.findByNum(Integer.parseInt(num));
                     if(update!=null){
-                        String views = element.select("div.list-summary-wrapper.clearfix > div > ul > li:nth-child(3)").text();
+                        int views = Integer.parseInt(element.select("div.list-summary-wrapper.clearfix > div > ul > li:nth-child(3)").text());
                         update.updateViews(views);
                     }
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
@@ -65,8 +65,7 @@ public class OkkyService extends CrawlerService{
                     content = content.substring(0, 199);
                 }
 
-                String views = realPost.select("#article > div.panel.panel-default.clearfix.fa- > div.panel-heading.clearfix > div.content-identity.pull-right > div:nth-child(2)").text();
-
+                int views = Integer.parseInt(realPost.select("#article > div.panel.panel-default.clearfix.fa- > div.panel-heading.clearfix > div.content-identity.pull-right > div:nth-child(2)").text());
 
                 String userName = information.select("div > div > a").attr("title");
                 String date = information.select("div > div > div.date-created > span").text();
@@ -87,7 +86,7 @@ public class OkkyService extends CrawlerService{
 
     @PostConstruct
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1208000","임시 기준점","","","","","","122","");
+        Okky temp = new Okky("1220000","임시 기준점","","","","","",64,"");
         okkyRepository.save(temp);
     }
 

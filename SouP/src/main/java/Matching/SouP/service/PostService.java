@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.comparator.Comparators;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +26,18 @@ public class PostService{
         return postsRepository.findAllDesc();
     } //temp
 
-    public Post findRecentPost(){return postsRepository.findRecentPost(); }
+    public List<Post> findRecentPost(){
+        List<Post> allDesc = postsRepository.findAllDesc();
+        List<Post> recentPost = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            recentPost.add(allDesc.get(i));
+        }
+        return recentPost;
+    }
 
-    public List<Post> findAllNDaysBefore(long n){
-        List<Post> list = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(n).toString().substring(0,18));
-        List<Post> hotList = new ArrayList<>(Arrays.asList(list.get(0),list.get(1),list.get(2)));
+    public List<Post> findHotPost(long n){
+        List<Post> list = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
+        List<Post> hotList = new ArrayList<>(Arrays.asList(list.get(0),list.get(1),list.get(2),list.get(3),list.get(4),list.get(5),list.get(6),list.get(7)));
         return hotList;
     }
 

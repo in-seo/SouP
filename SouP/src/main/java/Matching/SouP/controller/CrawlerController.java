@@ -13,6 +13,9 @@ import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -35,8 +38,9 @@ public class CrawlerController {
     private final PostService postService;
 
 
-//    @GetMapping("/crawl")
-//    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
+    @GetMapping("/crawl")
+    @Caching(evict = { @CacheEvict("hot"), @CacheEvict(value = "recent")})
+    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
         okkyService.getOkkyPostData();
@@ -67,12 +71,14 @@ public class CrawlerController {
         return postService.findAllDesc(pageable);
     }
 
+    @Cacheable(value = "recent")
     @GetMapping("/projects/recent")
-    public Post recentPost(){
+    public List<Post> recentPost(){
         return postService.findRecentPost();
     }
 
+    @Cacheable(value = "hot")
     @GetMapping("/projects/hot")
-    public List<Post> hotPost() {return postService.findAllNDaysBefore(3);}
+    public List<Post> hotPost() {return postService.findHotPost(8);}
 
 }

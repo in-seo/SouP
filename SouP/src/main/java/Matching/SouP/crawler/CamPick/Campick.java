@@ -27,13 +27,13 @@ public class Campick {
     private String date;
     private String link;
     private String stack;
-    private String views;
+    private int views;
     private String talk; //연락 링크
     private String people;
     private String region;
     private boolean End = false;  //마감 여부
 
-    public Campick(int num, String postName, String content, String userName, String date, String link, String stack, String views,  String talk, String people, String region) {
+    public Campick(int num, String postName, String content, String userName, String date, String link, String stack, int views,  String talk, String people, String region) {
         this.num = num;
         this.postName = postName;
         this.content = content;
@@ -52,7 +52,7 @@ public class Campick {
     }
 
     @Transactional
-    public void updateViews(String views){
+    public void updateViews(int views){
         this.views = views;
     }
 

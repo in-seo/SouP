@@ -21,11 +21,11 @@ public class Hola {
     private String date;
     private String link;
     private String stack;
-    private String views;
+    private int views;
     private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 
-    public Hola(String postName, String content, String userName, String date, String link, String stack, String views,  String talk) {
+    public Hola(String postName, String content, String userName, String date, String link, String stack, int views,  String talk) {
         this.postName = postName;
         this.content = content;
         this.userName = userName;

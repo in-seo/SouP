@@ -36,7 +36,7 @@ public class ConvertToPost {
 
     public void soup(ProjectConnect projectConnect){
         ProjectInfo soup = projectConnect.getProjectInfo();
-        Post post = new Post(soup.getId(), soup.getProjectName(),soup.getText(),projectConnect.getUser().getNickName(),soup.getCreatedDate().toString().substring(0,18),soup.getLink(),soup.getStack(),"25",soup.getTalk(),Source.SOUP);
+        Post post = new Post(soup.getId(), soup.getProjectName(),soup.getText(),projectConnect.getUser().getNickName(),soup.getCreatedDate().toString().substring(0,18),soup.getLink(),soup.getStack(),25,soup.getTalk(),Source.SOUP);
         postsRepository.save(post);
     }
 }
