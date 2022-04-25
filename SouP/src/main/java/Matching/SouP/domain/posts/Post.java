@@ -27,7 +27,7 @@ public class Post {
     private String date; //글 올라온 시간
     private String link;
     private String stack;
-    private String views;
+    private int views;
     private String talk;
     private boolean end = false;
 
@@ -36,7 +36,7 @@ public class Post {
 
 
     @Builder
-    public Post(Long postId, String postName, String content, String userName, String date, String link, String stack, String views, String talk, Source source) {
+    public Post(Long postId, String postName, String content, String userName, String date, String link, String stack, int views, String talk, Source source) {
         this.postId = postId;
         this.postName = postName;
         this.content = content;

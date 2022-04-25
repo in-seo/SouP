@@ -49,7 +49,7 @@ public class CampickService extends CrawlerService {
                 if(num<=lastPost){
                     Campick update = campickRepository.findByNum(num);
                     if(update!=null){
-                        String views = eachPost.select("p.info > span:nth-child(2)").text();
+                        int views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
                         update.updateViews(views);
                     }
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
@@ -71,7 +71,7 @@ public class CampickService extends CrawlerService {
                 stack = parseStack(postName,content,stack);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
 
-                String views = eachPost.select("p.info > span:nth-child(2)").text();
+                int views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
                 Campick pick = new Campick(num,postName,content,userName,date,link,stack.toString(),views,talk,people,region);
                 campickRepository.save(pick);
                 convertToPost.campick(pick);
@@ -117,7 +117,7 @@ public class CampickService extends CrawlerService {
 
     @PostConstruct
     private void init() {
-        Campick temp = new Campick(205000,"agawega","daf","awegaw","awegaew","kdjafha","124","https://afawef","","dfa","");
+        Campick temp = new Campick(205000,"agawega","daf","awegaw","awegaew","kdjafha","124",12,"","dfa","");
         campickRepository.save(temp);
     }
 

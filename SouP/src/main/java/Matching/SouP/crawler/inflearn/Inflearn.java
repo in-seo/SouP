@@ -26,7 +26,7 @@ public class Inflearn {
     private String date;
     private String link;
     private String stack;
-    private String views="50";
+    private int views=50;
     private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 

@@ -33,6 +33,7 @@ dependencies {
 	implementation 'com.h2database:h2'  //이거랑 이 밑에줄이 있어야 디비없이 구동 가능
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'mysql:mysql-connector-java'
+	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.2'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.1.1'
