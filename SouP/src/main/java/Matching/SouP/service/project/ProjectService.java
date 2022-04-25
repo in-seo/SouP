@@ -1,6 +1,7 @@
 package Matching.SouP.service.project;
 
 
+import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.ProjectInfo;
@@ -27,11 +28,6 @@ public class ProjectService {
     private final QuestionRepository questionRepository;
     private final ConvertToPost convertToPost;
 
-    @Transactional
-    public ProjectConnect addConnect(ProjectConnect connect, User user){  //임시 저장한 프로젝트 검수 완료 후 회원 연결.
-        connect.setUser(user);   //인원 연결
-        return connect;
-    }
 
     @Transactional
     public Long tempSave(ProjectForm pForm, User user){  //프로젝트정보 임시저장, 사람과 연결 전
@@ -59,17 +55,22 @@ public class ProjectService {
     }
 
     @Transactional
-    public ProjectInfo editProject(EditForm editForm,Long id){
+    public ProjectInfo editProject(@LoginUser User user,EditForm editForm, Long id ){
         Optional<ProjectInfo> byId = projectInfoRepository.findById(id);
         if(byId.isPresent()) {
             ProjectInfo edit = byId.get();
+            ProjectConnect connect = projectConnectRepository.findProjectConnectByProjectInfo(edit.getId());
+
+            if(connect.getUser().getEmail()!=user.getEmail())
+                return edit;  //수정 불가
+
             edit.setProjectName(editForm.getProjectName());edit.setText(editForm.getText());
             edit.setStack(editForm.getStack()); edit.setLink(editForm.getData());
             return edit;
         } else{
             log.error("해당 게시글이 없습니다. id="+ id);
-            return byId.get();
         }
+        return byId.get();
     }
 
     @Transactional
@@ -96,10 +97,6 @@ public class ProjectService {
         return projectInfoRepository.findAllDesc();//.stream().map(ProjectInfo-> new ProjectInfo(ProjectInfo)).collect(Collectors.toList()); //람다;;
     }
 
-    @Transactional(readOnly = true)
-    public ProjectConnect findProjectByName(String ProjectName){
-        return projectConnectRepository.findProjectByName(ProjectName);
-    }
 
     public Optional<ProjectInfo> findById(Long id){
         return projectInfoRepository.findById(id);

@@ -2,6 +2,7 @@ package Matching.SouP.domain.user;
 
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.posts.Lounge;
+import Matching.SouP.domain.posts.LoungeConnect;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
@@ -26,9 +27,6 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "User_SEQ")
     @Column(name = "user_id")
     private Long id;
-
-//    @Column(unique = true, nullable = false)
-//    private String oAuth2Id;
 
     @Column
     private String name;
@@ -63,8 +61,8 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트
 
-    @OneToMany(mappedBy = "user")
-    private List<Lounge> loungeList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

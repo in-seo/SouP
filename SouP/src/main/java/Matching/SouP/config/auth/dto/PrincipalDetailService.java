@@ -37,22 +37,4 @@ public class PrincipalDetailService  implements UserDetailsService {
         return result;
     }
 
-
-    //커스텀 로그인 방법  :  UserDetails 상속받은  PrincipalDetails  생성후 로그인 처리 방법
-    /*
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User principal=userRepository.findByUsername(username).orElseThrow(()->{
-            return new UsernameNotFoundException("해당 사용자를 찾을 수 없습니다. :" + username);
-        });
-
-
-        if(principal == null) {
-            return null;
-        }
-        return new PrincipalDetails(principal);
-    }
-
-    */
-
 }
