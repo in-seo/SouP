@@ -18,7 +18,6 @@ import java.util.List;
 
 
 @Getter
-@NoArgsConstructor
 @Entity @ToString
 @SequenceGenerator(name = "User_SEQ_GEN",sequenceName = "User_SEQ")
 public class User extends BaseTimeEntity {
@@ -52,7 +51,7 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user") //eager 뺴도 될듯!
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
     /**
@@ -70,6 +69,9 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.picture = picture;
         this.role = role;
+    }
+
+    protected User() {
     }
 
     public User update(String name, String picture){

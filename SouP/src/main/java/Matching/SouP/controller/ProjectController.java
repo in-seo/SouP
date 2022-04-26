@@ -2,126 +2,90 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
-import Matching.SouP.domain.project.ProjectInfo;
-import Matching.SouP.domain.project.form.*;
-import Matching.SouP.domain.user.Role;
 import Matching.SouP.domain.user.User;
-import Matching.SouP.dto.project.EditForm;
-import Matching.SouP.dto.project.ProjectForm;
+import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.json.simple.JSONObject;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 public class ProjectController {
     private final ProjectService projectService;
     private final UserRepository userRepository;
 
-    @GetMapping("/project")
-    public String project(Model model, @LoginUser SessionUser user){
-        List<ProjectInfo> all = projectService.findAllDesc();
-        model.addAttribute("p",all);
-        if(user != null){
-            model.addAttribute("userName", user.getName());
-        }
 
-        return "project";
-    }
-
-    @GetMapping("/buildProject")
-    public String addProject(Model model) {
-        model.addAttribute("PForm", new ProjectForm());
-        log.info("Project controller");
-        return "buildProject";
-    }
-
-    @PostMapping("/buildProject")
-    public String saveProject(ProjectForm pForm, @LoginUser SessionUser user){
+    @PostMapping("/project/build")
+    public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm){
         Optional<User> User = userRepository.findByEmail(user.getEmail());
+        JSONObject obj = new JSONObject();
         if(User.isPresent()){
             Long temp = projectService.tempSave(pForm,User.get());//왜 temp 냐면  사람과 연결을 안해서.
-            System.out.println(projectService.findById(temp).get().toString());
+            obj.put("success", true);
         }
-        else
-            System.out.println("존재하지 않는 회원이 게시글을 올리고 있습니다.");
-        System.out.println(User.get().toString());
-        return "redirect:/";
-    }
-
-
-    @GetMapping("/project/edit/{id}")
-    public String Edit(@PathVariable Long id, Model model){
-        model.addAttribute("EditForm", new EditForm());
-        ProjectInfo oldProject = projectService.findById(id).get();
-        model.addAttribute("old",oldProject);
-        log.info("Edit Controller");
-        return "editProject";
-    }
-
-    @PostMapping("/project/edit/{id}")
-    public String updateProject(@LoginUser User user, EditForm editForm, @PathVariable Long id){
-        projectService.editProject(user, editForm, id);
-        System.out.println("수정완료");
-        return "redirect:/project";
-    }
-
-    @PostMapping("/project/delete/{id}")
-    public String delete(@PathVariable Long id){
-        projectService.deleteProject(id);
-        log.info("delete Controller");
-        return "redirect:/project"; //리다이렉트
-    }
-
-
-    @GetMapping("/projectList")
-    public String ProjectList(Model model){
-        List<ProjectInfo> tempList = projectService.tempFindList();
-        model.addAttribute("projectList",tempList);
-        return "projectList";
-    }
-
-
-    @ModelAttribute("methods")
-    public Project_Method[] project_Method(){
-        return Project_Method.values();
-    } //프로젝트인지 스터디인지 체크할 때 사용
-
-    @ModelAttribute("projectTypes")
-    public List<Project_Type> project_type(){
-        List<Project_Type> list = new ArrayList<>();
-        for (Project_Type value : Project_Type.values()) {
-            list.add(value);
+        else{
+            log.warn("존재하지 않는 회원이 게시글을 올리고 있습니다.");
+            obj.put("success", false);
         }
-        return list;
-    } //프로젝트 유형 선택시 사용
-
-
-
-    @PostConstruct
-    public void init(){
-        for (int i=1; i<2; i++){
-            ProjectForm pForm = new ProjectForm();
-            pForm.setName("프로젝트 "+i);
-            pForm.setText("설명 : "+i);
-            pForm.setStack("보유 기술:xxx"+i*10);
-            pForm.setLink("agowaenawio"+i);
-            ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
-            pForm.setProject_Type(Project_Type.ETC);
-            pForm.setMethod(Project_Method.PROJECT);
-            User user = new User("샤","asjfla@gmail.com","asdfljaweifa.com", Role.USER);
-            userRepository.save(user);
-            projectService.tempSave(pForm,user);
-        }  //필요없음
+        return obj;
     }
+
+
+    @PostMapping("/project/fav")  //스크랩은 project_Connect 에 있는 거 긁어오면됌
+    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.fav(User, form);
+    }
+
+
+//    @PostMapping("/project/edit/{id}")
+//    public String updateProject(@LoginUser SessionUser user, EditForm editForm, @PathVariable Long id){
+//        projectService.editProject(user, editForm, id);
+//        System.out.println("수정완료");
+//        return "redirect:/project";
+//    }
+//
+//    @PostMapping("/project/delete/{id}")
+//    public String delete(@PathVariable Long id){
+//        projectService.deleteProject(id);
+//        log.info("delete Controller");
+//        return "redirect:/project"; //리다이렉트
+//    }
+//
+//
+//    @GetMapping("/projectList")
+//    public String ProjectList(Model model){
+//        List<ProjectInfo> tempList = projectService.tempFindList();
+//        model.addAttribute("projectList",tempList);
+//        return "projectList";
+//    }
+
+
+
+//
+//    @PostConstruct
+//    public void init(){
+//        for (int i=1; i<2; i++){
+//            PostForm pForm = new PostForm();
+//            pForm.setName("프로젝트 "+i);
+//            pForm.setText("설명 : "+i);
+//            pForm.setStack("보유 기술:xxx"+i*10);
+//            pForm.setLink("agowaenawio"+i);
+//            ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
+//            pForm.setProject_Type(Project_Type.ETC);
+//            pForm.setMethod(Project_Method.PROJECT);
+//            User user = new User("샤","asjfla@gmail.com","asdfljaweifa.com", Role.USER);
+//            userRepository.save(user);
+//            projectService.tempSave(pForm,user);
+//        }  //필요없음
+//    }
 }

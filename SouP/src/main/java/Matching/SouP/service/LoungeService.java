@@ -62,31 +62,30 @@ public class LoungeService {
             return obj;
     }
 
-    @PostMapping("/fav")
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean userCheck=true;
         List<LoungeConnect> loungeList = loungeConnectRepository.findByLoungeId(form.getId());
         for (LoungeConnect connect : loungeList) {
-            System.out.println(connect.getUser().getId()+"번 유저 라운지이기에 좋아요 불가");
             if(connect.getUser().getId()==user.getId()){
+                log.warn("이미 누른 회원이거나 작성자입니다.");
                 userCheck=false;
                 break;
             }
         }
-        System.out.println("userCheck = " + userCheck);
+        Lounge lounge = loungeRepository.findById(form.getId()).orElseThrow();
         if (form.isMode() && userCheck){
-            loungeList.get(0).getLounge().plusFav();
-            LoungeConnect connect = LoungeConnect.createConnect(loungeList.get(0).getLounge(), user);
+            lounge.plusFav();
+            LoungeConnect connect = LoungeConnect.createConnect(lounge, user);
             loungeConnectRepository.save(connect);
             obj.put("success",true);
         }
         else if(!form.isMode() && !userCheck){
-            loungeList.get(0).getLounge().minusFav();
-            List<LoungeConnect> list = loungeConnectRepository.findByLoungeId(form.getId());
-            for (LoungeConnect connect : list) {
+            lounge.minusFav();
+            for (LoungeConnect connect : loungeList) {
                 if(connect.getUser().getId()==user.getId()){
                     loungeConnectRepository.delete(connect);
+                    break;
                 }
             }
 

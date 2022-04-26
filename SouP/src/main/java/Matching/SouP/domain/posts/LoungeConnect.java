@@ -1,11 +1,8 @@
 package Matching.SouP.domain.posts;
 
 import Matching.SouP.domain.BaseTimeEntity;
-
-import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
