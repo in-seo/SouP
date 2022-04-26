@@ -3,7 +3,6 @@ package Matching.SouP.config.auth.dto;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,7 +22,7 @@ public class PrincipalDetailService  implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//이메일경우 예
+
       User principal=userRepository.findByEmail(email).get();
       if(principal==null){
               throw new UsernameNotFoundException(email);

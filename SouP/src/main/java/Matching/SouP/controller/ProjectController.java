@@ -36,6 +36,7 @@ public class ProjectController {
             log.warn("존재하지 않는 회원이 게시글을 올리고 있습니다.");
             obj.put("success", false);
         }
+        obj.put("user",User.get());
         return obj;
     }
 
