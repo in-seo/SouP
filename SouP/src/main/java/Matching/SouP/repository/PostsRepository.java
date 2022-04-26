@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -24,5 +25,8 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
 
     @Query("select p from Post p where p.date>:date order by p.views desc")
     List<Post> findAllNDaysBefore(String date);
+
+
+
 
 }

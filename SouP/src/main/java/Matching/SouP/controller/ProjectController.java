@@ -2,9 +2,11 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
+import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -22,6 +26,8 @@ import java.util.Optional;
 public class ProjectController {
     private final ProjectService projectService;
     private final UserRepository userRepository;
+    private final PostsRepository postsRepository;
+    private final EntityManager em;
 
 
     @PostMapping("/project/build")
@@ -47,14 +53,40 @@ public class ProjectController {
         return projectService.fav(User, form);
     }
 
+    @Transactional
+    @RequestMapping("/projects/query")
+    public List<Post> arrange(@RequestParam(required = false,defaultValue = "") List<String> stacks){
+        String str="select p from Post p where ";
+        System.out.println(stacks.size());
+        for (String stack : stacks) {
+            System.out.print(stack+"  ");
+        }
+        if(stacks.size()==1){
+            str += "p.stack like '%"+stacks.get(0)+"%'";
+        }
+        else if(stacks.size()==2){
+            str += "p.stack like '%"+stacks.get(0)+"%' and p.stack like '%"+stacks.get(1)+"%'";  //p.stack like '%spring%' and p.stack like '%react%'
+        }
+        else if(stacks.size()==3){
+            str += "p.stack like '%"+stacks.get(0)+"%' and p.stack like '%"+stacks.get(1)+"%' and p.stack like '%"+stacks.get(2)+"%'"; //p.stack like '%spring%' and p.stack like '%react%' and p.stack like '%js%'
+        }
+        else{
+            System.out.println("오류");
+            str="select p from Post p";
+        }
+        str+=" order by p.date desc";
+        System.out.println(str);
+        return em.createQuery(str, Post.class).getResultList();
+    }
 
-//    @PostMapping("/project/edit/{id}")
-//    public String updateProject(@LoginUser SessionUser user, EditForm editForm, @PathVariable Long id){
+
+//    @PostMapping("/project/edit")
+//    public String updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
 //        projectService.editProject(user, editForm, id);
 //        System.out.println("수정완료");
 //        return "redirect:/project";
 //    }
-//
+
 //    @PostMapping("/project/delete/{id}")
 //    public String delete(@PathVariable Long id){
 //        projectService.deleteProject(id);

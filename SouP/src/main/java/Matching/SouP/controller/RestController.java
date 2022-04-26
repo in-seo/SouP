@@ -2,11 +2,9 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
-import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
-import Matching.SouP.dto.project.QuestionForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
 import Matching.SouP.service.project.ProjectService;
@@ -17,7 +15,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -44,16 +41,19 @@ public class RestController {
     @GetMapping("/auth")
     public JSONObject showAuth(@LoginUser SessionUser user){
         JSONObject obj = new JSONObject();
-        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
-        if(optionalUser.isPresent()){
-            User User = optionalUser.get();
-            obj.put("success",true);
-            obj.put("nickname",User.getNickName());
-            obj.put("profileImage",User.getPicture());
-        }
-        else
+        try{
+            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+            if(optionalUser.isPresent()){
+                User User = optionalUser.get();
+                obj.put("success",true);
+                obj.put("nickname",User.getNickName());
+                obj.put("profileImage",User.getPicture());
+            }
+        }catch (NullPointerException e){
             obj.put("success",false);
-        return obj;
+        }finally {
+            return obj;
+        }
     }
 
     @GetMapping("/lounge")
