@@ -41,10 +41,10 @@ public class Post {
     @Enumerated(value = EnumType.STRING)
     private Source source;  //ex) okky, inflearn, ...
 
-    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
 
