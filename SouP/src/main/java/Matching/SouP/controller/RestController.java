@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Optional;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +40,21 @@ public class RestController {
 //        question.setContent(form.getContent());
 //        projectService.addQuestion(id, presentUser.getId(),question);
 //    }
+
+    @GetMapping("/auth")
+    public JSONObject showAuth(@LoginUser SessionUser user){
+        JSONObject obj = new JSONObject();
+        Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+        if(optionalUser.isPresent()){
+            User User = optionalUser.get();
+            obj.put("success",true);
+            obj.put("nickname",User.getNickName());
+            obj.put("profileImage",User.getPicture());
+        }
+        else
+            obj.put("success",false);
+        return obj;
+    }
 
     @GetMapping("/lounge")
     public JSONArray showLounge(){   //라운지 보여주기
