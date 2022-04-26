@@ -1,7 +1,5 @@
 package Matching.SouP.crawler.CamPick;
 
-import Matching.SouP.crawler.okky.Okky;
-import Matching.SouP.domain.project.ProjectInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

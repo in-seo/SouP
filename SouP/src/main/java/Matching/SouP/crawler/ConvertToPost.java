@@ -6,8 +6,6 @@ import Matching.SouP.crawler.inflearn.Inflearn;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.posts.Source;
-import Matching.SouP.domain.project.ProjectConnect;
-import Matching.SouP.domain.project.ProjectInfo;
 import Matching.SouP.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,9 +32,7 @@ public class ConvertToPost {
         postsRepository.save(post);
     }
 
-    public void soup(ProjectConnect projectConnect){
-        ProjectInfo soup = projectConnect.getProjectInfo();
-        Post post = new Post(soup.getId(), soup.getProjectName(),soup.getText(),projectConnect.getUser().getNickName(),soup.getCreatedDate().toString().substring(0,18),soup.getLink(),soup.getStack(),25,soup.getTalk(),Source.SOUP);
+    public void soup(Post post){
         postsRepository.save(post);
     }
 }

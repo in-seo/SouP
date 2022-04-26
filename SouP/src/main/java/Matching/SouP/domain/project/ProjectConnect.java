@@ -2,9 +2,11 @@ package Matching.SouP.domain.project;
 
 import Matching.SouP.domain.BaseTimeEntity;
 
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
@@ -23,25 +25,24 @@ public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 
     private User user;
 
     @ManyToOne
-    @JoinColumn(name="projectInfo_id")
-    private ProjectInfo projectInfo;
+    @JoinColumn(name="post_id")
+    private Post post;
 
-    public static ProjectConnect createConnect(ProjectInfo info, Matching.SouP.domain.user.User user){  //생성메서드
-        ProjectConnect connect = new ProjectConnect();
-        connect.setProjectInfo(info);
-        connect.setUser(user);
-        return connect;
+    @Transactional
+    public ProjectConnect createConnect(Post post, User user){  //생성메서드
+        setPost(post);
+        setUser(user);
+        return this;
     }
 
 
-    public void setProjectInfo(ProjectInfo projectInfo){
-        this.projectInfo =projectInfo;
-        projectInfo.getProjectConnectList().add(this);
+    public void setPost(Post post){
+        this.post=post;
+        post.getProjectConnectList().add(this);
     }
 
-    public void setUser(User user){
+    public void setUser(User user){ //나중에하자
         this.user=user;
-        user.getProjectConnectList().add(this);
     }
 
 

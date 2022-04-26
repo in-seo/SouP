@@ -31,13 +31,13 @@ public class RestController {
     private final UserRepository userRepository;
     private final LoungeService loungeService;
 
-    @PostMapping("/project/{id}/addQuestion")
-    public void addQuestion(@PathVariable Long id, @LoginUser SessionUser user, @RequestBody QuestionForm form){ //댓글 추가
-        User presentUser = userRepository.findByEmail(user.getEmail()).get();
-        Project_Question question = new Project_Question();
-        question.setContent(form.getContent());
-        projectService.addQuestion(id, presentUser.getId(),question);
-    }
+//    @PostMapping("/project/{id}/addQuestion")
+//    public void addQuestion(@PathVariable Long id, @LoginUser SessionUser user, @RequestBody QuestionForm form){ //댓글 추가
+//        User presentUser = userRepository.findByEmail(user.getEmail()).get();
+//        Project_Question question = new Project_Question();
+//        question.setContent(form.getContent());
+//        projectService.addQuestion(id, presentUser.getId(),question);
+//    }
 
     @GetMapping("/lounge")
     public JSONArray showLounge(){   //라운지 보여주기
@@ -53,7 +53,7 @@ public class RestController {
     }
 
     @Transactional
-    @PostMapping("/fav")
+    @PostMapping("/lounge/fav")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         System.out.println("user.getEmail() = " + user.getEmail());
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();

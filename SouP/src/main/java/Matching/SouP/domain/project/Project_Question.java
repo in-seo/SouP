@@ -1,6 +1,7 @@
 package Matching.SouP.domain.project;
 
 import Matching.SouP.domain.BaseTimeEntity;
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import com.sun.istack.NotNull;
 import lombok.Getter;
@@ -32,16 +33,16 @@ public class Project_Question extends BaseTimeEntity {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "projectInfo_id")
-    private ProjectInfo projectInfo;
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     public void setUser(User user){
         this.user = user;
         user.getQuestionList().add(this);
     }
 
-    public void setProjectInfo(ProjectInfo projectInfo){
-        this.projectInfo = projectInfo;
-        projectInfo.getQuestionList().add(this);
+    public void setPost(Post post){
+        this.post= post;
+        post.getQuestionList().add(this);
     }
 }
