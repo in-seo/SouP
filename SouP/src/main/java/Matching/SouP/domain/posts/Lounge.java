@@ -21,7 +21,7 @@ public class Lounge extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "lounge", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "lounge", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
     private int fav =0;
