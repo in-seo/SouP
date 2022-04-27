@@ -43,6 +43,7 @@ public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 
 
     public void setUser(User user){ //나중에하자
         this.user=user;
+        user.getProjectConnectList().add(this);
     }
 
 

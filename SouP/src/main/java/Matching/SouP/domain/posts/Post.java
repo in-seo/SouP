@@ -8,7 +8,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity @ToString
@@ -41,10 +43,10 @@ public class Post {
     @Enumerated(value = EnumType.STRING)
     private Source source;  //ex) okky, inflearn, ...
 
-    @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-    private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
+    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<ProjectConnect> projectConnectList = new LinkedHashSet<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
 

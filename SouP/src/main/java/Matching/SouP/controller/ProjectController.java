@@ -57,7 +57,7 @@ public class ProjectController {
     @Transactional
     @RequestMapping("/projects/query")
     public List<Post> arrange(@RequestParam(required = false,defaultValue = "") List<String> stacks){
-        String str="select p from Post p join fetch p.projectConnectList join fetch p.questionList where ";
+        String str="select p from Post p where ";
         System.out.println(stacks.size());
         if(stacks.size()==1){
             str += "p.stack like '%"+stacks.get(0)+"%'";
