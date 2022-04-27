@@ -12,6 +12,7 @@ import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,11 +57,8 @@ public class ProjectController {
     @Transactional
     @RequestMapping("/projects/query")
     public List<Post> arrange(@RequestParam(required = false,defaultValue = "") List<String> stacks){
-        String str="select p from Post p where ";
+        String str="select p from Post p join fetch p.projectConnectList join fetch p.questionList where ";
         System.out.println(stacks.size());
-        for (String stack : stacks) {
-            System.out.print(stack+"  ");
-        }
         if(stacks.size()==1){
             str += "p.stack like '%"+stacks.get(0)+"%'";
         }
@@ -78,7 +76,6 @@ public class ProjectController {
         System.out.println(str);
         return em.createQuery(str, Post.class).getResultList();
     }
-
 
 //    @PostMapping("/project/edit")
 //    public String updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
