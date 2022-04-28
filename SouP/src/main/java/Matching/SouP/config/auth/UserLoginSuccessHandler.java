@@ -16,14 +16,7 @@ import java.io.IOException;
 public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println(cookie.getName());
-            System.out.println(cookie.getValue());
-            System.out.println(cookie.getComment());
-            System.out.println(cookie.getMaxAge());
-        }
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
 //        response.sendRedirect("/profile");
         response.sendRedirect("http://localhost:3000/api/login-redirect");
     }

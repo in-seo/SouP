@@ -38,6 +38,7 @@ public class LoungeService {
             obj.put("content",lounge.getLounge().getContent());
             obj.put("date",lounge.getCreatedDate().toString());
             obj.put("fav",lounge.getLounge().getFav());
+            obj.put("id",lounge.getLounge().getId());
             arr.add(obj);
         }
         return arr;
@@ -52,6 +53,7 @@ public class LoungeService {
                 Lounge lounge = new Lounge(form.getContent());
                 loungeRepository.save(lounge);
                 LoungeConnect connect = LoungeConnect.createConnect(lounge, currentUser);
+                user.getLoungeConnectList().add(connect);
                 loungeConnectRepository.save(connect);
                 obj.put("success",true);
             }
@@ -64,35 +66,49 @@ public class LoungeService {
 
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
-        boolean userCheck=true;
+        boolean isfav=false;
+
+        List<LoungeConnect> userLoungeConnectList = user.getLoungeConnectList();
+        for (LoungeConnect connect : userLoungeConnectList) {
+            if(user.getLoungeConnectList().contains(connect)){
+                log.warn("글 작성자입니다.");
+                isfav=false;
+                obj.put("success",false);
+                obj.put("isfav",isfav);
+                return obj;
+            }
+        }
+
         List<LoungeConnect> loungeList = loungeConnectRepository.findByLoungeId(form.getId());
         for (LoungeConnect connect : loungeList) {
             if(connect.getUser().getId()==user.getId()){
-                log.warn("이미 누른 회원이거나 작성자입니다.");
-                userCheck=false;
+                log.warn("이미 누른 회원입니다.");
+                isfav=true;
                 break;
             }
         }
         Lounge lounge = loungeRepository.findById(form.getId()).orElseThrow();
-        if (form.isMode() && userCheck){
+        if (form.isMode() && !isfav){
             lounge.plusFav();
             LoungeConnect connect = LoungeConnect.createConnect(lounge, user);
             loungeConnectRepository.save(connect);
+            isfav=true;
             obj.put("success",true);
         }
-        else if(!form.isMode() && !userCheck){
+        else if(!form.isMode() && isfav){
             lounge.minusFav();
             for (LoungeConnect connect : loungeList) {
                 if(connect.getUser().getId()==user.getId()){
                     loungeConnectRepository.delete(connect);
+                    isfav=false;
                     break;
                 }
             }
-
             obj.put("success",true);
         }
         else
             obj.put("success",false);
+        obj.put("isfav",isfav);
         return obj;
     }
 }

@@ -50,7 +50,7 @@ public class RestController {
             if(optionalUser.isPresent()){
                 User User = optionalUser.get();
                 obj.put("success",true);
-                obj.put("nickname",User.getNickName());
+                obj.put("username",User.getName());
                 obj.put("profileImage",User.getPicture());
             }
         }catch (NullPointerException e){
@@ -75,7 +75,6 @@ public class RestController {
     @Transactional
     @PostMapping("/lounge/fav")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
-        System.out.println("user.getEmail() = " + user.getEmail());
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return loungeService.fav(User, form);
     }
