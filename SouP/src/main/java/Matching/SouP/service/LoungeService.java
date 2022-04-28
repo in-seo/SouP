@@ -28,18 +28,23 @@ public class LoungeService {
     private final LoungeConnectRepository loungeConnectRepository;
     private final UserRepository userRepository;
 
-    public JSONArray showLounge(){   //라운지 보여주기
+    public JSONArray showLounge(User user){   //라운지 보여주기
         List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
         JSONArray arr = new JSONArray();
-        for (LoungeConnect lounge : loungeList) {
+        for (LoungeConnect connect : loungeList) {
             JSONObject obj=new JSONObject();
-            obj.put("user_id",lounge.getUser().getId());
-            obj.put("user",lounge.getUser().getName());
-            obj.put("picture",lounge.getUser().getPicture());
-            obj.put("content",lounge.getLounge().getContent());
-            obj.put("date",lounge.getCreatedDate().toString());
-            obj.put("fav",lounge.getLounge().getFav());
-            obj.put("lounge_id",lounge.getLounge().getId());
+            obj.put("user_id",connect.getUser().getId());
+            obj.put("user",connect.getUser().getName());
+            obj.put("picture",connect.getUser().getPicture());
+            obj.put("content",connect.getLounge().getContent());
+            obj.put("date",connect.getCreatedDate().toString());
+            obj.put("fav",connect.getLounge().getFav());
+            obj.put("lounge_id",connect.getLounge().getId());
+            if(user.getLoungeConnectList().contains(connect)){
+                obj.put("isfav",true);
+            }
+            else
+                obj.put("isfav",false);
             arr.add(obj);
         }
         return arr;

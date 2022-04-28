@@ -2,33 +2,29 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
+import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
-import Matching.SouP.exception.NoUserException;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 
 @Slf4j
 @RequiredArgsConstructor
-@org.springframework.web.bind.annotation.RestController
-public class RestController {
+@RestController
+public class apiController {
 
     private final ProjectService projectService;
     private final UserRepository userRepository;
@@ -61,8 +57,9 @@ public class RestController {
     }
 
     @GetMapping("/lounge")
-    public JSONArray showLounge(){   //라운지 보여주기
-        return loungeService.showLounge();
+    public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return loungeService.showLounge(User);
     }
 
     @Transactional
@@ -77,6 +74,17 @@ public class RestController {
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return loungeService.fav(User, form);
+    }
+
+
+
+    @ExceptionHandler(NullPointerException.class)
+    protected ErrorResponse handleException1() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
+    }
+    @ExceptionHandler(NoSuchElementException.class)
+    protected ErrorResponse handleException2() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
     }
 
 }

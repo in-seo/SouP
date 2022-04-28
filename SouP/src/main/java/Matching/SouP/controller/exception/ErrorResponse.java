@@ -1,4 +1,4 @@
-package Matching.SouP.exception;
+package Matching.SouP.controller.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
