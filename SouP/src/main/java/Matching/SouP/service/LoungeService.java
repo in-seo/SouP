@@ -33,12 +33,13 @@ public class LoungeService {
         JSONArray arr = new JSONArray();
         for (LoungeConnect lounge : loungeList) {
             JSONObject obj=new JSONObject();
+            obj.put("user_id",lounge.getUser().getId());
             obj.put("user",lounge.getUser().getName());
             obj.put("picture",lounge.getUser().getPicture());
             obj.put("content",lounge.getLounge().getContent());
             obj.put("date",lounge.getCreatedDate().toString());
             obj.put("fav",lounge.getLounge().getFav());
-            obj.put("id",lounge.getLounge().getId());
+            obj.put("lounge_id",lounge.getLounge().getId());
             arr.add(obj);
         }
         return arr;
