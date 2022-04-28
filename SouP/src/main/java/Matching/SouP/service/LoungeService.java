@@ -32,6 +32,7 @@ public class LoungeService {
         List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
         JSONArray arr = new JSONArray();
         for (LoungeConnect connect : loungeList) {
+            boolean br = true;
             JSONObject obj=new JSONObject();
             obj.put("user_id",connect.getUser().getId());
             obj.put("user",connect.getUser().getName());
@@ -39,17 +40,26 @@ public class LoungeService {
             obj.put("content",connect.getLounge().getContent());
             obj.put("date",connect.getCreatedDate().toString());
             obj.put("fav",connect.getLounge().getFav());
-            obj.put("lounge_id",connect.getLounge().getId());
-            if(user.getLoungeConnectList().contains(connect)){
+            Long loungeId = connect.getLounge().getId();
+            obj.put("lounge_id",loungeId);
+            if(connect.getUser().getId()==user.getId()){
                 obj.put("isfav",true);
             }
-            else
+            List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(loungeId);
+            for (LoungeConnect loungeConnect : byLoungeId) {
+                if(loungeConnect.getUser().getId()== user.getId()) {
+                    obj.put("isfav", true);
+                    br=false;
+                }
+            }
+            if(br)
                 obj.put("isfav",false);
             arr.add(obj);
         }
         return arr;
     }
 
+    @Transactional
     @PostMapping("/lounge/add")
     public JSONObject addLounge(User user, @RequestBody LoungeForm form){  //라운지에 글 게시시 post로 요청받고 하는 일
             JSONObject obj = new JSONObject();
@@ -58,8 +68,9 @@ public class LoungeService {
                 User currentUser = User.get();
                 Lounge lounge = new Lounge(form.getContent());
                 loungeRepository.save(lounge);
-                LoungeConnect connect = LoungeConnect.createConnect(lounge, currentUser);
-                user.getLoungeConnectList().add(connect);
+                LoungeConnect connect = LoungeConnect.createConnect(lounge, currentUser);  //라운지와 유저 연결
+                user.getLoungeConnectList().add(connect);  //유저에게 작성자 권한 부여.
+//                lounge.getLoungeConnectList().add(connect); //라운지
                 loungeConnectRepository.save(connect);
                 obj.put("success",true);
             }
@@ -70,21 +81,23 @@ public class LoungeService {
             return obj;
     }
 
+    @Transactional
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
 
+        LoungeConnect author = loungeConnectRepository.findByLoungeId(form.getId()).get(0);  //첫번쨰 사람이 작성자이다.
         List<LoungeConnect> userLoungeConnectList = user.getLoungeConnectList();
+        System.out.println("author.getUser().getId() = " + author.getUser().getId());
         for (LoungeConnect connect : userLoungeConnectList) {
-            if(user.getLoungeConnectList().contains(connect)){
+            System.out.println("connect.getUser().getId() = " + connect.getUser().getId());
+            if(connect.getUser().getId()==author.getUser().getId()) {
                 log.warn("글 작성자입니다.");
-                isfav=false;
-                obj.put("success",false);
-                obj.put("isfav",isfav);
+                obj.put("success", false);
+                obj.put("isfav", true);
                 return obj;
             }
         }
-
         List<LoungeConnect> loungeList = loungeConnectRepository.findByLoungeId(form.getId());
         for (LoungeConnect connect : loungeList) {
             if(connect.getUser().getId()==user.getId()){
@@ -93,10 +106,12 @@ public class LoungeService {
                 break;
             }
         }
+
         Lounge lounge = loungeRepository.findById(form.getId()).orElseThrow();
         if (form.isMode() && !isfav){
             lounge.plusFav();
             LoungeConnect connect = LoungeConnect.createConnect(lounge, user);
+            lounge.getLoungeConnectList().add(connect);
             loungeConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);

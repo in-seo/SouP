@@ -62,14 +62,14 @@ public class apiController {
         return loungeService.showLounge(User);
     }
 
-    @Transactional
+
     @PostMapping("/lounge/add")
     public JSONObject addLounge(@LoginUser SessionUser user, @RequestBody LoungeForm form){  //라운지에 글 게시시 post로 요청받고 하는 일
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return loungeService.addLounge(User, form);
     }
 
-    @Transactional
+
     @PostMapping("/lounge/fav")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
