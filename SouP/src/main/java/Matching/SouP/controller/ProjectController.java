@@ -58,7 +58,6 @@ public class ProjectController {
     @RequestMapping("/projects/query")
     public List<Post> arrange(@RequestParam(required = false,defaultValue = "") List<String> stacks){
         String str="select p from Post p where ";
-        System.out.println(stacks.size());
         if(stacks.size()==1){
             str += "p.stack like '%"+stacks.get(0)+"%'";
         }
@@ -69,11 +68,10 @@ public class ProjectController {
             str += "p.stack like '%"+stacks.get(0)+"%' and p.stack like '%"+stacks.get(1)+"%' and p.stack like '%"+stacks.get(2)+"%'"; //p.stack like '%spring%' and p.stack like '%react%' and p.stack like '%js%'
         }
         else{
-            System.out.println("오류");
+            log.warn("쿼리사이즈가 {}임, 잘못된 요청",stacks.size());
             str="select p from Post p";
         }
         str+=" order by p.date desc";
-        System.out.println(str);
         return em.createQuery(str, Post.class).getResultList();
     }
 

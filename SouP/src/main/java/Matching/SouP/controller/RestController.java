@@ -5,6 +5,7 @@ import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
+import Matching.SouP.exception.NoUserException;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
 import Matching.SouP.service.project.ProjectService;
@@ -13,7 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,7 +70,6 @@ public class RestController {
     public JSONObject addLounge(@LoginUser SessionUser user, @RequestBody LoungeForm form){  //라운지에 글 게시시 post로 요청받고 하는 일
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return loungeService.addLounge(User, form);
-
     }
 
     @Transactional
@@ -76,4 +79,5 @@ public class RestController {
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return loungeService.fav(User, form);
     }
+
 }
