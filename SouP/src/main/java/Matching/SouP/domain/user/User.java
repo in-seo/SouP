@@ -20,7 +20,7 @@ import java.util.Set;
 
 
 @Getter
-@Entity @ToString
+@Entity
 @SequenceGenerator(name = "User_SEQ_GEN",sequenceName = "User_SEQ")
 public class User extends BaseTimeEntity {
 
@@ -62,7 +62,7 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private Set<ProjectConnect> projectConnectList = new LinkedHashSet<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
     @Builder

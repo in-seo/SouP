@@ -11,6 +11,9 @@ public interface LoungeConnectRepository extends JpaRepository<LoungeConnect,Lon
     @Query("select lc from LoungeConnect lc where lc.lounge.id = :LoungeId")
     List<LoungeConnect> findByLoungeId(Long LoungeId);
 
-    @Query("select lc from LoungeConnect lc order by lc.lounge.id")
+    @Query("select lc from LoungeConnect lc where lc.user.id = :userId")
+    List<LoungeConnect> findByUserId(Long userId);
+
+    @Query("select lc from LoungeConnect lc group by lc.lounge.id order by lc.createdDate desc")
     List<LoungeConnect> findAllDesc();
 }
