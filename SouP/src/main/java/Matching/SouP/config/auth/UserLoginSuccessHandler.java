@@ -24,6 +24,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
             System.out.println(cookie.getComment());
             System.out.println(cookie.getMaxAge());
         }
-        response.sendRedirect("/profile");
+//        response.sendRedirect("/profile");
+        response.sendRedirect("http://localhost:3000/api/login-redirect");
     }
 }
