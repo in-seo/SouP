@@ -33,15 +33,15 @@ public class LoungeConnect extends BaseTimeEntity {  //다대다 연결 위한 �
     }
 
 
-    @Transactional
+//    @Transactional
     public void setLounge(Lounge lounge){
         this.lounge = lounge;
         lounge.getLoungeConnectList().add(this);
     }
-    @Transactional
+//    @Transactional
     public void setUser(User user){
         this.user=user;
-        user.getLoungeConnectList().add(this);
+//        user.getLoungeConnectList().add(this);
     }
 
 
