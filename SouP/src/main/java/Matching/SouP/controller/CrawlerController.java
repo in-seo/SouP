@@ -66,7 +66,7 @@ public class CrawlerController {
         return obj;
     }
 
-    @GetMapping("/projects")
+    @GetMapping("/crawl/show")
     public Page<Post> projects(Pageable pageable) {
         return postService.findAllDesc(pageable);
     }

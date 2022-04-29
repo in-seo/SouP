@@ -2,6 +2,7 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
+import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
@@ -11,15 +12,16 @@ import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,20 +33,17 @@ public class ProjectController {
     private final EntityManager em;
 
 
+    @GetMapping("/projects")
+    public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.showProject(User);
+    }
+
     @PostMapping("/project/build")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm){
-        Optional<User> User = userRepository.findByEmail(user.getEmail());
-        JSONObject obj = new JSONObject();
-        if(User.isPresent()){
-            Long temp = projectService.tempSave(pForm,User.get());//왜 temp 냐면  사람과 연결을 안해서.
-            obj.put("success", true);
-        }
-        else{
-            log.warn("존재하지 않는 회원이 게시글을 올리고 있습니다.");
-            obj.put("success", false);
-        }
-        obj.put("user",User.get());
-        return obj;
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
+
     }
 
 
@@ -116,4 +115,13 @@ public class ProjectController {
 //            projectService.tempSave(pForm,user);
 //        }  //필요없음
 //    }
+
+    @ExceptionHandler(NullPointerException.class)
+    protected ErrorResponse handleException1() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
+    }
+    @ExceptionHandler(NoSuchElementException.class)
+    protected ErrorResponse handleException2() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
+    }
 }
