@@ -32,7 +32,7 @@ public class ConvertToPost {
         postsRepository.save(post);
     }
 
-    public void soup(Post post){
-        postsRepository.save(post);
+    public Post soup(Post post){
+        return postsRepository.save(post);
     }
 }

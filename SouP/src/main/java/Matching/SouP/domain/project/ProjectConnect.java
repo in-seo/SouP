@@ -28,22 +28,20 @@ public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 
     @JoinColumn(name="post_id")
     private Post post;
 
-    @Transactional
-    public ProjectConnect createConnect(Post post, User user){  //생성메서드
-        setPost(post);
-        setUser(user);
-        return this;
+    public static ProjectConnect createConnect(Post post, User user){  //생성메서드
+        ProjectConnect connect = new ProjectConnect();
+        connect.setPost(post);
+        connect.setUser(user);
+        return connect;
     }
 
 
     public void setPost(Post post){
         this.post=post;
-        post.getProjectConnectList().add(this);
     }
 
-    public void setUser(User user){ //나중에하자
+    public void setUser(User user){
         this.user=user;
-        user.getProjectConnectList().add(this);
     }
 
 

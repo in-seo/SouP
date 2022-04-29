@@ -35,11 +35,9 @@ public class LoungeConnect extends BaseTimeEntity {  //다대다 연결 위한 �
 
     public void setLounge(Lounge lounge){
         this.lounge = lounge;
-//        lounge.getLoungeConnectList().add(this);
     }
     public void setUser(User user){
         this.user=user;
-//        user.getLoungeConnectList().add(this);
     }
 
 

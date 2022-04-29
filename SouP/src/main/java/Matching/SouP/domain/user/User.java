@@ -59,7 +59,7 @@ public class User extends BaseTimeEntity {
     /**
      * 회원<->프로젝트 다대다 관계 잇기위해 생성
      **/
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<ProjectConnect> projectConnectList = new LinkedHashSet<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
