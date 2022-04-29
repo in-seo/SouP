@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,8 +36,13 @@ public class ProjectController {
 
     @GetMapping("/projects")
     public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
-        return projectService.showProject(User);
+        try{
+            Optional<User> User = userRepository.findByEmail(user.getEmail());
+            return projectService.showProjectForUser(User.get());
+        }
+        catch (NullPointerException e){
+            return projectService.showProjectForGuest();
+        }
     }
 
     @PostMapping("/project/build")
