@@ -27,7 +27,7 @@ public class LoungeService {
     private final LoungeConnectRepository loungeConnectRepository;
 
     @Transactional(readOnly = true)
-    public JSONArray showLounge(User user){   //라운지 보여주기
+    public JSONArray showLoungeForUser(User user){   //라운지 보여주기
         List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
         JSONArray arr = new JSONArray();
         for (LoungeConnect connect : loungeList) {
@@ -53,6 +53,25 @@ public class LoungeService {
             }
             if(br)
                 obj.put("isfav",false);
+            arr.add(obj);
+        }
+        return arr;
+    }
+    @Transactional(readOnly = true)
+    public JSONArray showLoungeForGuest(){   //라운지 보여주기
+        List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
+        JSONArray arr = new JSONArray();
+        for (LoungeConnect connect : loungeList) {
+            JSONObject obj=new JSONObject();
+            obj.put("user_id",connect.getUser().getId());
+            obj.put("user",connect.getUser().getName());
+            obj.put("picture",connect.getUser().getPicture());
+            obj.put("content",connect.getLounge().getContent());
+            obj.put("date",connect.getCreatedDate().toString());
+            obj.put("fav",connect.getLounge().getFav());
+            Long loungeId = connect.getLounge().getId();
+            obj.put("lounge_id",loungeId);
+            obj.put("isfav",false);
             arr.add(obj);
         }
         return arr;

@@ -32,17 +32,12 @@ public class ProjectService  extends CrawlerService {
     private static Long soupId=1L;
 
     @Transactional(readOnly = true)
-    public JSONArray showProject(User user){   //라운지 보여주기
+    public JSONArray showProjectForUser(User user){   //라운지 보여주기
         List<ProjectConnect> projectList = projectConnectRepository.findAllDesc();
         JSONArray arr = new JSONArray();
         for (ProjectConnect connect : projectList) {
             boolean br = true;
             JSONObject obj=new JSONObject();
-//            if(connect.getPost().getSource()==Source.SOUP){
-//                obj.put("user_id",connect.getUser().getId());
-//                obj.put("user",connect.getUser().getName());
-//                obj.put("picture",connect.getUser().getPicture());
-//            }
             Long postId = connect.getPost().getId();
             obj.put("postId",postId);
             obj.put("title",connect.getPost().getPostName());
@@ -64,6 +59,29 @@ public class ProjectService  extends CrawlerService {
             }
             if(br)
                 obj.put("isfav",false);
+            arr.add(obj);
+        }
+        return arr;
+    }
+    @Transactional(readOnly = true)
+    public JSONArray showProjectForGuest(){   //라운지 보여주기
+        List<ProjectConnect> projectList = projectConnectRepository.findAllDesc();
+        JSONArray arr = new JSONArray();
+        for (ProjectConnect connect : projectList) {
+            JSONObject obj=new JSONObject();
+            Long postId = connect.getPost().getId();
+            obj.put("postId",postId);
+            obj.put("title",connect.getPost().getPostName());
+            obj.put("content",connect.getPost().getContent());
+            obj.put("username",connect.getPost().getUserName());
+            obj.put("date",connect.getPost().getDate());
+            obj.put("link",connect.getPost().getLink());
+            obj.put("stack",connect.getPost().getStack());
+            obj.put("views",connect.getPost().getViews());
+            obj.put("talk",connect.getPost().getTalk());
+            obj.put("source",connect.getPost().getSource());
+            obj.put("fav",connect.getPost().getFav());
+            obj.put("isfav", false);
             arr.add(obj);
         }
         return arr;

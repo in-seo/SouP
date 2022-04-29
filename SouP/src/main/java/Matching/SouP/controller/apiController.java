@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -46,6 +45,7 @@ public class apiController {
             if(optionalUser.isPresent()){
                 User User = optionalUser.get();
                 obj.put("success",true);
+                obj.put("user_id",User.getId());
                 obj.put("username",User.getName());
                 obj.put("profileImage",User.getPicture());
             }
@@ -58,8 +58,13 @@ public class apiController {
 
     @GetMapping("/lounge")
     public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
-        return loungeService.showLounge(User);
+        try{
+            Optional<User> User = userRepository.findByEmail(user.getEmail());
+            return loungeService.showLoungeForUser(User.get());
+        }
+        catch (NullPointerException e){
+            return loungeService.showLoungeForGuest();
+        }
     }
 
 
