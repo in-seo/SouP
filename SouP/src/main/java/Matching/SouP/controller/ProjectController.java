@@ -7,13 +7,17 @@ import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
+import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
+import Matching.SouP.service.PostService;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,19 +33,19 @@ import java.util.Optional;
 @Slf4j
 public class ProjectController {
     private final ProjectService projectService;
+    private final PostService postService;
     private final UserRepository userRepository;
-    private final PostsRepository postsRepository;
     private final EntityManager em;
 
 
     @GetMapping("/projects")
-    public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
+    public PageImpl<ShowForm> showProject(@LoginUser SessionUser user, Pageable pageable) {
         try{
             Optional<User> User = userRepository.findByEmail(user.getEmail());
-            return projectService.showProjectForUser(User.get());
+            return postService.showProjectForUser(User.get(), pageable);
         }
         catch (NullPointerException e){
-            return projectService.showProjectForGuest();
+            return postService.showProjectForGuest(pageable);
         }
     }
 

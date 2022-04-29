@@ -69,24 +69,4 @@ public class ProfileController {
         Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
         SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
-
-    @PostMapping("/checkEmail")
-    @ResponseBody
-    public boolean checkEmail(@RequestParam("email") String email){
-        Optional<User> Email = userRepository.findByEmail(email);
-        boolean valid;
-        if(Email.isPresent()) valid = false;  // 사용 불가능
-        else valid = true;  // 이메일 사용 가능
-        return valid;
-    }
-
-    @PostMapping("/checknick")
-    @ResponseBody
-    public boolean checknick(@RequestParam("nick") String nick){
-        Optional<User> Nick = userRepository.findByNick(nick);
-        boolean valid;
-        if(Nick.isPresent()) valid = false;  // 사용 불가능
-        else valid = true;  // 이메일 사용 가능
-        return valid;
-    }
 }

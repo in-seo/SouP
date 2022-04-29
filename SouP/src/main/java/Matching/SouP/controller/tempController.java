@@ -16,8 +16,8 @@ public class tempController {
 
     @GetMapping("/crawling")
     public String projects(Model model) {
-        List<Post> temp = postService.findAllByDesc();
-        model.addAttribute("posts",temp);
+//        List<Post> temp = postService.findAllByDesc();
+//        model.addAttribute("posts",temp);
         return "crawlList";
     }
 }

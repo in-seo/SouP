@@ -1,5 +1,6 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.crawler.CamPick.Campick;
 import Matching.SouP.crawler.CamPick.CampickService;
 import Matching.SouP.crawler.Hola.Hola;
@@ -9,6 +10,7 @@ import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.crawler.okky.OkkyService;
 import Matching.SouP.domain.posts.Post;
+import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -66,19 +70,19 @@ public class CrawlerController {
         return obj;
     }
 
-    @GetMapping("/crawl/show")
-    public Page<Post> projects(Pageable pageable) {
-        return postService.findAllDesc(pageable);
-    }
-
     @Cacheable(value = "recent")
     @GetMapping("/projects/recent")
-    public List<Post> recentPost(){
+    public List<ShowForm> recentPost(){
         return postService.findRecentPost();
     }
 
     @Cacheable(value = "hot")
     @GetMapping("/projects/hot")
-    public List<Post> hotPost() {return postService.findHotPost(8);}
+    public List<ShowForm> hotPost() {return postService.findHotPost(8);}
+
+    @ExceptionHandler(IndexOutOfBoundsException.class)
+    protected ErrorResponse handleException1() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "로직을 실행하기 위한 DB에 저장된 값 개수가 부족함");
+    }
 
 }
