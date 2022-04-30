@@ -31,62 +31,6 @@ public class ProjectService  extends CrawlerService {
     private final ConvertToPost convertToPost;
     private static Long soupId=1L;
 
-    @Transactional(readOnly = true)
-    public JSONArray showProjectForUser(User user){   //라운지 보여주기
-        List<ProjectConnect> projectList = projectConnectRepository.findAllDesc();
-        JSONArray arr = new JSONArray();
-        for (ProjectConnect connect : projectList) {
-            boolean br = true;
-            JSONObject obj=new JSONObject();
-            Long postId = connect.getPost().getId();
-            obj.put("postId",postId);
-            obj.put("title",connect.getPost().getPostName());
-            obj.put("content",connect.getPost().getContent());
-            obj.put("username",connect.getPost().getUserName());
-            obj.put("date",connect.getPost().getDate());
-            obj.put("link",connect.getPost().getLink());
-            obj.put("stack",connect.getPost().getStack());
-            obj.put("views",connect.getPost().getViews());
-            obj.put("talk",connect.getPost().getTalk());
-            obj.put("source",connect.getPost().getSource());
-            obj.put("fav",connect.getPost().getFav());
-            List<ProjectConnect> byProjectId = projectConnectRepository.findByPostId(postId);
-            for (ProjectConnect projectConnect : byProjectId) {
-                if(projectConnect.getUser().getId()== user.getId()) {
-                    obj.put("isfav", true);
-                    br=false;
-                }
-            }
-            if(br)
-                obj.put("isfav",false);
-            arr.add(obj);
-        }
-        return arr;
-    }
-    @Transactional(readOnly = true)
-    public JSONArray showProjectForGuest(){   //라운지 보여주기
-        List<ProjectConnect> projectList = projectConnectRepository.findAllDesc();
-        JSONArray arr = new JSONArray();
-        for (ProjectConnect connect : projectList) {
-            JSONObject obj=new JSONObject();
-            Long postId = connect.getPost().getId();
-            obj.put("postId",postId);
-            obj.put("title",connect.getPost().getPostName());
-            obj.put("content",connect.getPost().getContent());
-            obj.put("username",connect.getPost().getUserName());
-            obj.put("date",connect.getPost().getDate());
-            obj.put("link",connect.getPost().getLink());
-            obj.put("stack",connect.getPost().getStack());
-            obj.put("views",connect.getPost().getViews());
-            obj.put("talk",connect.getPost().getTalk());
-            obj.put("source",connect.getPost().getSource());
-            obj.put("fav",connect.getPost().getFav());
-            obj.put("isfav", false);
-            arr.add(obj);
-        }
-        return arr;
-    }
-
 
     @Transactional
     public JSONObject tempSave(PostForm pForm, User user){  //프로젝트정보 임시저장, 사람과 연결 전
