@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class PostService{
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
 
+    @Transactional(readOnly = true)
     public PageImpl<ShowForm> showProjectForUser(User user, Pageable pageable){
         Page<Post> projectList = postsRepository.findAllDesc(pageable);
         List<ShowForm> showList = new ArrayList<>();
@@ -44,6 +46,7 @@ public class PostService{
         return new PageImpl<ShowForm>(showList,pageable,projectList.getTotalElements());
     }
 
+    @Transactional(readOnly = true)
     public PageImpl<ShowForm> showProjectForGuest(Pageable pageable){
         List<ShowForm> showList = new ArrayList<>();
         Page<Post> projectList = postsRepository.findAllDesc(pageable);

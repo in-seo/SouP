@@ -28,23 +28,19 @@ public class LoungeService {
 
     @Transactional(readOnly = true)
     public JSONArray showLoungeForUser(User user){   //라운지 보여주기
-        List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
+        List<Lounge> loungeList = loungeRepository.findAllDesc();
         JSONArray arr = new JSONArray();
-        for (LoungeConnect connect : loungeList) {
+        for (Lounge lounge : loungeList) {
             boolean br = true;
             JSONObject obj=new JSONObject();
-            obj.put("user_id",connect.getUser().getId());
-            obj.put("user",connect.getUser().getName());
-            obj.put("picture",connect.getUser().getPicture());
-            obj.put("content",connect.getLounge().getContent());
-            obj.put("date",connect.getCreatedDate().toString());
-            obj.put("fav",connect.getLounge().getFav());
-            Long loungeId = connect.getLounge().getId();
-            obj.put("lounge_id",loungeId);
-//            if(connect.getUser().getId()==user.getId()){
-//                obj.put("isfav",true);
-//            }
-            List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(loungeId);
+            obj.put("user_id",lounge.getUser().getId());
+            obj.put("username",lounge.getUser().getName());
+            obj.put("picture",lounge.getUser().getPicture());
+            obj.put("content",lounge.getContent());
+            obj.put("date",lounge.getCreatedDate().toString());
+            obj.put("fav",lounge.getFav());
+            obj.put("lounge_id",lounge.getId());
+            List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
             for (LoungeConnect loungeConnect : byLoungeId) {
                 if(loungeConnect.getUser().getId()== user.getId()) {
                     obj.put("isfav", true);
@@ -59,18 +55,17 @@ public class LoungeService {
     }
     @Transactional(readOnly = true)
     public JSONArray showLoungeForGuest(){   //라운지 보여주기
-        List<LoungeConnect> loungeList = loungeConnectRepository.findAllDesc();
+        List<Lounge> loungeList = loungeRepository.findAllDesc();
         JSONArray arr = new JSONArray();
-        for (LoungeConnect connect : loungeList) {
+        for (Lounge lounge : loungeList) {
             JSONObject obj=new JSONObject();
-            obj.put("user_id",connect.getUser().getId());
-            obj.put("user",connect.getUser().getName());
-            obj.put("picture",connect.getUser().getPicture());
-            obj.put("content",connect.getLounge().getContent());
-            obj.put("date",connect.getCreatedDate().toString());
-            obj.put("fav",connect.getLounge().getFav());
-            Long loungeId = connect.getLounge().getId();
-            obj.put("lounge_id",loungeId);
+            obj.put("user_id",lounge.getUser().getId());
+            obj.put("username",lounge.getUser().getName());
+            obj.put("picture",lounge.getUser().getPicture());
+            obj.put("content",lounge.getContent());
+            obj.put("date",lounge.getCreatedDate().toString());
+            obj.put("fav",lounge.getFav());
+            obj.put("lounge_id",lounge.getId());
             obj.put("isfav",false);
             arr.add(obj);
         }
@@ -80,14 +75,10 @@ public class LoungeService {
     @Transactional
     public JSONObject addLounge(User user, @RequestBody LoungeForm form){  //라운지에 글 게시시 post로 요청받고 하는 일
             JSONObject obj = new JSONObject();
-
             Lounge lounge = new Lounge(form.getContent());
+            lounge.setUser(user);
             loungeRepository.save(lounge);
-            LoungeConnect connect = LoungeConnect.createConnect(lounge, user);  //라운지와 유저 연결
-            user.getLoungeConnectList().add(connect);  //유저에게 작성자 권한 부여.
-            loungeConnectRepository.save(connect);
             obj.put("success",true);
-
             return obj;
     }
 
@@ -95,17 +86,6 @@ public class LoungeService {
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
-
-        LoungeConnect author = loungeConnectRepository.findByLoungeId(form.getId()).get(0);  //첫번쨰 사람이 작성자이다.
-        List<LoungeConnect> userLoungeConnectList = user.getLoungeConnectList();
-        for (LoungeConnect connect : userLoungeConnectList) {
-            if(connect.getUser().getId()==author.getUser().getId()) {
-                log.warn("글 작성자입니다.");
-                obj.put("success", false);
-                obj.put("isfav", true);
-                return obj;
-            }
-        }
         List<LoungeConnect> loungeList = loungeConnectRepository.findByLoungeId(form.getId());
         for (LoungeConnect connect : loungeList) {
             if(connect.getUser().getId()==user.getId()){

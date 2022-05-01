@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface LoungeRepository extends JpaRepository<Lounge,Long> {
 
-    @Query("select l from Lounge l order by l.id DESC")
+    @Query("select l from Lounge l order by l.createdDate DESC")
     List<Lounge> findAllDesc();
 }

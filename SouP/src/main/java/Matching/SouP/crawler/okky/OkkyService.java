@@ -86,7 +86,7 @@ public class OkkyService extends CrawlerService{
 
     @PostConstruct
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1213000","임시 기준점","","","","","",64,"");
+        Okky temp = new Okky("1215300","임시 기준점","","","","","",64,"");
         okkyRepository.save(temp);
     }
 
