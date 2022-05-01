@@ -30,8 +30,8 @@ public class PostService{
             boolean br = true;
             Long postId = post.getId();
             ShowForm showForm = new ShowForm(postId,post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            List<ProjectConnect> byProjectId = projectConnectRepository.findByPostId(postId);
-            for (ProjectConnect projectConnect : byProjectId) {
+            List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(postId);
+            for (ProjectConnect projectConnect : projectConnectList) {
                 if(projectConnect.getUser().getId()== user.getId()) {
                     showForm.setIsfav(true);
                     br=false;

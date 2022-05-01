@@ -2,8 +2,10 @@ package Matching.SouP.domain.posts;
 
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.Project_Question;
+import Matching.SouP.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.Set;
 
 @Getter @Entity
 @SequenceGenerator(name = "Posts_SEQ_GEN",sequenceName = "Posts_SEQ")
+@ToString
 public class Post {
     protected Post(){}
 
@@ -47,7 +50,9 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
-
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Builder
     public Post(Long sourceId, String postName, String content, String userName, String date, String link, String stack, int views, String talk, Source source) {
@@ -70,5 +75,8 @@ public class Post {
         if(fav>0) fav--;
     }
 
-
+    public void setUser(User user) {
+        user.getPostList().add(this);
+        this.user = user;
+    }
 }

@@ -38,13 +38,9 @@ public class ProjectService  extends CrawlerService {
         String talk = "";  StringBuilder stack = new StringBuilder();
         talk = parseTalk(pForm.getContent(), talk);     stack = parseStack(pForm.getTitle(),pForm.getContent(),stack);
         Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent(),user.getName(), LocalDateTime.now().toString().substring(0,18),"미정",stack.toString(),1,talk, Source.SOUP);
-        post = convertToPost.soup(post);//post형태로 저장
+        convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
 
-        ProjectConnect connect = ProjectConnect.createConnect(post, user);
-        user.getProjectConnectList().add(connect);
-        projectConnectRepository.save(connect);  //회원 연결
         obj.put("success", true);
-
         return obj;
     }
 
@@ -55,16 +51,6 @@ public class ProjectService  extends CrawlerService {
         boolean isfav=false;
         List<ProjectConnect> projectList = projectConnectRepository.findByPostId(form.getId());
         if(projectList.size()!=0){  //0일경우 좋아요 누른적 없음
-            User author = projectList.get(0).getUser();  //첫번째 사람은 작성자이다.
-            Set<ProjectConnect> userProjectConnectList = user.getProjectConnectList();
-            for (ProjectConnect connect : userProjectConnectList) {
-                if(connect.getUser().getId()==author.getId()){
-                    log.warn("글 작성자입니다.");
-                    obj.put("success", false);
-                    obj.put("isfav", true);
-                    return obj;
-                }
-            }
             for (ProjectConnect connect : projectList) {
                 if(connect.getUser().getId()==user.getId()){
                     log.warn("이미 누른 회원입니다.");
@@ -78,6 +64,7 @@ public class ProjectService  extends CrawlerService {
         if (form.isMode() && !isfav){
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
+            user.getProjectConnectList().add(connect);
             projectConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);
@@ -86,7 +73,7 @@ public class ProjectService  extends CrawlerService {
             post.minusFav();
             for (ProjectConnect connect : projectList) {
                 if(connect.getUser().getId()==user.getId()){
-                    projectConnectRepository.delete(connect);  //작성자가 끊어지면 안되는데 이거 고려해보자..
+                    projectConnectRepository.delete(connect);
                     isfav=false;
                     break;
                 }
