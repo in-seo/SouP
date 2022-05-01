@@ -60,11 +60,14 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<ProjectConnect> projectConnectList = new LinkedHashSet<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Post> postList = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private Set<Lounge> loungeList = new LinkedHashSet<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

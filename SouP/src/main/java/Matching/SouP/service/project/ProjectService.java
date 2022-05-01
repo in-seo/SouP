@@ -50,13 +50,11 @@ public class ProjectService  extends CrawlerService {
         JSONObject obj = new JSONObject();
         boolean isfav=false;
         List<ProjectConnect> projectList = projectConnectRepository.findByPostId(form.getId());
-        if(projectList.size()!=0){  //0일경우 좋아요 누른적 없음
-            for (ProjectConnect connect : projectList) {
-                if(connect.getUser().getId()==user.getId()){
-                    log.warn("이미 누른 회원입니다.");
-                    isfav=true;
-                    break;
-                }
+        for (ProjectConnect connect : projectList) {
+            if(connect.getUser().getId()==user.getId()){
+                log.warn("이미 누른 회원입니다.");
+                isfav=true;
+                break;
             }
         }
 
