@@ -5,14 +5,11 @@ import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
-import lombok.Setter;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
-@SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ", allocationSize = 1) //초기 값 1, 재할당 50마다
+@Getter
 public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 테이블.
 
     @Id

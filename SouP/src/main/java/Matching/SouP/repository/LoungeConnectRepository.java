@@ -1,6 +1,5 @@
 package Matching.SouP.repository;
 
-import Matching.SouP.domain.posts.Lounge;
 import Matching.SouP.domain.posts.LoungeConnect;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

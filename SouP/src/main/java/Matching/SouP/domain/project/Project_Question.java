@@ -3,18 +3,16 @@ package Matching.SouP.domain.project;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
-import com.sun.istack.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Getter @Setter
-@ToString
+@Getter @ToString
 public class Project_Question extends BaseTimeEntity {
 
     @Id
@@ -38,11 +36,9 @@ public class Project_Question extends BaseTimeEntity {
 
     public void setUser(User user){
         this.user = user;
-        user.getQuestionList().add(this);
     }
 
     public void setPost(Post post){
         this.post= post;
-        post.getQuestionList().add(this);
     }
 }

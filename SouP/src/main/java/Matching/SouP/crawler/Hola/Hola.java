@@ -1,12 +1,10 @@
 package Matching.SouP.crawler.Hola;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
-@Getter @ToString
+@Getter
 @Entity
 @SequenceGenerator(name="Hola_SEQ_GEN",sequenceName = "Hola_SEQ")
 public class Hola {

@@ -2,9 +2,6 @@ package Matching.SouP.config.auth.dto;
 
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
-import lombok.ToString;
-
-import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Getter

@@ -3,17 +3,15 @@ package Matching.SouP.domain.posts;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-@SequenceGenerator(name = "Lounge_SEQ_GEN",sequenceName = "Lounge_SEQ") //초기 값 1, 재할당 50마다
 public class LoungeConnect extends BaseTimeEntity {  //다대다 연결 위한 테이블.
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "Lounge_SEQ")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne

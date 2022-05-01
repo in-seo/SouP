@@ -8,7 +8,6 @@ import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
-import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -25,7 +24,6 @@ import java.util.Optional;
 @RestController
 public class apiController {
 
-    private final ProjectService projectService;
     private final UserRepository userRepository;
     private final LoungeService loungeService;
 
@@ -49,9 +47,9 @@ public class apiController {
                 obj.put("username",User.getName());
                 obj.put("profileImage",User.getPicture());
             }
+            return obj;
         }catch (NullPointerException e){
             obj.put("success",false);
-        }finally {
             return obj;
         }
     }
