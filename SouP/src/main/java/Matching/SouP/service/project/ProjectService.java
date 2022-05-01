@@ -12,7 +12,6 @@ import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +60,6 @@ public class ProjectService  extends CrawlerService {
         if (form.isMode() && !isfav){
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
-            user.getProjectConnectList().add(connect);
             projectConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);

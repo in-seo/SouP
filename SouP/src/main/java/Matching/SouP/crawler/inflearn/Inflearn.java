@@ -1,16 +1,11 @@
 package Matching.SouP.crawler.inflearn;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 
 @Getter
-@ToString
 @Entity
-//@SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ") //프로젝트랑 공유!
 public class Inflearn {
 
     public Inflearn() {

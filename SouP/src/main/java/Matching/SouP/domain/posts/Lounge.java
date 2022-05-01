@@ -3,7 +3,6 @@ package Matching.SouP.domain.posts;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,10 +10,11 @@ import java.util.List;
 
 @Getter
 @Entity
+@SequenceGenerator(name = "Lounge_SEQ_GEN",sequenceName = "Lounge_SEQ") //초기 값 1, 재할당 50마다
 public class Lounge extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Lounge_SEQ")
     @Column(name = "lounge_id")
     private Long id;
 

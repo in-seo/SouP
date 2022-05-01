@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -43,7 +42,7 @@ public class PostService{
                 showForm.setIsfav(false);
             showList.add(showForm);
         }
-        return new PageImpl<ShowForm>(showList,pageable,projectList.getTotalElements());
+        return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
     @Transactional(readOnly = true)
@@ -55,7 +54,7 @@ public class PostService{
             ShowForm showForm = new ShowForm(postId,post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             showList.add(showForm);
         }
-        return new PageImpl<ShowForm>(showList,pageable,projectList.getTotalElements());
+        return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
 

@@ -8,13 +8,11 @@ import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
-import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +49,7 @@ public class ProjectController {
 
     @PostMapping("/project/build")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userRepository.findByFetchEmail(user.getEmail()).orElseThrow();
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
 
     }

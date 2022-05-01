@@ -9,8 +9,6 @@ import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
@@ -57,17 +55,17 @@ public class User extends BaseTimeEntity {
     /**
      * 회원<->프로젝트 다대다 관계 잇기위해 생성
      **/
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Set<ProjectConnect> projectConnectList = new LinkedHashSet<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-    private Set<Post> postList = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Post> postList = new ArrayList<>();  //추가해야되는데 페치가 안되네;;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private Set<Lounge> loungeList = new LinkedHashSet<>();
+    private List<Lounge> loungeList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

@@ -7,7 +7,6 @@ import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.repository.LoungeConnectRepository;
 import Matching.SouP.repository.LoungeRepository;
-import Matching.SouP.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -99,7 +98,6 @@ public class LoungeService {
         if (form.isMode() && !isfav){
             lounge.plusFav();
             LoungeConnect connect = LoungeConnect.createConnect(lounge, user);
-            lounge.getLoungeConnectList().add(connect);
             loungeConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);
