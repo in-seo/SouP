@@ -6,6 +6,7 @@ import Matching.SouP.crawler.inflearn.Inflearn;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.user.User;
 import Matching.SouP.repository.PostsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,7 +33,8 @@ public class ConvertToPost {
         postsRepository.save(post);
     }
 
-    public Post soup(Post post){
+    public Post soup(Post post, User user){
+        post.setUser(user);
         return postsRepository.save(post);
     }
 }

@@ -3,6 +3,7 @@ package Matching.SouP.domain.user;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.posts.Lounge;
 import Matching.SouP.domain.posts.LoungeConnect;
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
@@ -13,10 +14,7 @@ import lombok.ToString;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Getter
@@ -64,6 +62,9 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private Set<Post> postList = new LinkedHashSet<>();
 
     @Builder
     public User(String name, String email, String picture, Role role) {

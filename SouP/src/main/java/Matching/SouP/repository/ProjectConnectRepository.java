@@ -14,6 +14,6 @@ public interface ProjectConnectRepository extends JpaRepository<ProjectConnect,L
     @Query("select pc from ProjectConnect pc where pc.post.id=:id")
     List<ProjectConnect> findByPostId(Long id);
 
-    @Query("select pc from ProjectConnect pc group by pc.post.id order by pc.createdDate desc")
+    @Query("select pc from ProjectConnect pc order by pc.createdDate desc")
     List<ProjectConnect> findAllDesc();
 }
