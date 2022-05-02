@@ -73,7 +73,7 @@ public class Post {
     }
 
     public void setUser(User user) {
-//        user.getPostList().add(this);
+        user.getPostList().add(this);
         this.user = user;
     }
 }
