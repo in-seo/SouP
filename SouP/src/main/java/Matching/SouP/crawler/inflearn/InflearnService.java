@@ -82,7 +82,7 @@ public class InflearnService extends CrawlerService {
     }
     @PostConstruct
     private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Inflearn temp = new Inflearn("505700","기준점","","","","","","");
+        Inflearn temp = new Inflearn("508000","기준점","","","","","","");
         inflearnRepository.save(temp);
     }
 

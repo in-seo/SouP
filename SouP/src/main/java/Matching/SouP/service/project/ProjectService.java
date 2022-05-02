@@ -12,12 +12,19 @@ import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Service
@@ -31,15 +38,36 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
-    public JSONObject tempSave(PostForm pForm, User user){  //프로젝트정보 임시저장, 사람과 연결 전
-        JSONObject obj = new JSONObject();
+    public JSONObject tempSave(PostForm pForm, User user) throws ParseException {  //프로젝트정보 임시저장, 사람과 연결 전
+        JSONObject objd = new JSONObject();
+        JSONParser parser = new JSONParser();
+        JSONObject content = pForm.getContent();
+        JSONObject obj = (JSONObject)parser.parse(String.valueOf(content));
+        String temp="";
+        String str= parseString(obj,temp);
         String talk = "";  StringBuilder stack = new StringBuilder();
-        talk = parseTalk(pForm.getContent(), talk);     stack = parseStack(pForm.getTitle(),pForm.getContent(),stack);
-        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent(),user.getName(), LocalDateTime.now().toString().substring(0,18),"미정",stack.toString(),1,talk, Source.SOUP);
+        talk = parseTalk(str, talk);     stack = parseStack(pForm.getTitle(),str,stack);
+        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,18),"미정",stack.toString(),1,talk, Source.SOUP);
         convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
 
         obj.put("success", true);
-        return obj;
+        return objd;
+    }
+
+    private String parseString(JSONObject obj,String str){
+        if(obj.containsKey("text")){
+            str+=obj.get("text").toString();
+        }
+        if(obj.containsKey("content")){
+            JSONArray content = (JSONArray) obj.get("content");
+            String s = "";
+            for (int i = 0; i < content.size(); i++) {
+                JSONObject jsonObject = (JSONObject) content.get(i);
+                s += parseString(jsonObject,str);
+            }
+            str+=s;
+        }
+        return str;
     }
 
 
@@ -55,11 +83,11 @@ public class ProjectService  extends CrawlerService {
                 break;
             }
         }
-
         Post post = postsRepository.findById(form.getId()).orElseThrow();
         if (form.isMode() && !isfav){
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
+            user.getProjectConnectList().add(connect); //스크랩!
             projectConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);

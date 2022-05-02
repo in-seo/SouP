@@ -14,6 +14,7 @@ import Matching.SouP.service.project.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -48,8 +49,8 @@ public class ProjectController {
     }
 
     @PostMapping("/project/build")
-    public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm){
-        User User = userRepository.findByFetchEmail(user.getEmail()).orElseThrow();
+    public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
+        User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
 
     }
@@ -57,7 +58,7 @@ public class ProjectController {
 
     @PostMapping("/project/fav")  //스크랩은 project_Connect 에 있는 거 긁어오면됌
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form);
     }
 
