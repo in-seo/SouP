@@ -62,7 +62,7 @@ public class User extends BaseTimeEntity {
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Post> postList = new ArrayList<>();  //추가해야되는데 페치가 안되네;;
+    private List<Post> postList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Lounge> loungeList = new ArrayList<>();
