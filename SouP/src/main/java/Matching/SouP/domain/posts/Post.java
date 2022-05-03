@@ -35,9 +35,8 @@ public class Post {
     private int views=0;
     private String talk;
     private boolean end = false;
-
     private int fav =0;
-
+    private String parse="";
     @Enumerated(value = EnumType.STRING)
     private Source source;  //ex) okky, inflearn, ...
 
@@ -75,5 +74,9 @@ public class Post {
     public void setUser(User user) {
         user.getPostList().add(this);
         this.user = user;
+    }
+
+    public void setParse(String parse) {
+        this.parse = parse;
     }
 }

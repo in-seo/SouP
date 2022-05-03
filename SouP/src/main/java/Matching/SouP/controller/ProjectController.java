@@ -8,6 +8,7 @@ import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
+import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.project.ProjectService;
@@ -18,7 +19,6 @@ import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,17 +34,18 @@ public class ProjectController {
     private final ProjectService projectService;
     private final PostService postService;
     private final UserRepository userRepository;
+    private final PostsRepository postsRepository;
     private final EntityManager em;
 
 
     @GetMapping("/projects")
-    public PageImpl<ShowForm> showProject(@LoginUser SessionUser user, Pageable pageable) {
+    public PageImpl<ShowForm> showProject(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
         try{
             Optional<User> User = userRepository.findByEmail(user.getEmail());
-            return postService.showProjectForUser(User.get(), pageable);
+            return postService.showProjectForUser(User.get(),stacks, pageable);
         }
         catch (NullPointerException e){
-            return postService.showProjectForGuest(pageable);
+            return postService.showProjectForGuest(stacks,pageable);
         }
     }
 
@@ -62,26 +63,7 @@ public class ProjectController {
         return projectService.fav(User, form);
     }
 
-    @Transactional
-    @RequestMapping("/projects/query")
-    public List<Post> arrange(@RequestParam(required = false,defaultValue = "") List<String> stacks){
-        String str="select p from Post p where ";
-        if(stacks.size()==1){
-            str += "p.stack like '%"+stacks.get(0)+"%'";
-        }
-        else if(stacks.size()==2){
-            str += "p.stack like '%"+stacks.get(0)+"%' and p.stack like '%"+stacks.get(1)+"%'";  //p.stack like '%spring%' and p.stack like '%react%'
-        }
-        else if(stacks.size()==3){
-            str += "p.stack like '%"+stacks.get(0)+"%' and p.stack like '%"+stacks.get(1)+"%' and p.stack like '%"+stacks.get(2)+"%'"; //p.stack like '%spring%' and p.stack like '%react%' and p.stack like '%js%'
-        }
-        else{
-            log.warn("쿼리사이즈가 {}임, 잘못된 요청",stacks.size());
-            str="select p from Post p";
-        }
-        str+=" order by p.date desc";
-        return em.createQuery(str, Post.class).getResultList();
-    }
+
 
 //    @PostMapping("/project/edit")
 //    public String updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){

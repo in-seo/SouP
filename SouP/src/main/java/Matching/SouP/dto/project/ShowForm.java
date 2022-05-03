@@ -17,6 +17,7 @@ public class ShowForm {
     private String talk;
     private Source source;
     private int fav=0;
+    private String parse="";
     private boolean isfav=false;
 
     public ShowForm(Long id, String postName, String content, String userName, String date, String link, String stack, int views, String talk, Source source, int fav) {

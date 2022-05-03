@@ -11,9 +11,6 @@ import java.util.List;
 
 public interface PostsRepository extends PagingAndSortingRepository<Post, Long> {
 
-//    @Query("select p from Post p order by p.date DESC")
-//    Page<Post> findAllDesc(Pageable pageable);
-
     @Query("select p from Post p order by p.date DESC")
     Page<Post> findAllDesc(Pageable pageable);
 
@@ -22,6 +19,15 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
 
     @Query("select p from Post p where p.date>:date order by p.views desc")
     List<Post> findAllNDaysBefore(String date);
+
+    @Query("select p from Post p where p.stack like %:stack% order by p.date desc")
+    Page<Post> findBy1StacksDesc(Pageable pageable, String stack);
+
+    @Query("select p from Post p where p.stack like %:stack1% and p.stack like %:stack2% order by p.date desc")
+    Page<Post> findBy2StacksDesc(Pageable pageable, String stack1, String stack2);
+
+    @Query("select p from Post p where p.stack like %:stack1% and p.stack like %:stack2% and p.stack like %:stack3% order by p.date desc")
+    Page<Post> findBy3StacksDesc(Pageable pageable, String stack1, String stack2, String stack3);
 
 
 
