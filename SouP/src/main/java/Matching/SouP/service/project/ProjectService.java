@@ -39,19 +39,19 @@ public class ProjectService  extends CrawlerService {
 
     @Transactional
     public JSONObject tempSave(PostForm pForm, User user) throws ParseException {  //프로젝트정보 임시저장, 사람과 연결 전
-        JSONObject objd = new JSONObject();
+        JSONObject obj = new JSONObject();
         JSONParser parser = new JSONParser();
-        JSONObject content = pForm.getContent();
-        JSONObject obj = (JSONObject)parser.parse(String.valueOf(content));
+        JSONObject content = (JSONObject)parser.parse(String.valueOf(pForm.getContent()));
         String temp="";
-        String str= parseString(obj,temp);
+        String str= parseString(content,temp);
         String talk = "";  StringBuilder stack = new StringBuilder();
         talk = parseTalk(str, talk);     stack = parseStack(pForm.getTitle(),str,stack);
-        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,18),"미정",stack.toString(),1,talk, Source.SOUP);
+        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"미정",stack.toString(),1,talk, Source.SOUP);
+        post.setParse(str.substring(0,199));
         convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
 
         obj.put("success", true);
-        return objd;
+        return obj;
     }
 
     private String parseString(JSONObject obj,String str){
