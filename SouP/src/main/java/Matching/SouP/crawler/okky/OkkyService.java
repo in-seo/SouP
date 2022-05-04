@@ -2,16 +2,22 @@ package Matching.SouP.crawler.okky;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
+import Matching.SouP.domain.posts.Post;
+import Matching.SouP.domain.posts.Source;
+import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -114,6 +120,13 @@ public class OkkyService extends CrawlerService{
         return recent.intValue();
     }
 
-    public List<Okky> findAllDesc() { return okkyRepository.findAllDesc();}
-
+    public List<ShowForm> findAllDesc() {
+        List<Okky> okkyList = okkyRepository.findAllDesc();
+        List<ShowForm> showList = new ArrayList<>();
+        for (Okky okky : okkyList) {
+            ShowForm showForm = new ShowForm(okky.getId(),okky.getPostName(),okky.getContent(),okky.getUserName(),okky.getDate(),okky.getLink(),okky.getStack(),okky.getViews(),okky.getTalk(), Source.OKKY,0);
+            showList.add(showForm);
+        }
+        return showList;
+    }
 }

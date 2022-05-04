@@ -3,6 +3,9 @@ package Matching.SouP.crawler.Hola;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
+import Matching.SouP.crawler.okky.Okky;
+import Matching.SouP.domain.posts.Source;
+import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -103,8 +107,13 @@ public class HolaService extends CrawlerService {
         holaRepository.save(temp2);
     }
 
-    public List<Hola> findAll(){
-        return holaRepository.findAll();
+    public List<ShowForm> findAllDesc() {
+        List<Hola> holaList = holaRepository.findAllDesc();
+        List<ShowForm> showList = new ArrayList<>();
+        for (Hola hola : holaList) {
+            ShowForm showForm = new ShowForm(hola.getId(),hola.getPostName(),hola.getContent(),hola.getUserName(),hola.getDate(),hola.getLink(),hola.getStack(),hola.getViews(),hola.getTalk(), Source.HOLA,0);
+            showList.add(showForm);
+        }
+        return showList;
     }
-    public List<Hola> findAllDesc() { return holaRepository.findAllDesc();}
 }

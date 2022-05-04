@@ -9,6 +9,7 @@ import Matching.SouP.crawler.inflearn.Inflearn;
 import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.crawler.okky.OkkyService;
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class CrawlerController {
 
 
     @GetMapping("/crawl")
-    @Caching(evict = { @CacheEvict("hot"), @CacheEvict(value = "recent")})
+    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
 //    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
@@ -50,31 +51,34 @@ public class CrawlerController {
         log.info("크롤링 종료");
     }
 
-    @GetMapping("/front-projects")
+    @Cacheable(value = "front")
+    @GetMapping("/front/projects")
     public JSONObject front() {
-        List<Okky> okky = okkyService.findAllDesc();
-        List<Inflearn> inflearn = inflearnService.findAllDesc();
-        List<Hola> hola = holaService.findAllDesc();
-        List<Campick> campick = campickService.findAllDesc();
-
         JSONObject obj=new JSONObject();
+        List<ShowForm> okky = okkyService.findAllDesc();
+        List<ShowForm> inflearn = inflearnService.findAllDesc();
+        List<ShowForm> hola = holaService.findAllDesc();
+        List<ShowForm> campick = campickService.findAllDesc();
+        List<ShowForm> soup = postService.findAllDesc();
         obj.put("OKKY",okky);
         obj.put("INFLEARN",inflearn);
         obj.put("HOLA",hola);
         obj.put("CAMPICK",campick);
+        obj.put("SOUP",soup);
 
         return obj;
     }
 
-    @Cacheable(value = "recent")
-    @GetMapping("/projects/recent")
-    public List<ShowForm> recentPost(){
-        return postService.findRecentPost();
+    @Cacheable(value = "featured")
+    @GetMapping("/front/featured")
+    public JSONObject featured(){
+        JSONObject obj = new JSONObject();
+        List<ShowForm> hotPost = postService.findHotPost(8);
+        List<ShowForm> recentPost = postService.findRecentPost();
+        obj.put("HOT",hotPost);
+        obj.put("NEW",recentPost);
+        return obj;
     }
-
-    @Cacheable(value = "hot")
-    @GetMapping("/projects/hot")
-    public List<ShowForm> hotPost() {return postService.findHotPost(8);}
 
     @ExceptionHandler(IndexOutOfBoundsException.class)
     protected ErrorResponse handleException1() {

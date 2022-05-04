@@ -4,6 +4,9 @@ package Matching.SouP.crawler.CamPick;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
+import Matching.SouP.crawler.okky.Okky;
+import Matching.SouP.domain.posts.Source;
+import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -121,10 +125,14 @@ public class CampickService extends CrawlerService {
         campickRepository.save(temp);
     }
 
-    public List<Campick> findAll(){
-        return campickRepository.findAll();
+
+    public List<ShowForm> findAllDesc() {
+        List<Campick> campickList = campickRepository.findAllDesc();
+        List<ShowForm> showList = new ArrayList<>();
+        for (Campick campick : campickList) {
+            ShowForm showForm = new ShowForm(campick.getId(),campick.getPostName(),campick.getContent(),campick.getUserName(),campick.getDate(),campick.getLink(),campick.getStack(),campick.getViews(),campick.getTalk(), Source.CAMPICK,0);
+            showList.add(showForm);
+        }
+        return showList;
     }
-
-    public List<Campick> findAllDesc() { return campickRepository.findAllDesc();}
-
 }

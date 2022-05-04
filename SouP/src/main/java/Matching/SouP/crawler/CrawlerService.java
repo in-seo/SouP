@@ -1,5 +1,10 @@
 package Matching.SouP.crawler;
 
+import Matching.SouP.domain.posts.Post;
+import Matching.SouP.dto.project.ShowForm;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import java.util.*;
 
 public class CrawlerService {
@@ -47,4 +52,6 @@ public class CrawlerService {
         }
         return stack;
     }
+
+
 }
