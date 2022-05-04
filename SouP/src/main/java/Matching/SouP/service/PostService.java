@@ -1,5 +1,6 @@
 package Matching.SouP.service;
 
+import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.domain.project.ProjectConnect;
@@ -9,6 +10,8 @@ import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.ProjectConnectRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -79,13 +82,23 @@ public class PostService{
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public JSONObject showProject(Long id){
+    public JSONObject showProject(Long id) throws ParseException {
         Optional<Post> Opost = postsRepository.findById(id);
         JSONObject obj = new JSONObject();
         if(Opost.isPresent()){
             Post post = Opost.get();
             obj.put("title",post.getPostName());
-            obj.put("content",post.getContent());
+            if(post.getSource()==Source.SOUP){
+                JSONParser parser = new JSONParser();
+                JSONObject parse = (JSONObject) parser.parse(post.getContent());
+                obj.put("type","prosemirror");
+                obj.put("content",parse);
+
+            }
+            else{
+                obj.put("type","string");
+                obj.put("content",post.getContent());
+            }
             obj.put("source",post.getSource());
             obj.put("stacks",post.getStack());
             obj.put("url",post.getLink());
@@ -107,13 +120,22 @@ public class PostService{
     public List<ShowForm> findHotPost(long n){
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
         List<ShowForm> hotList = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < n; i++) {
             Post post = projectList.get(i);
             hotList.add(new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav()));
         }
         return hotList;
     }
 
+    public List<ShowForm> findAllDesc() {
+        List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
+        List<ShowForm> showList = new ArrayList<>();
+        for (Post soup : soupList) {
+            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getContent(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
+            showList.add(showForm);
+        }
+        return showList;
+    }
 //    @Transactional(readOnly = true)
 //    public PageImpl<ShowForm> showProjectForGuest(Pageable pageable){
 //        List<ShowForm> showList = new ArrayList<>();

@@ -2,6 +2,9 @@ package Matching.SouP.crawler.inflearn;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
+import Matching.SouP.crawler.okky.Okky;
+import Matching.SouP.domain.posts.Source;
+import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -112,5 +116,14 @@ public class InflearnService extends CrawlerService {
     public int recentPost(){
         return inflearnRepository.findRecent().intValue();
     }
-    public List<Inflearn> findAllDesc() { return inflearnRepository.findAllDesc();}
+
+    public List<ShowForm> findAllDesc() {
+        List<Inflearn> inflearnList = inflearnRepository.findAllDesc();
+        List<ShowForm> showList = new ArrayList<>();
+        for (Inflearn inf : inflearnList) {
+            ShowForm showForm = new ShowForm(inf.getId(),inf.getPostName(),inf.getContent(),inf.getUserName(),inf.getDate(),inf.getLink(),inf.getStack(),inf.getViews(),inf.getTalk(), Source.INFLEARN,0);
+            showList.add(showForm);
+        }
+        return showList;
+    }
 }

@@ -33,8 +33,6 @@ public class ProjectController {
     private final ProjectService projectService;
     private final PostService postService;
     private final UserRepository userRepository;
-    private final PostsRepository postsRepository;
-    private final EntityManager em;
 
 
     @GetMapping("/projects")
@@ -48,7 +46,7 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/project/build")
+    @PostMapping("/projects/build")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
         User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
@@ -56,14 +54,14 @@ public class ProjectController {
     }
 
 
-    @PostMapping("/project/fav")  //스크랩은 project_Connect 에 있는 거 긁어오면됌
+    @PostMapping("/projects/fav")  //스크랩은 project_Connect 에 있는 거 긁어오면됌
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form);
     }
 
-    @GetMapping("/project/{id}")
-    public JSONObject showProject(@PathVariable Long id){
+    @GetMapping("/projects/{id}")
+    public JSONObject showProject(@PathVariable Long id) throws ParseException {
         return postService.showProject(id);
     }
 
