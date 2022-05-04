@@ -46,7 +46,7 @@ public class ProjectService  extends CrawlerService {
         String str= parseString(content,temp);
         String talk = "";  StringBuilder stack = new StringBuilder();
         talk = parseTalk(str, talk);     stack = parseStack(pForm.getTitle(),str,stack);
-        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"미정",stack.toString(),1,talk, Source.SOUP);
+        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setParse(str.substring(0,199));
         convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
 
@@ -152,50 +152,5 @@ public class ProjectService  extends CrawlerService {
 //            log.error("존재하지 않는 게시글");
 //    }
 
-//    @Transactional
-//    public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
-//        JSONObject obj = new JSONObject();
-//        boolean isfav=false;
-//        ProjectConnect author = projectConnectRepository.findByPostId(form.getId()).get(0);
-//        Set<ProjectConnect> userProjectConnectList = user.getProjectConnectList();
-//        for (ProjectConnect connect : userProjectConnectList) {
-//            if(connect.getUser().getId()==author.getUser().getId()){
-//                log.warn("이미 누른 회원이거나 작성자입니다.");
-//                obj.put("success", false);
-//                obj.put("isfav", true);
-//                return obj;
-//            }
-//        }
-//        List<ProjectConnect> projectList = projectConnectRepository.findByPostId(form.getId());
-//        for (ProjectConnect connect : projectList) {
-//            if(connect.getUser().getId()==user.getId()){
-//                log.warn("이미 누른 회원입니다.");
-//                isfav=true;
-//                break;
-//            }
-//        }
-//        Post post = postsRepository.findById(form.getId()).orElseThrow();
-//        if (form.isMode() && !isfav){
-//            post.plusFav();
-//            ProjectConnect connect = ProjectConnect.createConnect(post, user);
-//            projectConnectRepository.save(connect);
-//            isfav=true;
-//            obj.put("success",true);
-//        }
-//        else if(!form.isMode() && isfav){
-//            post.minusFav();
-//            for (ProjectConnect connect : projectList) {
-//                if(connect.getUser().getId()==user.getId()){
-//                    projectConnectRepository.delete(connect);  //작성자가 끊어지면 안되는데 이거 고려해보자..
-//                    isfav=false;
-//                    break;
-//                }
-//            }
-//            obj.put("success",true);
-//        }
-//        else
-//            obj.put("success",false);
-//        obj.put("isfav",isfav);
-//        return obj;
-//    }
+
 }
