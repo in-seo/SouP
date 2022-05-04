@@ -3,7 +3,6 @@ package Matching.SouP.controller;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
-import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
@@ -39,13 +38,13 @@ public class ProjectController {
 
 
     @GetMapping("/projects")
-    public PageImpl<ShowForm> showProject(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
+    public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
         try{
             Optional<User> User = userRepository.findByEmail(user.getEmail());
-            return postService.showProjectForUser(User.get(),stacks, pageable);
+            return postService.projectListForUser(User.get(),stacks, pageable);
         }
         catch (NullPointerException e){
-            return postService.showProjectForGuest(stacks,pageable);
+            return postService.projectListForGuest(stacks,pageable);
         }
     }
 
@@ -61,6 +60,11 @@ public class ProjectController {
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form);
+    }
+
+    @GetMapping("/project/{id}")
+    public JSONObject showProject(@PathVariable Long id){
+        return postService.showProject(id);
     }
 
 
