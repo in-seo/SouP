@@ -1,6 +1,7 @@
 package Matching.SouP.service;
 
 import Matching.SouP.domain.posts.Post;
+import Matching.SouP.domain.posts.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.ShowForm;
@@ -26,7 +27,7 @@ public class PostService{
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
 
-    public PageImpl<ShowForm> showProjectForUser(User user, List<String> stacks, Pageable pageable){
+    public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
         Page<Post> projectList = postsRepository.findAllDesc(pageable);
         List<ShowForm> showList = new ArrayList<>();
 
@@ -57,7 +58,7 @@ public class PostService{
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public PageImpl<ShowForm> showProjectForGuest(List<String> stacks, Pageable pageable){
+    public PageImpl<ShowForm> projectListForGuest(List<String> stacks, Pageable pageable){
         List<ShowForm> showList = new ArrayList<>();
         Page<Post> projectList = postsRepository.findAllDesc(pageable);  //일반적 조회시
 
@@ -77,13 +78,16 @@ public class PostService{
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public JSONObject project(Long id){
+    public JSONObject showProject(Long id){
         Optional<Post> Opost = postsRepository.findById(id);
         JSONObject obj = new JSONObject();
         if(Opost.isPresent()){
             Post post = Opost.get();
             obj.put("title",post.getPostName());
-            obj.put("content",post.getContent());
+            if(post.getSource()== Source.SOUP)
+                obj.put("content",post.getParse());
+            else
+                obj.put("content",post.getContent());
             obj.put("source",post.getSource());
             obj.put("stacks",post.getStack());
             obj.put("url",post.getLink());
