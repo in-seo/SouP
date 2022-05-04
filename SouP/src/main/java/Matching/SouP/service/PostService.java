@@ -41,8 +41,9 @@ public class PostService{
                     isStack=false;
             }
             if(isStack){
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),  post.getSource(),post.getFav());
-
+                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+                if(post.getSource()==Source.SOUP)
+                    showForm.setParse(post.getParse());
                 List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId());
                 for (ProjectConnect projectConnect : projectConnectList) {
                     if(projectConnect.getUser().getId()== user.getId()) {
@@ -84,10 +85,7 @@ public class PostService{
         if(Opost.isPresent()){
             Post post = Opost.get();
             obj.put("title",post.getPostName());
-            if(post.getSource()== Source.SOUP)
-                obj.put("content",post.getParse());
-            else
-                obj.put("content",post.getContent());
+            obj.put("content",post.getContent());
             obj.put("source",post.getSource());
             obj.put("stacks",post.getStack());
             obj.put("url",post.getLink());

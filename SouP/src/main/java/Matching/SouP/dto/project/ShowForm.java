@@ -37,5 +37,9 @@ public class ShowForm {
     public void setIsfav(boolean isfav) {
         this.isfav = isfav;
     }
+
+    public void setParse(String parse) {
+        this.parse = parse;
+    }
 }
 
