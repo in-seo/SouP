@@ -46,7 +46,7 @@ public class PostService{
             if(isStack){
                 ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
                 if(post.getSource()==Source.SOUP)
-                    showForm.setParse(post.getParse());
+                    showForm.setContent(post.getParse());
                 List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId());
                 for (ProjectConnect projectConnect : projectConnectList) {
                     if(projectConnect.getUser().getId()== user.getId()) {
@@ -76,6 +76,8 @@ public class PostService{
             }
             if(isStack){
                 ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+                if(post.getSource()==Source.SOUP)
+                    showForm.setContent(post.getParse());
                 showList.add(showForm);
             }
         }
@@ -93,7 +95,6 @@ public class PostService{
                 JSONObject parse = (JSONObject) parser.parse(post.getContent());
                 obj.put("type","prosemirror");
                 obj.put("content",parse);
-
             }
             else{
                 obj.put("type","string");
@@ -108,11 +109,14 @@ public class PostService{
 
 
     public List<ShowForm> findRecentPost(){
-        List<Post> projectList = postsRepository.findAllDesc();
+        List<Post> projectList = postsRepository.findTop3OrderByDateDesc();
         List<ShowForm> recentPost = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Post post = projectList.get(i);
-            recentPost.add(new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav()));
+            if(post.getSource()==Source.SOUP)
+                recentPost.add(new ShowForm(post.getId(),post.getPostName(),post.getParse(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav()));
+            else
+                recentPost.add(new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav()));
         }
         return recentPost;
     }
@@ -131,7 +135,7 @@ public class PostService{
         List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
         List<ShowForm> showList = new ArrayList<>();
         for (Post soup : soupList) {
-            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getContent(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
+            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getParse(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
             showList.add(showForm);
         }
         return showList;

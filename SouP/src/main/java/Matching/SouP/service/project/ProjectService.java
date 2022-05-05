@@ -119,24 +119,11 @@ public class ProjectService  extends CrawlerService {
 //        return question.getId();
 //    }
 
-//    @Transactional
-//    public ProjectInfo editProject(@LoginUser User user,EditForm editForm, Long id ){
-//        Optional<ProjectInfo> byId = projectInfoRepository.findById(id);
-//        if(byId.isPresent()) {
-//            ProjectInfo edit = byId.get();
-//            ProjectConnect connect = projectConnectRepository.findProjectConnectByProjectInfo(edit.getId());
-//
-//            if(connect.getUser().getEmail()!=user.getEmail())
-//                return edit;  //수정 불가
-//
-//            edit.setProjectName(editForm.getProjectName());edit.setText(editForm.getText());
-//            edit.setStack(editForm.getStack()); edit.setLink(editForm.getData());
-//            return edit;
-//        } else{
-//            log.error("해당 게시글이 없습니다. id="+ id);
-//        }
-//        return byId.get();
-//    }
+    @Transactional
+    public void editProject(PostForm form, Long id ){
+        Post post = postsRepository.findById(id).orElseThrow();
+        post.edit(form.getTitle(),form.getContent().toString());
+    }
 //
 //    @Transactional
 //    public void deleteProject(Long id) {

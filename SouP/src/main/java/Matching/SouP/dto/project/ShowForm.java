@@ -8,7 +8,7 @@ public class ShowForm {
 
     private Long id;  //post번호
     private String postName;
-    private String content;
+    private String content;  //Source == SOUP 면  content == parse한거
     private String userName;
     private String date; //글 올라온 시간
     private String link;
@@ -17,7 +17,6 @@ public class ShowForm {
     private String talk;
     private Source source;
     private int fav=0;
-    private String parse="";
     private boolean isfav=false;
 
     public ShowForm(Long id, String postName, String content, String userName, String date, String link, String stack, int views, String talk, Source source, int fav) {
@@ -38,8 +37,8 @@ public class ShowForm {
         this.isfav = isfav;
     }
 
-    public void setParse(String parse) {
-        this.parse = parse;
+    public void setContent(String parse) {
+        this.content = parse;
     }
 }
 
