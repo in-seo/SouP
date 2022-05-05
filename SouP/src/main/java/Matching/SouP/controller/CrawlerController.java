@@ -1,15 +1,10 @@
 package Matching.SouP.controller;
 
 import Matching.SouP.controller.exception.ErrorResponse;
-import Matching.SouP.crawler.CamPick.Campick;
 import Matching.SouP.crawler.CamPick.CampickService;
-import Matching.SouP.crawler.Hola.Hola;
 import Matching.SouP.crawler.Hola.HolaService;
-import Matching.SouP.crawler.inflearn.Inflearn;
 import Matching.SouP.crawler.inflearn.InflearnService;
-import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.crawler.okky.OkkyService;
-import Matching.SouP.domain.posts.Post;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +14,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +36,7 @@ public class CrawlerController {
 
 
     @GetMapping("/crawl")
-    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
+    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured"), @CacheEvict(value = "list")})
 //    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
@@ -52,6 +48,7 @@ public class CrawlerController {
     }
 
     @Cacheable(value = "front")
+    @Transactional(readOnly = true)
     @GetMapping("/front/projects")
     public JSONObject front() {
         JSONObject obj=new JSONObject();
@@ -70,6 +67,7 @@ public class CrawlerController {
     }
 
     @Cacheable(value = "featured")
+    @Transactional(readOnly = true)
     @GetMapping("/front/featured")
     public JSONObject featured(){
         JSONObject obj = new JSONObject();

@@ -3,11 +3,11 @@ package Matching.SouP.controller;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
+import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
-import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.project.ProjectService;
@@ -15,13 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -35,6 +36,8 @@ public class ProjectController {
     private final UserRepository userRepository;
 
 
+    @Cacheable(value = "list")
+    @Transactional(readOnly = true)
     @GetMapping("/projects")
     public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
         try{
@@ -60,6 +63,7 @@ public class ProjectController {
         return projectService.fav(User, form);
     }
 
+    @Transactional(readOnly = true)
     @GetMapping("/projects/{id}")
     public JSONObject showProject(@PathVariable Long id) throws ParseException {
         return postService.showProject(id);
@@ -67,12 +71,27 @@ public class ProjectController {
 
 
 
-//    @PostMapping("/project/edit")
-//    public String updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
-//        projectService.editProject(user, editForm, id);
-//        System.out.println("수정완료");
-//        return "redirect:/project";
-//    }
+    @PostMapping("/project/edit/{id}")
+    public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
+        JSONObject obj = new JSONObject();
+        User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
+        List<Post> postList = User.getPostList();
+        if(postList.size()!=0){
+            for (Post post : postList) {
+                if(post.getId()==id){
+                    projectService.editProject(pForm, id);
+                    obj.put("success",true);
+                }
+                else {
+                    obj.put("success", false);
+                }
+            }
+        }
+        else
+            obj.put("success",false);
+
+        return obj;
+    }
 
 //    @PostMapping("/project/delete/{id}")
 //    public String delete(@PathVariable Long id){

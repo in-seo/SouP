@@ -79,4 +79,9 @@ public class Post {
     public void setParse(String parse) {
         this.parse = parse;
     }
+
+    public void edit(String postName, String content){
+        this.postName=postName;
+        this.content=content;
+    }
 }

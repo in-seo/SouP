@@ -15,6 +15,4 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query("select u from User u left join fetch u.projectConnectList where u.email = :email")
     Optional<User> findByEmailFetchPC(String email);
 
-    @Query("select u from User u where u.nickName = :nick")
-    Optional<User> findByNick(String nick);
 }
