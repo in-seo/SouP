@@ -108,7 +108,7 @@ public class HolaService extends CrawlerService {
     }
 
     public List<ShowForm> findAllDesc() {
-        List<Hola> holaList = holaRepository.findAllDesc();
+        List<Hola> holaList = holaRepository.findTop8ByOrderByIdDesc();
         List<ShowForm> showList = new ArrayList<>();
         for (Hola hola : holaList) {
             ShowForm showForm = new ShowForm(hola.getId(),hola.getPostName(),hola.getContent(),hola.getUserName(),hola.getDate(),hola.getLink(),hola.getStack(),hola.getViews(),hola.getTalk(), Source.HOLA,0);

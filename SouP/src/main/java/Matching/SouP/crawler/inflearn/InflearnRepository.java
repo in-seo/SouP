@@ -14,6 +14,8 @@ public interface InflearnRepository extends JpaRepository<Inflearn,Long> {
     @Query("select i from Inflearn i order by i.id DESC")
     List<Inflearn> findAllDesc();
 
+    List<Inflearn> findTop8ByOrderByIdDesc();
+
     @Query("select i from Inflearn i where i.num=:num")
     Inflearn findByNum(int num);
 }

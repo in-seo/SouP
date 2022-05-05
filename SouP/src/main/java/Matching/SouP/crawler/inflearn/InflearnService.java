@@ -118,7 +118,7 @@ public class InflearnService extends CrawlerService {
     }
 
     public List<ShowForm> findAllDesc() {
-        List<Inflearn> inflearnList = inflearnRepository.findAllDesc();
+        List<Inflearn> inflearnList = inflearnRepository.findTop8ByOrderByIdDesc();
         List<ShowForm> showList = new ArrayList<>();
         for (Inflearn inf : inflearnList) {
             ShowForm showForm = new ShowForm(inf.getId(),inf.getPostName(),inf.getContent(),inf.getUserName(),inf.getDate(),inf.getLink(),inf.getStack(),inf.getViews(),inf.getTalk(), Source.INFLEARN,0);
