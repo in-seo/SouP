@@ -127,7 +127,7 @@ public class CampickService extends CrawlerService {
 
 
     public List<ShowForm> findAllDesc() {
-        List<Campick> campickList = campickRepository.findAllDesc();
+        List<Campick> campickList = campickRepository.findTop8ByOrderByIdDesc();
         List<ShowForm> showList = new ArrayList<>();
         for (Campick campick : campickList) {
             ShowForm showForm = new ShowForm(campick.getId(),campick.getPostName(),campick.getContent(),campick.getUserName(),campick.getDate(),campick.getLink(),campick.getStack(),campick.getViews(),campick.getTalk(), Source.CAMPICK,0);
