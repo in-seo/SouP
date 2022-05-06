@@ -120,24 +120,28 @@ public class ProjectService  extends CrawlerService {
 //    }
 
     @Transactional
-    public void editProject(PostForm form, Long id ){
+    public JSONObject editProject(User user, PostForm form, Long id ){
+        JSONObject obj = new JSONObject();
         Post post = postsRepository.findById(id).orElseThrow();
-        post.edit(form.getTitle(),form.getContent().toString());
+        if(post.getUser().getId()==user.getId()){
+            post.edit(form.getTitle(),form.getContent().toString());
+            obj.put("success", true);
+        }
+        else
+            obj.put("success", false);
+        return obj;
     }
-//
-//    @Transactional
-//    public void deleteProject(Long id) {
-//        Optional<ProjectInfo> del1 = projectInfoRepository.findById(id);
-//        Optional<ProjectConnect> del2 = projectConnectRepository.findById(id);
-//        if(del1.isPresent() && del2.isPresent()){
-//            ProjectInfo delete1 = del1.get();
-//            ProjectConnect delete2 = del2.get();
-//            projectInfoRepository.delete(delete1);
-//            projectConnectRepository.delete(delete2);
-//        }
-//        else
-//            log.error("존재하지 않는 게시글");
-//    }
 
-
+    @Transactional
+    public JSONObject deleteProject(User user, Long id) {
+        JSONObject obj = new JSONObject();
+        Post post = postsRepository.findById(id).orElseThrow();
+        if(post.getUser().getId()==user.getId()){
+            postsRepository.delete(post);
+            obj.put("success", true);
+        }
+        else
+            obj.put("success", false);
+        return obj;
+    }
 }

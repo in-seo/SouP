@@ -22,37 +22,10 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class apiController {
+public class LoungeController {
 
     private final UserRepository userRepository;
     private final LoungeService loungeService;
-
-//    @PostMapping("/project/{id}/addQuestion")
-//    public void addQuestion(@PathVariable Long id, @LoginUser SessionUser user, @RequestBody QuestionForm form){ //댓글 추가
-//        User presentUser = userRepository.findByEmail(user.getEmail()).get();
-//        Project_Question question = new Project_Question();
-//        question.setContent(form.getContent());
-//        projectService.addQuestion(id, presentUser.getId(),question);
-//    }
-
-    @GetMapping("/auth")
-    public JSONObject showAuth(@LoginUser SessionUser user){
-        JSONObject obj = new JSONObject();
-        try{
-            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
-            if(optionalUser.isPresent()){
-                User User = optionalUser.get();
-                obj.put("success",true);
-                obj.put("user_id",User.getId());
-                obj.put("username",User.getName());
-                obj.put("profileImage",User.getPicture());
-            }
-            return obj;
-        }catch (NullPointerException e){
-            obj.put("success",false);
-            return obj;
-        }
-    }
 
     @GetMapping("/lounge")
     public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기

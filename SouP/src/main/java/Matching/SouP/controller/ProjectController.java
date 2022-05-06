@@ -36,7 +36,6 @@ public class ProjectController {
     private final UserRepository userRepository;
 
 
-    @Cacheable(value = "list")
     @Transactional(readOnly = true)
     @GetMapping("/projects")
     public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
@@ -71,42 +70,18 @@ public class ProjectController {
 
 
 
-    @PostMapping("/project/edit/{id}")
+    @PostMapping("/projects/edit/{id}")
     public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
-        JSONObject obj = new JSONObject();
-        User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
-        List<Post> postList = User.getPostList();
-        if(postList.size()!=0){
-            for (Post post : postList) {
-                if(post.getId()==id){
-                    projectService.editProject(pForm, id);
-                    obj.put("success",true);
-                }
-                else {
-                    obj.put("success", false);
-                }
-            }
-        }
-        else
-            obj.put("success",false);
-
-        return obj;
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.editProject(User,pForm,id);
     }
 
-//    @PostMapping("/project/delete/{id}")
-//    public String delete(@PathVariable Long id){
-//        projectService.deleteProject(id);
-//        log.info("delete Controller");
-//        return "redirect:/project"; //리다이렉트
-//    }
-//
-//
-//    @GetMapping("/projectList")
-//    public String ProjectList(Model model){
-//        List<ProjectInfo> tempList = projectService.tempFindList();
-//        model.addAttribute("projectList",tempList);
-//        return "projectList";
-//    }
+    @PostMapping("/projects/delete/{id}")
+    public JSONObject deleteProject(@LoginUser SessionUser user, @PathVariable Long id){
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.deleteProject(User,id);
+    }
+
 
 
 
@@ -125,7 +100,7 @@ public class ProjectController {
 //            User user = new User("샤","asjfla@gmail.com","asdfljaweifa.com", Role.USER);
 //            userRepository.save(user);
 //            projectService.tempSave(pForm,user);
-//        }  //필요없음
+//        }
 //    }
 
     @ExceptionHandler(NullPointerException.class)

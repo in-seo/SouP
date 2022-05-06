@@ -109,7 +109,7 @@ public class PostService{
 
 
     public List<ShowForm> findRecentPost(){
-        List<Post> projectList = postsRepository.findTop3OrderByDateDesc();
+        List<Post> projectList = postsRepository.findTop3ByOrderByDateDesc();
         List<ShowForm> recentPost = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Post post = projectList.get(i);
