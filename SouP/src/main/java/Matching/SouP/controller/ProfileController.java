@@ -7,6 +7,7 @@ import Matching.SouP.dto.UserForm;
 import Matching.SouP.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.simple.JSONObject;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,6 +30,25 @@ import java.util.Optional;
 public class ProfileController {
     private final UserRepository userRepository;
 
+    @GetMapping("/auth")
+    public JSONObject showAuth(@LoginUser SessionUser user){
+        JSONObject obj = new JSONObject();
+        try{
+            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+            if(optionalUser.isPresent()){
+                User User = optionalUser.get();
+                obj.put("success",true);
+                obj.put("user_id",User.getId());
+                obj.put("username",User.getName());
+                obj.put("profileImage",User.getPicture());
+            }
+            return obj;
+        }catch (NullPointerException e){
+            obj.put("success",false);
+            return obj;
+        }
+    }
+
     @GetMapping("/profile")
     public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
         log.info("profile controller");
@@ -47,6 +67,7 @@ public class ProfileController {
         }
 
     }
+
     @PostMapping("/profile")  //Post요청 시
     public String profile(UserForm userForm) {
         User user = userRepository.findById(userForm.getId()).get();

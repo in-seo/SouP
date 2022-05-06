@@ -17,7 +17,7 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
 
     List<Post> findTop8BySourceOrderByDateDesc(Source SOUP);
 
-    List<Post> findTop3OrderByDateDesc();
+    List<Post> findTop3ByOrderByDateDesc();
 
 
     @Query("select p from Post p where p.date>:date order by p.views desc")
