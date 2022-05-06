@@ -15,17 +15,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,12 +33,12 @@ public class ProjectController {
     private final UserRepository userRepository;
 
 
-    @Transactional(readOnly = true)
+
     @GetMapping("/projects")
     public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
         try{
-            Optional<User> User = userRepository.findByEmail(user.getEmail());
-            return postService.projectListForUser(User.get(),stacks, pageable);
+            User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+            return postService.projectListForUser(User,stacks, pageable);
         }
         catch (NullPointerException e){
             return postService.projectListForGuest(stacks,pageable);
@@ -52,7 +49,6 @@ public class ProjectController {
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
         User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
-
     }
 
 
@@ -62,7 +58,6 @@ public class ProjectController {
         return projectService.fav(User, form);
     }
 
-    @Transactional(readOnly = true)
     @GetMapping("/projects/{id}")
     public JSONObject showProject(@PathVariable Long id) throws ParseException {
         return postService.showProject(id);

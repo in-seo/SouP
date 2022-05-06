@@ -124,7 +124,8 @@ public class OkkyService extends CrawlerService{
         List<Okky> okkyList = okkyRepository.findTop8ByOrderByIdDesc();
         List<ShowForm> showList = new ArrayList<>();
         for (Okky okky : okkyList) {
-            ShowForm showForm = new ShowForm(okky.getId(),okky.getPostName(),okky.getContent(),okky.getUserName(),okky.getDate(),okky.getLink(),okky.getStack(),okky.getViews(),okky.getTalk(), Source.OKKY,0);
+            ShowForm showForm = new ShowForm(okky.getId(),okky.getPostName(),okky.getContent(),okky.getUserName(),okky.getDate(),okky.getLink(),okky.getViews(),okky.getTalk(), Source.OKKY,0);
+            showForm.parseStack(okky.getStack());
             showList.add(showForm);
         }
         return showList;

@@ -66,7 +66,6 @@ public class CrawlerController {
     }
 
     @Cacheable(value = "featured")
-    @Transactional(readOnly = true)
     @GetMapping("/front/featured")
     public JSONObject featured(){
         JSONObject obj = new JSONObject();
