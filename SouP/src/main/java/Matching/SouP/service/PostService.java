@@ -29,6 +29,37 @@ public class PostService{
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
 
+//    public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
+//        Page<Post> projectList = postsRepository.findAllDesc(pageable);
+//        List<ShowForm> showList = new ArrayList<>();
+//
+//        projectList = filter(stacks, pageable, projectList);  //파라미터 입력받았을 경우
+//
+//        for (Post post : projectList.getContent()) {
+//            boolean br = true;
+//            boolean isStack=true;
+//            for (String stack : stacks) {
+//                if (!post.getStack().contains(stack))
+//                    isStack = false;
+//            }
+//            if(isStack){
+//                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+//                if(post.getSource()==Source.SOUP)
+//                    showForm.setContent(post.getParse());
+//                List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
+//                for (ProjectConnect projectConnect : projectConnectList) {
+//                    if(projectConnect.getUser().getId()== user.getId()) {
+//                        showForm.setIsfav(true);
+//                        br=false;
+//                    }
+//                }
+//                if(br)
+//                    showForm.setIsfav(false);
+//                showList.add(showForm);
+//            }
+//        }
+//        return new PageImpl<>(showList, pageable, projectList.getTotalElements());
+//    }
     public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
         Page<Post> projectList = postsRepository.findAllDesc(pageable);
         List<ShowForm> showList = new ArrayList<>();
@@ -36,26 +67,24 @@ public class PostService{
         projectList = filter(stacks, pageable, projectList);  //파라미터 입력받았을 경우
 
         for (Post post : projectList.getContent()) {
-            boolean br = true;
             boolean isStack=true;
             for (String stack : stacks) {
                 if (!post.getStack().contains(stack))
                     isStack = false;
             }
             if(isStack){
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                showForm.parseStack(post.getStack());
+                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
                 if(post.getSource()==Source.SOUP)
                     showForm.setContent(post.getParse());
-                List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId());
-                for (ProjectConnect projectConnect : projectConnectList) {
-                    if(projectConnect.getUser().getId()== user.getId()) {
-                        showForm.setIsfav(true);
-                        br=false;
+                if(user.getProjectConnectList().size()!=0){
+                    List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
+                    for (ProjectConnect projectConnect : projectConnectList) {
+                        if(projectConnect.getUser().getId()== user.getId()) {
+                            showForm.setIsfav(true);
+                            break;
+                        }
                     }
                 }
-                if(br)
-                    showForm.setIsfav(false);
                 showList.add(showForm);
             }
         }
@@ -75,8 +104,7 @@ public class PostService{
                     isStack=false;
             }
             if(isStack){
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                showForm.parseStack(post.getStack());
+                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
                 if(post.getSource()==Source.SOUP)
                     showForm.setContent(post.getParse());
                 showList.add(showForm);
@@ -114,13 +142,10 @@ public class PostService{
         for (int i = 0; i < 3; i++) {
             Post post = projectList.get(i);
             ShowForm showForm;
-            if(post.getSource()==Source.SOUP){
-                showForm = new ShowForm(post.getId(), post.getParse(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-            }
-            else{
-                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-            }
-            showForm.parseStack(post.getStack());
+            if(post.getSource()==Source.SOUP)
+                showForm = new ShowForm(post.getId(), post.getParse(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+            else
+                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             recentPost.add(showForm);
         }
         return recentPost;
@@ -132,8 +157,7 @@ public class PostService{
         List<ShowForm> hotList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             Post post = projectList.get(i);
-            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            showForm.parseStack(post.getStack());
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             hotList.add(showForm);
         }
         return hotList;
@@ -144,8 +168,7 @@ public class PostService{
         List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
         List<ShowForm> showList = new ArrayList<>();
         for (Post soup : soupList) {
-            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getParse(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
-            showForm.parseStack(soup.getStack());
+            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getParse(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
             showList.add(showForm);
         }
         return showList;

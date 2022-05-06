@@ -37,7 +37,7 @@ public class ProjectController {
     @GetMapping("/projects")
     public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
         try{
-            User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+            User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
             return postService.projectListForUser(User,stacks, pageable);
         }
         catch (NullPointerException e){
