@@ -8,8 +8,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Entity
+@Getter @Entity
 @SequenceGenerator(name = "Lounge_SEQ_GEN",sequenceName = "Lounge_SEQ") //초기 값 1, 재할당 50마다
 public class Lounge extends BaseTimeEntity {
 

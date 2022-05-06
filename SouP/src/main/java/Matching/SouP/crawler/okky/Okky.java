@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 @Getter
 @Entity
+@SequenceGenerator(name = "Project_SEQ_GEN",sequenceName = "Project_SEQ")
 public class Okky {
     protected Okky() {
     }

@@ -23,6 +23,9 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
     @Query("select p from Post p where p.date>:date order by p.views desc")
     List<Post> findAllNDaysBefore(String date);
 
+//    @Query(value = "SELECT * FROM Post WHERE MATCH(stack) AGAINST(:stack) ORDER BY id desc",nativeQuery = true)
+//    Page<Post> findBy1StacksDesc(Pageable pageable, String stack);
+
     @Query("select p from Post p where p.stack like %:stack% order by p.date desc")
     Page<Post> findBy1StacksDesc(Pageable pageable, String stack);
 
