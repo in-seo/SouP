@@ -8,6 +8,8 @@ import lombok.Getter;
 
 import javax.persistence.*;
 
+import static javax.persistence.FetchType.*;
+
 @Entity
 @Getter
 public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 테이블.
@@ -17,11 +19,11 @@ public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 
     @Column(name = "project_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name="post_id")
     private Post post;
 
@@ -38,6 +40,7 @@ public class ProjectConnect extends BaseTimeEntity {  //다대다 연결 위한 
     }
 
     public void setUser(User user){
+        user.getProjectConnectList().add(this); //스크랩!
         this.user=user;
     }
 

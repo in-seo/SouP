@@ -30,7 +30,7 @@ public class LoungeController {
     @GetMapping("/lounge")
     public JSONArray showLounge(@LoginUser SessionUser user){   //라운지 보여주기
         try{
-            Optional<User> User = userRepository.findByEmail(user.getEmail());
+            Optional<User> User = userRepository.findByEmailFetchLC(user.getEmail());
             return loungeService.showLoungeForUser(User.get());
         }
         catch (NullPointerException e){
@@ -48,7 +48,8 @@ public class LoungeController {
 
     @PostMapping("/lounge/fav")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userRepository.findByEmailFetchLC(user.getEmail()).orElseThrow();
+        log.error("aoiejoawjgea");
         return loungeService.fav(User, form);
     }
 

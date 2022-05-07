@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,11 +40,13 @@ public class LoungeService {
             obj.put("date",lounge.getCreatedDate().toString());
             obj.put("fav",lounge.getFav());
             obj.put("lounge_id",lounge.getId());
-            List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
-            for (LoungeConnect loungeConnect : byLoungeId) {
-                if(loungeConnect.getUser().getId()== user.getId()) {
-                    obj.put("isfav", true);
-                    br=false;
+            if(user.getLoungeConnectList().size()!=0){
+                List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
+                for (LoungeConnect loungeConnect : byLoungeId) {
+                    if(loungeConnect.getUser().getId()== user.getId()) {
+                        obj.put("isfav", true);
+                        br=false;
+                    }
                 }
             }
             if(br)
@@ -85,15 +88,16 @@ public class LoungeService {
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
-        List<LoungeConnect> loungeList = loungeConnectRepository.findByLoungeId(form.getId());
-        for (LoungeConnect connect : loungeList) {
-            if(connect.getUser().getId()==user.getId()){
-                log.warn("이미 누른 회원입니다.");
-                isfav=true;
-                break;
+        List<LoungeConnect> loungeList = new ArrayList<>();
+        if(user.getLoungeConnectList().size()!=0){
+            loungeList = loungeConnectRepository.findByLoungeId(form.getId());
+            for (LoungeConnect connect : loungeList) {
+                if(connect.getUser().getId()==user.getId()){
+                    isfav=true;
+                    break;
+                }
             }
         }
-
         Lounge lounge = loungeRepository.findById(form.getId()).orElseThrow();
         if (form.isMode() && !isfav){
             lounge.plusFav();

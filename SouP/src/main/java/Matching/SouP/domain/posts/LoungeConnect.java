@@ -18,7 +18,7 @@ public class LoungeConnect extends BaseTimeEntity {  //다대다 연결 위한 �
     @JoinColumn(name="user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="lounge_id")
     private Lounge lounge;
 
@@ -35,6 +35,7 @@ public class LoungeConnect extends BaseTimeEntity {  //다대다 연결 위한 �
         this.lounge = lounge;
     }
     public void setUser(User user){
+        user.getLoungeConnectList().add(this);
         this.user=user;
     }
 

@@ -23,7 +23,7 @@ public class Lounge extends BaseTimeEntity {
     @OneToMany(mappedBy = "lounge", cascade = CascadeType.REMOVE)
     private List<LoungeConnect> loungeConnectList = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;  //작성자
 
