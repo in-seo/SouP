@@ -23,15 +23,16 @@ public class CrawlerService {
         }
         return talk;
     }
-    public StringBuilder parseStack(String postName,String content, StringBuilder stack){  //핵심로직!!
+    public StringBuilder parseStack(String postName,String content){  //핵심로직!!
+        StringBuilder stack = new StringBuilder();
         List<String> stackList = new ArrayList<>(
                 Arrays.asList("파이썬","python","자바","java",
                         "노드", "node", "리액트","react",
                         "자바스크립트","js", "스프링","spring",
                         "코틀린","kotlin","프론트","front",
-                        "백엔드","backend", "앱","app","웹", "web",
+                        "백엔드","backend", "app","앱","web", "웹",
                         "뷰","vue", "스위프트","swift","플러터","flutter",
-                        "코딩","게임","서비스","기획","블록체인",
+                        "게임","서비스","기획","블록체인",
                         "nft","코테","백준",
                         "ai","docker","ios","android",
                         "aws","c++","html","css",
@@ -43,8 +44,9 @@ public class CrawlerService {
             String keyword = stackList.get(i);
             if(content.contains(keyword) || postName.contains(keyword)){
                 cnt++;
-                if(i%2==0 && i<28)
-                    i++; //만약 한글인경우 영어로 치환하기위함.
+                if(i%2==0 && i<28){
+                    keyword = stackList.get(++i); //만약 한글인경우 영어로 치환하기위함.
+                }
                 stack.append(keyword).append(" ");
             }
             if(cnt>=3)

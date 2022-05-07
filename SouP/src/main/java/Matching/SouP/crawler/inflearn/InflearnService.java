@@ -55,14 +55,13 @@ public class InflearnService extends CrawlerService {
                     content+=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div > ul").text();
 
                 Elements tags = element.select("a > div > div.question__info > div.question__tags");
-                int tagCount = tags.select("button").size();
-                StringBuilder stack= new StringBuilder();
-                for (int j = 1; j <= tagCount; j++) {
-                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
-                    if(j==3)
-                        break;
-                }
-                if(stack.length()==0) stack = parseStack(postName,content,stack);
+//                int tagCount = tags.select("button").size();
+//                for (int j = 1; j <= tagCount; j++) {
+//                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
+//                    if(j==3)
+//                        break;
+//                }
+                StringBuilder stack = parseStack(postName,content);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
                         if(talk.isEmpty()){talk = parseTalk(content,talk);}

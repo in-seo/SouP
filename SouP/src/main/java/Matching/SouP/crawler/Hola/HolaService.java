@@ -62,14 +62,14 @@ public class HolaService extends CrawlerService {
                     String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
                     date=standard(date);
                     String postName = eachPost.select("h1").text();
-                    StringBuilder stack= new StringBuilder();
-                    int length= eachPost.select("li").size();
-                    for (int j = 1; j <= length; j++) {
-                        stack.append(eachPost.select(" ul > li:nth-child(" + j + ")").text());
-                        stack.append(" ");
-                        if(length==3)
-                            break;
-                    }
+//                    int length= eachPost.select("li").size();
+//                    for (int j = 1; j <= length; j++) {
+//                        stack.append(eachPost.select(" ul > li:nth-child(" + j + ")").text());
+//                        stack.append(" ");
+//                        if(length==3)
+//                            break;
+//                    }
+                    StringBuilder stack = parseStack(postName,content);
                     int views = Integer.parseInt(eachPost.select(" section > div:nth-child(2) > p").text());
                     Hola hola = new Hola(postName,content,userName,date,link,stack.toString(),views,talk);
                     holaRepository.save(hola);

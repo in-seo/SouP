@@ -53,17 +53,16 @@ public class OkkyService extends CrawlerService{
                 String link = "https://okky.kr/article/"+num;
                 Document realPost = Jsoup.connect(link).get();
 
-                int size = realPost.select("#content-body > div").select("a").size();
-                StringBuilder stack= new StringBuilder();
-                for (int j = 3; j <= size+1; j++) {
-                    stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
-                    if(j==5)
-                        break; //3개까지만저장
-                }
+//                int size = realPost.select("#content-body > div").select("a").size();
+//                for (int j = 3; j <= size+1; j++) {
+//                    stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
+//                    if(j==5)
+//                        break; //3개까지만저장
+//                }
 
                 String content = realPost.select("#content-body > article").text();
 
-                if(stack.length()==0) stack = parseStack(postName,content,stack);
+                StringBuilder stack = parseStack(postName,content);
                 String talk = realPost.select("#content-body > article").select("a").attr("href");
                         if(talk.isEmpty()){ talk = parseTalk(content,talk);}
 
