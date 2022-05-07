@@ -71,8 +71,7 @@ public class CampickService extends CrawlerService {
                 String talk="";
                 talk = parseTalk(content,talk);
 
-                StringBuilder stack=new StringBuilder();
-                stack = parseStack(postName,content,stack);
+                StringBuilder stack = parseStack(postName,content);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
 
                 int views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());

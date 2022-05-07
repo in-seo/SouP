@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -45,6 +47,7 @@ public class ProjectController {
         }
     }
 
+    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
     @PostMapping("/projects/build")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
         User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
