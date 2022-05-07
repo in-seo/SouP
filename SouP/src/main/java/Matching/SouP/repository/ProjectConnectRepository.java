@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProjectConnectRepository extends JpaRepository<ProjectConnect,Long> {
 
 
-    @Query("select pc from ProjectConnect pc where pc.post.id=:id")
+    @Query("select pc from ProjectConnect pc left join fetch pc.user where pc.post.id=:id")
     List<ProjectConnect> findByPostId(Long id);
 
     @Query("select pc from ProjectConnect pc order by pc.createdDate desc")

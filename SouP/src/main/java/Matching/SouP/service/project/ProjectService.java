@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,19 +74,21 @@ public class ProjectService  extends CrawlerService {
     public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
-        List<ProjectConnect> projectList = projectConnectRepository.findByPostId(form.getId());
-        for (ProjectConnect connect : projectList) {
-            if(connect.getUser().getId()==user.getId()){
-                log.warn("이미 누른 회원입니다.");
-                isfav=true;
-                break;
+        List<ProjectConnect> projectList = new ArrayList<>();
+        if(user.getProjectConnectList().size()!=0){
+            projectList = projectConnectRepository.findByPostId(form.getId());
+            for (ProjectConnect connect : projectList) {
+                if(connect.getUser().getId()==user.getId()){
+                    isfav=true;
+                    break;
+                }
             }
         }
+
         Post post = postsRepository.findById(form.getId()).orElseThrow();
         if (form.isMode() && !isfav){
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
-            user.getProjectConnectList().add(connect); //스크랩!
             projectConnectRepository.save(connect);
             isfav=true;
             obj.put("success",true);
