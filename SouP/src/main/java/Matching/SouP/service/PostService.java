@@ -92,20 +92,18 @@ public class PostService{
         JSONObject obj = new JSONObject();
         if(Opost.isPresent()){
             Post post = Opost.get();
-            obj.put("title",post.getPostName());
+            ShowForm showForm;
             if(post.getSource()==Source.SOUP){
                 JSONParser parser = new JSONParser();
                 JSONObject parse = (JSONObject) parser.parse(post.getContent());
+                showForm = new ShowForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
                 obj.put("type","prosemirror");
-                obj.put("content",parse);
             }
             else{
+                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
                 obj.put("type","string");
-                obj.put("content",post.getContent());
             }
-            obj.put("source",post.getSource());
-            obj.put("stacks",post.getStack());
-            obj.put("url",post.getLink());
+            obj.put("content",showForm);
         }
         return obj;
     }
