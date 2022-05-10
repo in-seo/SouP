@@ -4,6 +4,7 @@ import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
+import Matching.SouP.dto.project.DetailForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.ProjectConnectRepository;
@@ -87,25 +88,28 @@ public class PostService{
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public JSONObject showProject(Long id) throws ParseException {
+    public DetailForm showProject(Long id,User user) throws ParseException {
         Optional<Post> Opost = postsRepository.findById(id);
-        JSONObject obj = new JSONObject();
+        DetailForm form = null;
         if(Opost.isPresent()){
             Post post = Opost.get();
-            ShowForm showForm;
             if(post.getSource()==Source.SOUP){
                 JSONParser parser = new JSONParser();
                 JSONObject parse = (JSONObject) parser.parse(post.getContent());
-                showForm = new ShowForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-                obj.put("type","prosemirror");
+                form = new DetailForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                form.setType("prosemirror");
             }
             else{
-                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-                obj.put("type","string");
+                form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                form.setType("string");
             }
-            obj.put("content",showForm);
+            for (ProjectConnect connect : user.getProjectConnectList()) {
+                if(connect.getPost().getId()==id)
+                    form.setIsfav(true);
+            }
         }
-        return obj;
+
+        return form;
     }
 
     public List<ShowForm> findRecentPost(){

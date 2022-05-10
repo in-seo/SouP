@@ -26,7 +26,10 @@ public class ShowForm {
         this.userName = userName;
         this.date = date;
         this.link = link;
-        this.stacks = stack.split(",|\\s+");
+        if(!stack.isEmpty())
+            this.stacks = stack.split(",|\\s+");
+        else
+            this.stacks = new String[0];
         this.views = views;
         this.talk = talk;
         this.source = source;
