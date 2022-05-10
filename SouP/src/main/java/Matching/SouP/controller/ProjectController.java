@@ -6,6 +6,7 @@ import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.project.DetailForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.UserRepository;
@@ -62,8 +63,9 @@ public class ProjectController {
     }
 
     @GetMapping("/projects/{id}")
-    public JSONObject showProject(@PathVariable Long id) throws ParseException {
-        return postService.showProject(id);
+    public DetailForm showProject(@PathVariable Long id,@LoginUser SessionUser user) throws ParseException {
+        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
+        return postService.showProject(id,User);
     }
 
 

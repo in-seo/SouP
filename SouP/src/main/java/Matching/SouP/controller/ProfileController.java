@@ -49,24 +49,7 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/profile")
-    public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
-        log.info("profile controller");
-        if(user==null){
-            attributes.addFlashAttribute("msg","회원가입 후 이용하실 수 있습니다.");
-            return "redirect:/";
-        }
-        Optional<User> User = userRepository.findByEmail(user.getEmail());
-        if(User.isPresent()){
-            model.addAttribute("user",User.get());
-            model.addAttribute("UForm",new UserForm(User.get().getId()));  //id를 post해서 이어쓰기위해서 함
-            return "profile";
-        }
-        else{ //이메일 값 없이 등록한 사람
-            return "redirect:/";
-        }
 
-    }
 
     @PostMapping("/profile")  //Post요청 시
     public String profile(UserForm userForm) {
