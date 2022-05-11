@@ -64,8 +64,13 @@ public class ProjectController {
 
     @GetMapping("/projects/{id}")
     public DetailForm showProject(@PathVariable Long id,@LoginUser SessionUser user) throws ParseException {
-        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-        return postService.showProject(id,User);
+        try{
+            User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
+            return postService.showProject(id,User);
+        }
+        catch (NullPointerException e){
+            return postService.showProject(id);
+        }
     }
 
 
