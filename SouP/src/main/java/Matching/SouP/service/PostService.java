@@ -92,23 +92,20 @@ public class PostService{
         Optional<Post> Opost = postsRepository.findById(id);
         DetailForm form = null;
         if(Opost.isPresent()){
-            Post post = Opost.get();
-            if(post.getSource()==Source.SOUP){
-                JSONParser parser = new JSONParser();
-                JSONObject parse = (JSONObject) parser.parse(post.getContent());
-                form = new DetailForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-                form.setType("prosemirror");
-            }
-            else{
-                form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-                form.setType("string");
-            }
+            form = getDetailForm(Opost);
             for (ProjectConnect connect : user.getProjectConnectList()) {
                 if(connect.getPost().getId()==id)
                     form.setIsfav(true);
             }
         }
-
+        return form;
+    }
+    public DetailForm showProject(Long id) throws ParseException {
+        Optional<Post> Opost = postsRepository.findById(id);
+        DetailForm form = null;
+        if(Opost.isPresent()){
+            form = getDetailForm(Opost);
+        }
         return form;
     }
 
@@ -193,4 +190,19 @@ public class PostService{
 //        }
 //        return new PageImpl<>(showList, pageable, projectList.getTotalElements());
 //    }
+    private DetailForm getDetailForm(Optional<Post> opost) throws ParseException {
+        DetailForm form;
+        Post post = opost.get();
+        if(post.getSource()== Source.SOUP){
+            JSONParser parser = new JSONParser();
+            JSONObject parse = (JSONObject) parser.parse(post.getContent());
+            form = new DetailForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+            form.setType("prosemirror");
+        }
+        else{
+            form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+            form.setType("string");
+        }
+        return form;
+    }
 }
