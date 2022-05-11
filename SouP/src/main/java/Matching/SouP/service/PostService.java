@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -134,6 +135,18 @@ public class PostService{
             hotList.add(showForm);
         }
         return hotList;
+    }
+
+    public List<ShowForm> findRandomPost(long n){
+        List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
+        List<ShowForm> randomList = new ArrayList<>();
+        Random ran = new Random();
+        for (int i = 0; i < n; i++) {
+            Post post = projectList.get(ran.nextInt(projectList.size()));
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+            randomList.add(showForm);
+        }
+        return randomList;
     }
 
 
