@@ -76,6 +76,8 @@ public class Post {
         this.user = user;
     }
 
+    public void addViews() {views++;}
+
     public void setParse(String parse) {
         this.parse = parse;
     }

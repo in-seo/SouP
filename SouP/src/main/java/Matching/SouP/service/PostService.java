@@ -88,12 +88,15 @@ public class PostService{
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
-
+    @Transactional
     public DetailForm showProject(Long id,User user) throws ParseException {
         Optional<Post> Opost = postsRepository.findById(id);
         DetailForm form = null;
         if(Opost.isPresent()){
-            form = getDetailForm(Opost);
+            Post post = Opost.get();
+            if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
+                post.addViews();
+            form = getDetailForm(post);
             for (ProjectConnect connect : user.getProjectConnectList()) {
                 if(connect.getPost().getId()==id)
                     form.setIsfav(true);
@@ -101,11 +104,15 @@ public class PostService{
         }
         return form;
     }
+    @Transactional
     public DetailForm showProject(Long id) throws ParseException {
         Optional<Post> Opost = postsRepository.findById(id);
         DetailForm form = null;
         if(Opost.isPresent()){
-            form = getDetailForm(Opost);
+            Post post = Opost.get();
+            if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
+                post.addViews();
+            form = getDetailForm(post);
         }
         return form;
     }
@@ -171,41 +178,8 @@ public class PostService{
             return postsRepository.findAllDesc(pageable);
     }
 
-
-//    public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
-//        Page<Post> projectList = postsRepository.findAllDesc(pageable);
-//        List<ShowForm> showList = new ArrayList<>();
-//
-//        projectList = filter(stacks, pageable, projectList);  //파라미터 입력받았을 경우
-//
-//        for (Post post : projectList.getContent()) {
-//            boolean br = true;
-//            boolean isStack=true;
-//            for (String stack : stacks) {
-//                if (!post.getStack().contains(stack))
-//                    isStack = false;
-//            }
-//            if(isStack){
-//                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-//                if(post.getSource()==Source.SOUP)
-//                    showForm.setContent(post.getParse());
-//                List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
-//                for (ProjectConnect projectConnect : projectConnectList) {
-//                    if(projectConnect.getUser().getId()== user.getId()) {
-//                        showForm.setIsfav(true);
-//                        br=false;
-//                    }
-//                }
-//                if(br)
-//                    showForm.setIsfav(false);
-//                showList.add(showForm);
-//            }
-//        }
-//        return new PageImpl<>(showList, pageable, projectList.getTotalElements());
-//    }
-    private DetailForm getDetailForm(Optional<Post> opost) throws ParseException {
+    private DetailForm getDetailForm(Post post) throws ParseException {
         DetailForm form;
-        Post post = opost.get();
         if(post.getSource()== Source.SOUP){
             JSONParser parser = new JSONParser();
             JSONObject parse = (JSONObject) parser.parse(post.getContent());
