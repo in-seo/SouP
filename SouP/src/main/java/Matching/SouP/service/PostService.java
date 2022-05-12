@@ -147,11 +147,23 @@ public class PostService{
     public List<ShowForm> findRandomPost(long n){
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
         List<ShowForm> randomList = new ArrayList<>();
-        Random ran = new Random();
-        for (int i = 0; i < n; i++) {
-            Post post = projectList.get(ran.nextInt(projectList.size()));
-            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            randomList.add(showForm);
+        if(projectList.size()<3){
+            log.error("글이 3개 미만이기에 추천 불가능.");
+        }
+        else{
+            Random ran = new Random();
+            int[] arr = new int[3];
+            for (int i = 0; i < n; i++) {
+                int num = ran.nextInt(projectList.size());
+                arr[i]=num;
+                for (int j = 0; j < i; j++) {
+                    if(arr[i]==arr[j])
+                        i--;
+                }
+                Post post = projectList.get(num);
+                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+                randomList.add(showForm);
+            }
         }
         return randomList;
     }
