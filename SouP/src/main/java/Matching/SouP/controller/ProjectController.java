@@ -3,7 +3,6 @@ package Matching.SouP.controller;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
-import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.DetailForm;
@@ -12,6 +11,7 @@ import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.project.ProjectService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -38,10 +38,11 @@ public class ProjectController {
 
 
     @GetMapping("/projects")
-    public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required = false,defaultValue = "") List<String> stacks, Pageable pageable) {
+    @ApiOperation(value = "프로젝트 목록 조회")
+    public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required=false, defaultValue="") List<String> stacks, Pageable pageable) {
         try{
             User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-            return postService.projectListForUser(User,stacks, pageable);
+            return postService.projectListForUser(User, stacks, pageable);
         }
         catch (NullPointerException e){
             return postService.projectListForGuest(stacks,pageable);
@@ -50,6 +51,7 @@ public class ProjectController {
 
     @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
     @PostMapping("/projects/build")
+    @ApiOperation(value = "프로젝트 작성")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
         User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
@@ -57,13 +59,15 @@ public class ProjectController {
 
 
     @PostMapping("/projects/fav")  //스크랩은 project_Connect 에 있는 거 긁어오면됌
+    @ApiOperation(value = "프로젝트 스크랩 추가")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form);
     }
 
     @GetMapping("/projects/{id}")
-    public DetailForm showProject(@PathVariable Long id,@LoginUser SessionUser user) throws ParseException {
+    @ApiOperation(value = "프로젝트 조회")
+    public DetailForm showProject(@PathVariable Long id, @LoginUser SessionUser user) throws ParseException {
         try{
             User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
             return postService.showProject(id,User);
@@ -73,15 +77,15 @@ public class ProjectController {
         }
     }
 
-
-
     @PostMapping("/projects/edit/{id}")
+    @ApiOperation(value = "프로젝트 편집")
     public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return projectService.editProject(User,pForm,id);
     }
 
     @PostMapping("/projects/delete/{id}")
+    @ApiOperation(value = "프로젝트 삭제")
     public JSONObject deleteProject(@LoginUser SessionUser user, @PathVariable Long id){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return projectService.deleteProject(User,id);

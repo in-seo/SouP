@@ -14,7 +14,16 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
-//        response.sendRedirect("/");
-        response.sendRedirect("http://localhost:3000/api/login-redirect");
+        String scheme = request.getScheme();             // http
+        String serverName = request.getServerName();     // hostname.com
+        int serverPort = request.getServerPort();        // 80
+
+        StringBuilder url = new StringBuilder();
+        url.append(scheme).append("://").append(serverName);
+        if (serverPort != 80 && serverPort != 443) {
+            url.append(":").append(serverPort);
+        }
+
+        response.sendRedirect(url.toString());
     }
 }
