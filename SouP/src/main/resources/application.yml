@@ -24,6 +24,9 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 # 파라미터 확인을 위한 trace
 #logging:
 #  level:
