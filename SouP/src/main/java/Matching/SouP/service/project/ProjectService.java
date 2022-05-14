@@ -8,6 +8,7 @@ import Matching.SouP.domain.posts.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,8 @@ public class ProjectService  extends CrawlerService {
         talk = parseTalk(str, talk);     StringBuilder stack = parseStack(pForm.getTitle(),str);
         Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setParse(str.substring(0,199));
-        convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
-
+        Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
+        obj.put("id",soup.getId());
         obj.put("success", true);
         return obj;
     }
@@ -121,9 +122,9 @@ public class ProjectService  extends CrawlerService {
 //    }
 
     @Transactional
-    public JSONObject editProject(User user, PostForm form, Long id ){
+    public JSONObject editProject(User user, EditForm form){
         JSONObject obj = new JSONObject();
-        Post post = postsRepository.findById(id).orElseThrow();
+        Post post = postsRepository.findById(form.getId()).orElseThrow();
         if(post.getUser().getId()==user.getId()){
             post.edit(form.getTitle(),form.getContent().toString());
             obj.put("success", true);
