@@ -25,7 +25,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.4'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.4'
 	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
-	implementation 'junit:junit:4.13.1'
 	implementation 'org.jsoup:jsoup:1.13.1'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.springframework.session:spring-session-jdbc'
@@ -42,14 +41,13 @@ dependencies {
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation("org.junit.vintage:junit-vintage-engine") {
 		exclude group: "org.hamcrest", module: "hamcrest-core"
 	}
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.7.Final'
 }
-
-test {
-	useJUnitPlatform()
-}
+test { testLogging { exceptionFormat = 'full' } }
+//test {
+//	useJUnitPlatform()
+//}
