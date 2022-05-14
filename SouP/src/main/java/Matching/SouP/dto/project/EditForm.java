@@ -1,11 +1,12 @@
 package Matching.SouP.dto.project;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import org.json.simple.JSONObject;
 
 
-@Getter @Setter
+@Getter
 public class EditForm {
-    private String projectName;    // 프로젝
+    private String title;    // 프로젝트명
+    private JSONObject content; // 프로젝트 내용
+    private Long id;
 }

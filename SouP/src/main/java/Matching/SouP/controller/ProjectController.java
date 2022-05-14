@@ -6,6 +6,7 @@ import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.DetailForm;
+import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.UserRepository;
@@ -77,18 +78,18 @@ public class ProjectController {
         }
     }
 
-    @PostMapping("/projects/edit/{id}")
+    @PostMapping("/projects/edit")
     @ApiOperation(value = "프로젝트 편집")
-    public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody PostForm pForm, @PathVariable Long id){
+    public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody EditForm eForm){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
-        return projectService.editProject(User,pForm,id);
+        return projectService.editProject(User,eForm);
     }
 
-    @PostMapping("/projects/delete/{id}")
+    @PostMapping("/projects/delete")
     @ApiOperation(value = "프로젝트 삭제")
-    public JSONObject deleteProject(@LoginUser SessionUser user, @PathVariable Long id){
+    public JSONObject deleteProject(@LoginUser SessionUser user, @RequestBody EditForm form){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
-        return projectService.deleteProject(User,id);
+        return projectService.deleteProject(User,form.getId());
     }
 
 
