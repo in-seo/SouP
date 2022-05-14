@@ -199,7 +199,7 @@ public class PostService{
             form.setType("prosemirror");
         }
         else{
-            form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav(),post.getUser().getId());
+            form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav(),null);
             form.setType("string");
         }
         return form;
