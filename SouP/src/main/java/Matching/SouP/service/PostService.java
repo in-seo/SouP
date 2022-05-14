@@ -90,7 +90,7 @@ public class PostService{
     }
     @Transactional
     public DetailForm showProject(Long id,User user) throws ParseException {
-        Optional<Post> Opost = postsRepository.findById(id);
+        Optional<Post> Opost = postsRepository.findByIdFetchUser(id);
         DetailForm form = null;
         if(Opost.isPresent()){
             Post post = Opost.get();
@@ -195,11 +195,11 @@ public class PostService{
         if(post.getSource()== Source.SOUP){
             JSONParser parser = new JSONParser();
             JSONObject parse = (JSONObject) parser.parse(post.getContent());
-            form = new DetailForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+            form = new DetailForm(post.getId(), post.getPostName(), parse.toString(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav(),post.getUser().getId());
             form.setType("prosemirror");
         }
         else{
-            form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+            form = new DetailForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav(),post.getUser().getId());
             form.setType("string");
         }
         return form;

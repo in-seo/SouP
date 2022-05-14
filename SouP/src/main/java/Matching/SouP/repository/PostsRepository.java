@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface PostsRepository extends PagingAndSortingRepository<Post, Long> {
@@ -35,7 +36,8 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
     @Query("select p from Post p where p.stack like %:stack1% and p.stack like %:stack2% and p.stack like %:stack3% order by p.date desc")
     Page<Post> findBy3StacksDesc(Pageable pageable, String stack1, String stack2, String stack3);
 
-
+    @Query("select p from Post p left join fetch p.user where p.id=:id")
+    Optional<Post> findByIdFetchUser(Long id);
 
 
 }
