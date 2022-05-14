@@ -113,10 +113,13 @@ public class ProjectController {
 //    }
 
     @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleException1() {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
     }
+
     @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleException2() {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원이거나 존재하지 않는 글에 요청을 합니다.");
     }
