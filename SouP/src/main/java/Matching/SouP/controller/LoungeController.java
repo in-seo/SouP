@@ -56,10 +56,13 @@ public class LoungeController {
 
 
     @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleException1() {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
     }
+
     @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleException2() {
         return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원");
     }
