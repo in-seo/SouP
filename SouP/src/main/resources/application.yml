@@ -1,33 +1,33 @@
-spring:
-  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://127.0.0.1:3306/soup?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-#    username: soup
-#    password: hongik
-
-#    url: jdbc:h2:tcp://localhost/~/SouP
-#    driver-class-name: org.h2.Driver
-#    username: sa
-  jpa:
-#    database: mysql
-#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-    generate-ddl: true
-    show-sql: true
-    hibernate:
-      ddl-auto: create
-    open-in-view: false
-
-  # 콘솔 확인 을 위한 always
-  output:
-    ansi:
-      enabled: always
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
-# 파라미터 확인을 위한 trace
-#logging:
-#  level:
-#    org.hibernate.type: trace
+#spring:
+#  datasource:
+##    driver-class-name: com.mysql.cj.jdbc.Driver
+##    url: jdbc:mysql://127.0.0.1:3306/soup?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+##    username: soup
+##    password: hongik
+#
+##    url: jdbc:h2:tcp://localhost/~/SouP
+##    driver-class-name: org.h2.Driver
+##    username: sa
+#  jpa:
+##    database: mysql
+##    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    generate-ddl: true
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: none
+#    open-in-view: false
+#
+#  # 콘솔 확인 을 위한 always
+#  output:
+#    ansi:
+#      enabled: always
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+## 파라미터 확인을 위한 trace
+##logging:
+##  level:
+##    org.hibernate.type: trace
