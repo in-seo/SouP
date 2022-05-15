@@ -41,3 +41,4 @@ out/
 out
 gen
 application-oauth.properties
+application-real-db.properties
