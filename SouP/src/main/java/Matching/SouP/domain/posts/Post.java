@@ -1,7 +1,6 @@
 package Matching.SouP.domain.posts;
 
 import Matching.SouP.domain.project.ProjectConnect;
-import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,9 +41,6 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<ProjectConnect> projectConnectList = new ArrayList<>();  //프로젝트-회원 엮여있는 리스트  스크랩!!!!
-
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
