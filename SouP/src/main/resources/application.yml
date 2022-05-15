@@ -1,16 +1,12 @@
 #spring:
 #  datasource:
-##    driver-class-name: com.mysql.cj.jdbc.Driver
-##    url: jdbc:mysql://127.0.0.1:3306/soup?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
-##    username: soup
-##    password: hongik
-#
-##    url: jdbc:h2:tcp://localhost/~/SouP
-##    driver-class-name: org.h2.Driver
-##    username: sa
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/soup?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: soup
+#    password: hongik
 #  jpa:
-##    database: mysql
-##    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+#    database: mysql
+#    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 #    generate-ddl: true
 #    show-sql: true
 #    hibernate:
@@ -27,7 +23,7 @@
 #  mvc:
 #    pathmatch:
 #      matching-strategy: ant_path_matcher
-## 파라미터 확인을 위한 trace
-##logging:
-##  level:
-##    org.hibernate.type: trace
+# 파라미터 확인을 위한 trace
+#logging:
+#  level:
+#    org.hibernate.type: trace
