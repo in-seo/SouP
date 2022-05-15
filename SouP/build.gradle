@@ -50,7 +50,7 @@ dependencies {
 	}
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.7.Final'
 }
-test { testLogging { exceptionFormat = 'full' } }
+
 //test {
 //	useJUnitPlatform()
 //}
