@@ -22,10 +22,7 @@ import java.util.Optional;
 public class HomeController {
     private final UserRepository userRepository;
     @RequestMapping("/")
-    public String home(Model model, @LoginUser SessionUser user) {
-        if(user != null){
-            model.addAttribute("userName", user.getName());  //전달 하면 로그인 되어 있을 경우 로그인 화면 없앨 수 있음
-        }
+    public String home() {
         return "index";
     }
     @GetMapping("/profile")
