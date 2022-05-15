@@ -5,7 +5,6 @@ import Matching.SouP.domain.posts.Lounge;
 import Matching.SouP.domain.posts.LoungeConnect;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.project.ProjectConnect;
-import Matching.SouP.domain.project.Project_Question;
 import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,9 +47,6 @@ public class User extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToMany(mappedBy = "user") //eager 뺴도 될듯!
-    private List<Project_Question> questionList = new ArrayList<>(); //프로젝트에 단 댓글
 
     /**
      * 회원<->프로젝트 다대다 관계 잇기위해 생성
