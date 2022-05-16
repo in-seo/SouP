@@ -7,16 +7,14 @@ branches:
     - master
 
 before_install:
-  - chmod +x gradlew
-
-before_script:
   - cd SouP/
+  - chmod +x gradlew
 
 cache:
   directories:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
-script: "./SouP/gradlew clean build"
+script: "./gradlew clean build"
 
 notifications:
   email:
