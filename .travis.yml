@@ -18,9 +18,13 @@ script: "./gradlew clean build"
 
 before_deploy:
   - cd ../
-  - zip -r SouP *
-  - mkdir -p deploy
-  - mv SouP.zip deploy/SouP.zip
+  - mkdir -p before-deploy
+  - cp scripts/*.sh before-deploy/
+  - cp appspec.yml before-deploy/
+  - cp /SouP/build/libs/*jar before-deploy/
+  - cd before-deploy && zip -r before-deploy *
+  - cd ../ && mkdir -p deploy
+  - mv before-deploy/before-deploy.zip deploy/SouP.zip
 
 deploy:
   - provider: s3
