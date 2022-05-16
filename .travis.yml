@@ -16,6 +16,33 @@ cache:
     - '$HOME/.gradle'
 script: "./gradlew clean build"
 
+before_deploy:
+  - zip -r SouP
+  - mkdir -p deploy
+  - mv SouP.zip deploy/SouP.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY # Travis repo settings에 설정된 값
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: soup-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: soup-build
+    key: soup.zip
+    bundle_type: zip
+    application: soup
+    deployment_group: soup-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
 notifications:
   email:
     recipients:
