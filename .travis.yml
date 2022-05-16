@@ -17,7 +17,7 @@ cache:
 script: "./gradlew clean build"
 
 before_deploy:
-  - zip -r SouP
+  - zip -r SouP *
   - mkdir -p deploy
   - mv SouP.zip deploy/SouP.zip
 
