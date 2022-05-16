@@ -17,6 +17,7 @@ cache:
 script: "./gradlew clean build"
 
 before_deploy:
+  - cd ../
   - zip -r SouP *
   - mkdir -p deploy
   - mv SouP.zip deploy/SouP.zip
@@ -36,7 +37,7 @@ deploy:
     access_key_id: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
     bucket: soup-build
-    key: soup.zip
+    key: SouP.zip
     bundle_type: zip
     application: soup
     deployment_group: soup-group
