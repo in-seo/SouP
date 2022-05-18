@@ -32,14 +32,7 @@ public class LoungeService {
         JSONArray arr = new JSONArray();
         for (Lounge lounge : loungeList) {
             boolean br = true;
-            JSONObject obj=new JSONObject();
-            obj.put("user_id",lounge.getUser().getId());
-            obj.put("username",lounge.getUser().getName());
-            obj.put("picture",lounge.getUser().getPicture());
-            obj.put("content",lounge.getContent());
-            obj.put("date",lounge.getCreatedDate().toString());
-            obj.put("fav",lounge.getFav());
-            obj.put("lounge_id",lounge.getId());
+            JSONObject obj = makeLoungeForm(lounge);
             if(user.getLoungeConnectList().size()!=0){
                 List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
                 for (LoungeConnect loungeConnect : byLoungeId) {
@@ -55,19 +48,13 @@ public class LoungeService {
         }
         return arr;
     }
+
     @Transactional(readOnly = true)
     public JSONArray showLoungeForGuest(){   //라운지 보여주기
         List<Lounge> loungeList = loungeRepository.findAllDesc();
         JSONArray arr = new JSONArray();
         for (Lounge lounge : loungeList) {
-            JSONObject obj=new JSONObject();
-            obj.put("user_id",lounge.getUser().getId());
-            obj.put("username",lounge.getUser().getName());
-            obj.put("picture",lounge.getUser().getPicture());
-            obj.put("content",lounge.getContent());
-            obj.put("date",lounge.getCreatedDate().toString());
-            obj.put("fav",lounge.getFav());
-            obj.put("lounge_id",lounge.getId());
+            JSONObject obj = makeLoungeForm(lounge);
             obj.put("isfav",false);
             arr.add(obj);
         }
@@ -120,6 +107,17 @@ public class LoungeService {
         else
             obj.put("success",false);
         obj.put("isfav",isfav);
+        return obj;
+    }
+    private JSONObject makeLoungeForm(Lounge lounge) {
+        JSONObject obj=new JSONObject();
+        obj.put("user_id",lounge.getUser().getId());
+        obj.put("username",lounge.getUser().getName());
+        obj.put("picture",lounge.getUser().getPicture());
+        obj.put("content",lounge.getContent());
+        obj.put("date",lounge.getCreatedDate().toString());
+        obj.put("fav",lounge.getFav());
+        obj.put("lounge_id",lounge.getId());
         return obj;
     }
 }
