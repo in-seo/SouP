@@ -13,7 +13,7 @@ import java.util.List;
 public class DeployController {
     private final Environment env;
 
-    @GetMapping("/vprofile")
+    @GetMapping("/runprofile")
     public String profile() {
         List<String> profiles = Arrays.asList(env.getActiveProfiles()); // (1)
         List<String> realProfiles = Arrays.asList("real","real1","real2");
