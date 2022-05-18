@@ -111,16 +111,6 @@ public class ProjectService  extends CrawlerService {
         return obj;
     }
 
-//    @Transactional
-//    public Long addQuestion(Long projectId,Long userId, Project_Question question){  //댓글추가메서드./  생성은따로만들예정
-//        ProjectInfo projectInfo = projectInfoRepository.findById(projectId).get();
-//        User writer = userRepository.findById(userId).get();
-//        question.setProjectInfo(projectInfo);  //어떤 프로젝트에 대한 질문인지?
-//        question.setUser(writer);  // 어떤 사람이 쓴 댓글인지?
-//        questionRepository.save(question);
-//        return question.getId();
-//    }
-
     @Transactional
     public JSONObject editProject(User user, EditForm form){
         JSONObject obj = new JSONObject();
