@@ -1,10 +1,5 @@
 package Matching.SouP.crawler;
 
-import Matching.SouP.domain.posts.Post;
-import Matching.SouP.dto.project.ShowForm;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-
 import java.util.*;
 
 public class CrawlerService {
@@ -28,21 +23,20 @@ public class CrawlerService {
         List<String> stackList = new ArrayList<>(
                 Arrays.asList("파이썬","python","자바","java",
                         "노드", "node", "리액트","react",
-                        "자바스크립트","js", "스프링","spring",
-                        "코틀린","kotlin","프론트","front",
+                        "자바스크립트","javascript", "js","javascript",
+                        "스프링","spring", "코틀린","kotlin","프론트","frontend",
                         "백엔드","backend", "app","앱","web", "웹",
                         "뷰","vue", "스위프트","swift","플러터","flutter",
                         "게임","game","서비스","기획","블록체인",
                         "nft","코테","백준",
-                        "ai","docker","ios","android",
+                        "머신러닝","ai","docker","ios","android",
                         "aws","c++","html","css",
                         "ux","ui","스터디","프로젝트"));
         int cnt=0;  // cnt<=3
-        postName = postName.toLowerCase();
-        content = content.toLowerCase();
+        String post = postName.toLowerCase()+content.toLowerCase();
         for (int i = 0; i < stackList.size(); i++) {
             String keyword = stackList.get(i);
-            if(content.contains(keyword) || postName.contains(keyword)){
+            if(post.contains(keyword)){
                 cnt++;
                 if(i%2==0 && i<28){
                     keyword = stackList.get(++i); //만약 한글인경우 영어로 치환하기위함.
