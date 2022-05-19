@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/SouP/dep/zip/
+    destination: /home/ec2-user/SouP/ngdep/zip/
     overwrite: yes
 
 permissions:
@@ -12,7 +12,15 @@ permissions:
     group: ec2-user
 
 hooks:
+  AfterInstall:
+    - location: stop.sh
+      timeout: 60
+      runas : ec2-user
   ApplicationStart:
     - location: deploy.sh
+      timeout: 60
+      runas: ec2-user
+  ValidateService:
+    - location: health.sh
       timeout: 60
       runas: ec2-user
