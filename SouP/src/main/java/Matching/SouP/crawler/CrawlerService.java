@@ -32,7 +32,7 @@ public class CrawlerService {
                         "코틀린","kotlin","프론트","front",
                         "백엔드","backend", "app","앱","web", "웹",
                         "뷰","vue", "스위프트","swift","플러터","flutter",
-                        "게임","서비스","기획","블록체인",
+                        "게임","game","서비스","기획","블록체인",
                         "nft","코테","백준",
                         "ai","docker","ios","android",
                         "aws","c++","html","css",
