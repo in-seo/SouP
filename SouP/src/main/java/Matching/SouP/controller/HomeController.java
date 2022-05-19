@@ -21,10 +21,7 @@ import java.util.Optional;
 @Controller
 public class HomeController {
     private final UserRepository userRepository;
-    @RequestMapping("/")
-    public String home() {
-        return "index";
-    }
+
     @GetMapping("/profile")
     public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
         log.info("profile controller");
