@@ -49,7 +49,6 @@ public class LoungeController {
     @PostMapping("/lounge/fav")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
         User User = userRepository.findByEmailFetchLC(user.getEmail()).orElseThrow();
-        log.error("aoiejoawjgea");
         return loungeService.fav(User, form);
     }
 

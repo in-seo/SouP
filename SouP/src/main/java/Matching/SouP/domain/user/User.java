@@ -84,7 +84,7 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
-    @Transactional
+
     public User updateProfile(UserForm userForm){
         if(!userForm.getEmail().isEmpty())
             this.role=Role.USER;  //정식 승인
