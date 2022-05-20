@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,7 @@ public class ProfileController {
 
 
     @PostMapping("/profile")  //Post요청 시
+    @Transactional
     public String profile(UserForm userForm) {
         User user = userRepository.findById(userForm.getId()).get();
         user.updateProfile(userForm);  //이메일이 있다면 정식멤버 승인.

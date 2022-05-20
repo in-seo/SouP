@@ -109,6 +109,7 @@ public class LoungeService {
         obj.put("isfav",isfav);
         return obj;
     }
+
     private JSONObject makeLoungeForm(Lounge lounge) {
         JSONObject obj=new JSONObject();
         obj.put("user_id",lounge.getUser().getId());
