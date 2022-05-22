@@ -11,7 +11,7 @@ import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
-import Matching.SouP.service.project.ProjectService;
+import Matching.SouP.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package Matching.SouP.service.project;
+package Matching.SouP.service;
 
 
 import Matching.SouP.crawler.ConvertToPost;
