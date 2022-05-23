@@ -8,7 +8,6 @@ import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.*;
@@ -69,6 +68,7 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.nickName = NickName.makeNickName();
     }
 
     protected User() {
