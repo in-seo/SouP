@@ -93,13 +93,13 @@ public class HolaService extends CrawlerService {
         }
     }
 
-    @PostConstruct
-    private void init() {
-        Hola temp1 = new Hola("클론프로젝트 하실분 !","dd","dd","dd","dd","",13,"111");
-        Hola temp2 = new Hola("사이드프로젝트 그룹원을 모집합니다)","dd","dd","dd","111","dd",17,"ddd");
-        holaRepository.save(temp1);
-        holaRepository.save(temp2);
-    }
+//    @PostConstruct
+//    private void init() {
+//        Hola temp1 = new Hola("클론프로젝트 하실분 !","dd","dd","dd","dd","",13,"111");
+//        Hola temp2 = new Hola("사이드프로젝트 그룹원을 모집합니다)","dd","dd","dd","111","dd",17,"ddd");
+//        holaRepository.save(temp1);
+//        holaRepository.save(temp2);
+//    }
 
     public List<ShowForm> findAllDesc() {
         List<Hola> holaList = holaRepository.findTop8ByOrderByIdDesc();

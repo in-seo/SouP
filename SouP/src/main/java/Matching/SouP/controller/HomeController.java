@@ -1,5 +1,6 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.config.MyOkHttpClient;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.user.User;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -40,5 +43,18 @@ public class HomeController {
 //        }
 //
 //    }
+    private String accessToken;
+    @GetMapping("/oauth")
+    public String getAuthCode(@RequestParam("code") String authorizationCode) throws IOException {
+        accessToken = MyOkHttpClient.getAccessToken(authorizationCode);
+        System.out.println(accessToken);
+        return "index";
+    }
+
+    @GetMapping("/send")
+    public String sendMessage(Model model) {
+        model.addAttribute("token", accessToken);
+        return "index";
+    }
 
 }
