@@ -83,11 +83,11 @@ public class InflearnService extends CrawlerService {
             Page--;
         }
     }
-    @PostConstruct
-    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Inflearn temp = new Inflearn("528500","기준점","","","","","","");
-        inflearnRepository.save(temp);
-    }
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Inflearn temp = new Inflearn("528500","기준점","","","","","","");
+//        inflearnRepository.save(temp);
+//    }
 
     private String standard(String date) {
         date = date.substring(0,4)+'-'+date.substring(5,7)+'-'+date.substring(8,10)+'T'+ LocalDateTime.now().toLocalTime().toString().substring(0,8);

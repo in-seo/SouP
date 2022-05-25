@@ -89,11 +89,11 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    @PostConstruct
-    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1224352","임시 기준점","","","","","",64,"");
-        okkyRepository.save(temp);
-    }
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Okky temp = new Okky("1224352","임시 기준점","","","","","",64,"");
+//        okkyRepository.save(temp);
+//    }
 
 
     private int startPage(int start) throws IOException {
