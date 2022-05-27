@@ -6,10 +6,12 @@ import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.UserForm;
 import Matching.SouP.repository.UserRepository;
+import Matching.SouP.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,7 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Controller
 public class HomeController {
-    private final UserRepository userRepository;
+    private final UserService userService;
 
 //    @GetMapping("/profile")
 //    public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
@@ -52,8 +54,10 @@ public class HomeController {
     }
 
     @GetMapping("/send")
+    @CrossOrigin
     public String sendMessage(Model model) {
         model.addAttribute("token", accessToken);
+//        userService.sendPost(accessToken);
         return "index";
     }
 
