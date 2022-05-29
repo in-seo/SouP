@@ -3,6 +3,8 @@ package Matching.SouP.dto.project;
 import Matching.SouP.domain.posts.Source;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public class ShowForm {
 
@@ -26,8 +28,11 @@ public class ShowForm {
         this.userName = userName;
         this.date = date;
         this.link = link;
-        if(!stack.isEmpty())
+        if(!stack.isEmpty()){
             this.stacks = stack.split(",|\\s+");
+            if(stacks.length>3)
+                stacks = Arrays.copyOfRange(stacks, 0, 3);  //최대 3개로 자르기
+        }
         else
             this.stacks = new String[0];
         this.views = views;
