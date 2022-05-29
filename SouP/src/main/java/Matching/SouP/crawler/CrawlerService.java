@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.*;
 
+import static java.util.Arrays.*;
 import static java.util.Map.entry;
 
 
@@ -53,48 +54,48 @@ public class CrawlerService {
     }
 
     static {
-        StackParser.add("react", 1, Arrays.asList("react", "리액트"));
-        StackParser.add("angular", 1, Arrays.asList("angular", "앵귤러"));
-        StackParser.add("vue", 1, Arrays.asList("vue"));
-        StackParser.add("svelte", 1, Arrays.asList("svelte", "스벨트"));
-        StackParser.add("spring", 1, Arrays.asList("spring", "스프링"));
-        StackParser.add("nodejs", 1, Arrays.asList("node.js", "nodejs", "노드"));
-        StackParser.add("go", 1, Arrays.asList("go"));
-        StackParser.add("django", 1, Arrays.asList("django", "장고"));
-        StackParser.add("nestjs", 1, Arrays.asList("nestjs"));
-        StackParser.add("express", 1, Arrays.asList("express", "익스프레스"));
-        StackParser.add("graphql", 1, Arrays.asList("graphql", "그래프ql"));
-        StackParser.add("sql", 1, Arrays.asList("sql"));
-        StackParser.add("mongodb", 1, Arrays.asList("mongodb", "몽고"));
-        StackParser.add("firebase", 1, Arrays.asList("firebase", "파이어베이스"));
-        StackParser.add("react_native", 1, Arrays.asList("react native", " rn", "react 네이티브"));
-        StackParser.add("aws", 1, Arrays.asList("aws"));
-        StackParser.add("docker", 1, Arrays.asList("docker", "도커"));
-        StackParser.add("kubernetes", 1, Arrays.asList("kubernetes", "쿠버네티스"));
-        StackParser.add("git", 1, Arrays.asList("git", " 깃"));
-        StackParser.add("typescript", 1, Arrays.asList("typescript", "타입스크립트"));
-        StackParser.add("javascript", 1, Arrays.asList("javascript", "자바스크립트"));
-        StackParser.add("python", 1, Arrays.asList("python"));
-        StackParser.add("java", 1, Arrays.asList("java"));
-        StackParser.add("kotlin", 1, Arrays.asList("kotlin"));
-        StackParser.add("c_cpp", 1, Arrays.asList("c++", "c언어"));
-        StackParser.add("csharp", 1, Arrays.asList("c#"));
-        StackParser.add("swift", 1, Arrays.asList("swift", "스위프트", "ios"));
-        StackParser.add("dart", 1, Arrays.asList("dart", "flutter", "플러터"));
-        StackParser.add("study", 1, Arrays.asList("스터디", "모각코"));
-        StackParser.add("project", 1, Arrays.asList("프로젝트"));
-        StackParser.add("planning", 1, Arrays.asList("기획"));
-        StackParser.add("service", 1, Arrays.asList("서비스"));
-        StackParser.add("code_interview", 1, Arrays.asList("코테", "코딩테스트"));
-        StackParser.add("frontend", 1, Arrays.asList("프론트엔드"));
-        StackParser.add("backend", 1, Arrays.asList("백엔드"));
-        StackParser.add("mobile", 1, Arrays.asList("모바일", "앱개발", "애플리케이션"));
-        StackParser.add("ios", 1, Arrays.asList("ios"));
-        StackParser.add("android", 1, Arrays.asList("안드로이드", "android"));
-        StackParser.add("ui_ux", 1, Arrays.asList("ui", "ux", "디자인", "디자이너"));
-        StackParser.add("ai_ml", 1, Arrays.asList("AI", "딥러닝", "머신러닝", "인공지능"));
-        StackParser.add("game", 1, Arrays.asList("게임"));
-        StackParser.add("blockchain", 1, Arrays.asList("블록체인", "가상화폐", "암호화폐", "nft", "디파이", "defi"));
+        StackParser.add("react", 1, asList("react", "리액트"));
+        StackParser.add("nodejs", 1, asList("node.js", "node", "노드"));
+        StackParser.add("python", 1, asList("python","파이썬"));
+        StackParser.add("java", 1, asList("java","자바"));
+        StackParser.add("ui_ux", 1, asList("ui", "ux", "디자인", "디자이너"));
+        StackParser.add("svelte", 1, asList("svelte", "스벨트"));
+        StackParser.add("spring", 1, asList("spring", "스프링"));
+        StackParser.add("typescript", 1, asList("typescript", "타입스크립트"));
+        StackParser.add("javascript", 1, asList("javascript", "자바스크립트"));
+        StackParser.add("kotlin", 1, asList("kotlin","코틀린"));
+        StackParser.add("git", 1, asList("git", " 깃"));
+        StackParser.add("project", 1, asList("프로젝트"));
+        StackParser.add("swift", 1, asList("swift", "스위프트"));
+        StackParser.add("dart", 1, asList("dart", "flutter", "플러터"));
+        StackParser.add("planning", 1, asList("기획"));
+        StackParser.add("blockchain", 1, asList("블록체인", "가상화폐", "암호화폐", "nft", "디파이", "defi"));
+        StackParser.add("study", 1, asList("스터디", "모각코"));
+        StackParser.add("go", 1, asList("go"));
+        StackParser.add("angular", 1, asList("angular", "앵귤러"));
+        StackParser.add("vue", 1, asList("vue","뷰"));
+        StackParser.add("django", 1, asList("django", "장고"));
+        StackParser.add("nestjs", 1, asList("nestjs"));
+        StackParser.add("express", 1, asList("express", "익스프레스"));
+        StackParser.add("graphql", 1, asList("graphql", "그래프ql"));
+        StackParser.add("sql", 1, asList("sql"));
+        StackParser.add("mongodb", 1, asList("mongodb", "몽고"));
+        StackParser.add("firebase", 1, asList("firebase", "파이어베이스"));
+        StackParser.add("react_native", 1, asList("react native", " rn", "네이티브"));
+        StackParser.add("aws", 1, asList("aws"));
+        StackParser.add("docker", 1, asList("docker", "도커"));
+        StackParser.add("kubernetes", 1, asList("kubernetes", "쿠버네티스"));
+        StackParser.add("c_cpp", 1, asList("c++", "c언어"));
+        StackParser.add("csharp", 1, asList("c#"));
+        StackParser.add("service", 1, asList("서비스","플랫폼"));
+        StackParser.add("code_interview", 1, asList("코테", "코딩테스트"));
+        StackParser.add("mobile", 1, asList("모바일", "앱", "애플리케이션"));
+        StackParser.add("ios", 1, asList("ios"));
+        StackParser.add("android", 1, asList("안드로이드", "android"));
+        StackParser.add("ai_ml", 1, asList("AI", "딥러닝", "머신러닝", "인공지능"));
+        StackParser.add("game", 1, asList("게임"));
+        StackParser.add("frontend", 1, asList("프론트엔드","프론트"));
+        StackParser.add("backend", 1, asList("백엔드"));
     }
 
     public StringBuilder parseStack(String postName,String content){  //핵심로직!!

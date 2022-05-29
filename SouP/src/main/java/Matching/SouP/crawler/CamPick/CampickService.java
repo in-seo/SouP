@@ -118,11 +118,11 @@ public class CampickService extends CrawlerService {
 //        }  //글 120개
     }
 
-    @PostConstruct
-    private void init() {
-        Campick temp = new Campick(219630,"기준점","daf","awegaw","awegaew","kdjafha","124",12,"","dfa","");
-        campickRepository.save(temp);
-    }
+//    @PostConstruct
+//    private void init() {
+//        Campick temp = new Campick(219630,"기준점","daf","awegaw","awegaew","kdjafha","124",12,"","dfa","");
+//        campickRepository.save(temp);
+//    }
 
 
     public List<ShowForm> findAllDesc() {
