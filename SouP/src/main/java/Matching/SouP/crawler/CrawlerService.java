@@ -43,7 +43,7 @@ public class CrawlerService {
             });
         }
 
-        public List<String> parse(String content) {
+        public static List<String> parse(String content) {
             HashSet<String> stackList = new HashSet<>();
             for ( String displayName : displayNameToTag.keySet() ){
                 if (content.contains(displayName)) stackList.add(displayNameToTag.get(displayName));
@@ -52,10 +52,7 @@ public class CrawlerService {
         }
     }
 
-    static StackParser stackParser = new StackParser();
-
     static {
-
         StackParser.add("react", 1, Arrays.asList("react", "리액트"));
         StackParser.add("angular", 1, Arrays.asList("angular", "앵귤러"));
         StackParser.add("vue", 1, Arrays.asList("vue"));
@@ -104,7 +101,7 @@ public class CrawlerService {
         StringBuilder stack = new StringBuilder();
         postName = postName.toLowerCase();
         content = content.toLowerCase();
-        List<String> stackList = stackParser.parse(postName + ' ' + content);
+        List<String> stackList = StackParser.parse(postName + ' ' + content);
         stack.append( String.join(",", stackList) );
         return stack;
     }

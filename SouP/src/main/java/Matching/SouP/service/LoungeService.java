@@ -113,7 +113,7 @@ public class LoungeService {
     private JSONObject makeLoungeForm(Lounge lounge) {
         JSONObject obj=new JSONObject();
         obj.put("user_id",lounge.getUser().getId());
-        obj.put("username",lounge.getUser().getName());
+        obj.put("username",lounge.getUser().getNickName());
         obj.put("picture",lounge.getUser().getPicture());
         obj.put("content",lounge.getContent());
         obj.put("date",lounge.getCreatedDate().toString());
