@@ -55,9 +55,10 @@ public class HolaService extends CrawlerService {
                     String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").text();
                     String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
                     if(talk.isEmpty()){talk = parseTalk(content,talk);}
-                    if(content.length()>200) {
+                    if(talk.length()>200)
+                        talk = talk.substring(0,199);
+                    if(content.length()>200)
                         content = content.substring(0, 199);
-                    }
                     String userName = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_user__1XYmH > div").text();
                     String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
                     date=standard(date);
