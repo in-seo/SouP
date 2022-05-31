@@ -1,23 +1,11 @@
 package Matching.SouP.crawler;
 
-import Matching.SouP.domain.posts.Post;
 import Matching.SouP.dto.project.ShowForm;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-
 import java.util.*;
-
 import static java.util.Arrays.*;
-import static java.util.Map.entry;
 
 
 public class CrawlerService {
-
-
 
     public String parseTalk(String content, String talk){
         StringTokenizer st = new StringTokenizer(content); //공백으로 나눔
@@ -59,7 +47,6 @@ public class CrawlerService {
         StackParser.add("python", 1, asList("python","파이썬"));
         StackParser.add("java", 1, asList("java","자바"));
         StackParser.add("ui_ux", 1, asList("ui", "ux", "디자인", "디자이너"));
-        StackParser.add("svelte", 1, asList("svelte", "스벨트"));
         StackParser.add("spring", 1, asList("spring", "스프링"));
         StackParser.add("typescript", 1, asList("typescript", "타입스크립트"));
         StackParser.add("javascript", 1, asList("javascript", "자바스크립트"));
@@ -70,6 +57,7 @@ public class CrawlerService {
         StackParser.add("dart", 1, asList("dart", "flutter", "플러터"));
         StackParser.add("planning", 1, asList("기획"));
         StackParser.add("blockchain", 1, asList("블록체인", "가상화폐", "암호화폐", "nft", "디파이", "defi"));
+        StackParser.add("svelte", 1, asList("svelte", "스벨트"));
         StackParser.add("study", 1, asList("스터디", "모각코"));
         StackParser.add("go", 1, asList("go"));
         StackParser.add("angular", 1, asList("angular", "앵귤러"));

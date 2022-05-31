@@ -47,7 +47,6 @@ public class ProjectService  extends CrawlerService {
         String talk = "";
         talk = parseTalk(str, talk);     StringBuilder stack = parseStack(pForm.getTitle(),str);
         Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
-        post.setParse(str.substring(0,199));
         Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
         obj.put("id",soup.getId());
         obj.put("success", true);
