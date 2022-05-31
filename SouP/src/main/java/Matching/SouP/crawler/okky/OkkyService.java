@@ -45,7 +45,12 @@ public class OkkyService extends CrawlerService{
                 if(Integer.parseInt(num)<=start){
                     Okky update = okkyRepository.findByNum(Integer.parseInt(num));
                     if(update!=null){
-                        int views = Integer.parseInt(element.select("div.list-summary-wrapper.clearfix > div > ul > li:nth-child(3)").text());
+                        String temp = element.select("div.list-summary-wrapper.clearfix > div > ul > li:nth-child(3)").text();
+                        int views;
+                        if(temp.charAt(1)=='k')
+                            views = Integer.parseInt(temp.charAt(0)+"000");  //조회수가 1k 이상일경우
+                        else
+                            views = Integer.parseInt(temp);
                         update.updateViews(views);
                     }
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
