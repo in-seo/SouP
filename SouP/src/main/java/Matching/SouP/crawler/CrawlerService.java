@@ -1,6 +1,5 @@
 package Matching.SouP.crawler;
 
-import Matching.SouP.dto.project.ShowForm;
 import java.util.*;
 import static java.util.Arrays.*;
 
