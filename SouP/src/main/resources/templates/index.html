@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <title>Test</title>
 </head>
 <body id="page-top">
@@ -27,6 +28,11 @@
             <button class="loginBtn google" onclick="location.href='/oauth2/authorization/google'">구글 계정으로 로그인</button>
         </div>
     </div>
+    <br>
+    <br>
+    <button id="loginButton" onclick="location.href='http://localhost:8000/kakao'">카카오 권한</button>
+    <br>
+    <button id="message" onclick="location.href='http://localhost:8000/send'">메시지 보내기</button>
 </div>
 </body>
 </html>

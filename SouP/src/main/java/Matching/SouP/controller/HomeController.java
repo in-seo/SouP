@@ -1,32 +1,21 @@
 package Matching.SouP.controller;
 
 import Matching.SouP.config.MyOkHttpClient;
-import Matching.SouP.config.auth.LoginUser;
-import Matching.SouP.config.auth.dto.SessionUser;
-import Matching.SouP.domain.user.User;
-import Matching.SouP.dto.UserForm;
-import Matching.SouP.repository.UserRepository;
-import Matching.SouP.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Optional;
 
 
 @Slf4j
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class HomeController {
-    private final UserService userService;
-
 //    @GetMapping("/profile")
 //    public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
 //        log.info("profile controller");
@@ -45,20 +34,26 @@ public class HomeController {
 //        }
 //
 //    }
-    private String accessToken;
-    @GetMapping("/oauth")
-    public String getAuthCode(@RequestParam("code") String authorizationCode) throws IOException {
-        accessToken = MyOkHttpClient.getAccessToken(authorizationCode);
-        System.out.println(accessToken);
-        return "index";
+
+    @GetMapping("/kakao")
+    public void kakaoCode(HttpServletResponse response) throws IOException {  //인가코드 받기
+        String str = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id="+MyOkHttpClient.getAppKey()+"&redirect_uri=http://localhost:8000/oauth&scope=talk_message";
+        response.sendRedirect(str);
     }
 
-    @GetMapping("/send")
-    @CrossOrigin
-    public String sendMessage(Model model) {
-        model.addAttribute("token", accessToken);
-//        userService.sendPost(accessToken);
-        return "index";
-    }
 
+    @GetMapping("/oauth")  //인가코드 요청 이후 코드 파싱후 access_token 및 전송 요청
+    public JSONObject sendMessage(@RequestParam("code") String authorizationCode) throws IOException, ParseException {
+        JSONObject response = new JSONObject();
+        String accessToken = MyOkHttpClient.getAccessToken(authorizationCode);
+        JSONParser parser = new JSONParser();
+        JSONObject obj = (JSONObject) parser.parse(accessToken);
+        if(obj.containsKey("access_token")){
+            String access_token = obj.get("access_token").toString();
+            response.put("success",MyOkHttpClient.sendTalk(access_token));  //전송
+        }
+        else
+            log.warn("사용자의 access_token을 받아올 수 없습니다.");
+        return response;
+    }
 }
