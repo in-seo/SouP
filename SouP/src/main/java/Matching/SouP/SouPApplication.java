@@ -14,6 +14,9 @@ public class SouPApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SouPApplication.class, args);
+
+		Tt t = new Tt();
+		System.out.println(t.getPassword());
 	}
 
 

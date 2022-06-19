@@ -51,3 +51,12 @@ dependencies {
 	}
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.7.Final'
 }
+dependencyManagement {
+	imports {
+		mavenBom "io.awspring.cloud:spring-cloud-aws-dependencies:2.3.3"
+	}
+}
+
+dependencies {
+	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
+}
