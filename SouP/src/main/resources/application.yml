@@ -1,0 +1,8 @@
+aws:
+  paramstore:
+    enabled: true
+    prefix: /spring-boot-aws
+    name: cloud-parameter-store
+    profileSeparator: _
+my:
+  password: ${/spring-boot-aws/cloud-parameter-store/db.username}
