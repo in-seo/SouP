@@ -6,5 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 @Getter
 public class Tt {
     @Value("${my.password}")
-    private String password;
+    private static String password;
+
 }
