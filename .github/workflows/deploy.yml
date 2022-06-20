@@ -74,13 +74,14 @@ jobs:
       #     zip -r deploy/soup-server.zip pre-deploy/*
       #     rm -rf pre-deploy
 
-      # - name: Make client zip file
-      #   run: |
-      #     mkdir pre-deploy
-      #     cp -r deploy/client/. pre-deploy/
-      #     cp -r soup-frontend/.next/* pre-deploy/.next/
-      #     zip -r deploy/soup-client.zip pre-deploy/*
-      #     rm -rf pre-deploy
+      - name: Make client zip file
+        run: |
+          mkdir pre-deploy
+          cp -r deploy/client/. pre-deploy/
+          rm -rf soup-frontend/.next/cache
+          cp -r soup-frontend/.next/* pre-deploy/.next/
+          zip -r deploy/soup-client.zip pre-deploy/*
+          rm -rf pre-deploy
 
       # - name: Upload to S3
       #   env:
