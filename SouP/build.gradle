@@ -61,7 +61,7 @@ dependencies {
 	implementation group: 'io.awspring.cloud', name: 'spring-cloud-starter-aws-parameter-store-config'
 }
 
-def frontendDir = "/soup-frontend"
+def frontendDir = "$projectDir/../soup-frontend"
 
 sourceSets {
 	main {
