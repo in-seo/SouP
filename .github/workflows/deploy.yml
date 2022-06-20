@@ -80,7 +80,7 @@ jobs:
           cp -r deploy/client/. pre-deploy/
           rm -rf soup-frontend/.next/cache
           mkdir pre-deploy/.next
-          cp -r soup-frontend/.next/* pre-deploy/.next/
+          cp -r soup-frontend/.next/. pre-deploy/.next/
           zip -r deploy/soup-client.zip pre-deploy/*
           rm -rf pre-deploy
 
