@@ -11,28 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get current time
-        uses: 1466587594/get-current-time@v2
-        id: current-time
-        with:
-          format: YYYY-MM-DDTHH-mm-ss
-          utcOffset: "+09:00"
-
-      - name: Show Current Time
-        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
-
-      - name: Checkout
+      - name: 🗃️ Checkout
         uses: actions/checkout@v2
         with:
           submodules: recursive
           token: ${{ secrets.CLIENT_REPO_ACCESS_TOKEN }}
 
-      - name: Setup JDK 11.0.12
+      - name: 📦️ Setup JDK 11.0.12
         uses: actions/setup-java@v1
         with:
           java-version: 11.0.12
 
-      - name: Cache Gradle & Spring
+      - name: 💾 Cache Gradle & Spring
         uses: actions/cache@v3
         with:
           path: |
@@ -42,18 +32,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - name: Build Spring server
+      - name: 🔧 Build Spring server
         working-directory: ./SouP
         run: |
           chmod +x ./gradlew
           ./gradlew clean build
 
-      - name: Setup NodeJS 16
+      - name: 📦️ Setup NodeJS 16
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      - name: Cache NPM & Next.js
+      - name: 💾 Cache NPM & Next.js
         uses: actions/cache@v3
         with:
           # See here for caching with `yarn` https://github.com/actions/cache/blob/main/examples.md#node---yarn or you can leverage caching with actions/setup-node https://github.com/actions/setup-node
@@ -66,17 +56,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('soup-frontend/**/package-lock.json') }}-
 
-      - name: Install NPM modules for Next.js client
+      - name: 📦️ Install NPM modules for Next.js client
         working-directory: ./soup-frontend
         run: |
           npm i
 
-      - name: Build Next.js client
+      - name: 🔧 Build Next.js client
         working-directory: ./soup-frontend
         run: |
           npx next build
 
-      - name: Make server zip file
+      - name: 📂 Make server zip file
         run: |
           mkdir pre-deploy
           cp -r deploy/server/. pre-deploy/
@@ -84,7 +74,7 @@ jobs:
           zip -r deploy/soup-server.zip pre-deploy/*
           rm -rf pre-deploy
 
-      - name: Make client zip file
+      - name: 📂 Make client zip file
         run: |
           mkdir pre-deploy
           cp -r deploy/client/. pre-deploy/
@@ -94,7 +84,7 @@ jobs:
           zip -r deploy/soup-client.zip pre-deploy/*
           rm -rf pre-deploy
 
-      - name: Upload to S3
+      - name: 🚚 Upload to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -103,7 +93,7 @@ jobs:
           aws s3 cp --region ap-northeast-2 --acl private ./soup-server.zip s3://soup-build/
           aws s3 cp --region ap-northeast-2 --acl private ./soup-client.zip s3://soup-build/
 
-      - name: Deploy
+      - name: 🚀 Deploy
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
