@@ -53,7 +53,7 @@ public class PostService{
                 if(user.getProjectConnectList().size()!=0){
                     List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
                     for (ProjectConnect projectConnect : projectConnectList) {
-                        if(projectConnect.getUser().getId()== user.getId()) {
+                        if(projectConnect.getUser().getId().equals(user.getId())) {
                             showForm.setIsfav(true);
                             break;
                         }
@@ -90,7 +90,7 @@ public class PostService{
     }
     @Transactional
     public DetailForm showProject(Long id,User user) throws ParseException {
-        Optional<Post> Opost = postsRepository.findByIdFetchUser(id);
+        Optional<Post> Opost = postsRepository.findById(id);
         DetailForm form = null;
         if(Opost.isPresent()){
             Post post = Opost.get();
@@ -98,8 +98,9 @@ public class PostService{
                 post.addViews();
             form = getDetailForm(post);
             for (ProjectConnect connect : user.getProjectConnectList()) {
-                if(connect.getPost().getId()==id)
+                if(connect.getPost().getId().equals(id)){
                     form.setIsfav(true);
+                }
             }
         }
         return form;
