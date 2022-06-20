@@ -38,10 +38,10 @@ jobs:
         run: |
           npm i
 
-      - name: Build and export Next.js client
+      - name: Build Next.js client
         working-directory: ./soup-frontend
         run: |
-          npx next build && npx next export
+          npx next build
 
       - name: Get current time
         uses: 1466587594/get-current-time@v2
@@ -54,15 +54,18 @@ jobs:
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
         shell: bash
 
-      - name: Make zip file
+      - name: Make client zip file
         run: |
           mkdir before-deploy
-          cp scripts/*.sh before-deploy/
-          cp appspec.yml before-deploy/
-          cp SouP/build/libs/*.jar before-deploy/
-          cd before-deploy && zip -r before-deploy *
-          cd ../ && mkdir -p deploy
-          mv before-deploy/before-deploy.zip deploy/SouP.zip
+
+        # cp scripts/*.sh before-deploy/
+        # cp appspec.yml before-deploy/
+        # cp SouP/build/libs/*.jar before-deploy/
+        # cd before-deploy && zip -r before-deploy *
+        # cd ../ && mkdir -p deploy
+        # mv before-deploy/before-deploy.zip deploy/soup-server.zip
+
+          zip soup-frontend/.next deploy/soup-client.zip
 
       # - name: Upload to S3
       #   env:
@@ -70,7 +73,8 @@ jobs:
       #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #   run: |
       #     cd deploy
-      #     aws s3 cp --region ap-northeast-2 --acl private ./SouP.zip s3://soup-build/
+      #     aws s3 cp --region ap-northeast-2 --acl private ./soup-server.zip s3://soup-build/
+      #     aws s3 cp --region ap-northeast-2 --acl private ./soup-client.zip s3://soup-build/
 
       # - name: Deploy
       #   env:
@@ -81,5 +85,5 @@ jobs:
       #     --application-name soup \
       #     --deployment-group-name soup-group \
       #     --file-exists-behavior OVERWRITE \
-      #     --s3-location bucket=soup-build,bundleType=zip,key=SouP.zip \
+      #     --s3-location bucket=soup-build,bundleType=zip,key=soup-server.zip \
       #     --region ap-northeast-2
