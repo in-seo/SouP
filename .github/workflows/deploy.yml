@@ -17,16 +17,16 @@ jobs:
           submodules: recursive
           token: ${{ secrets.CLIENT_REPO_ACCESS_TOKEN }}
 
-      - name: Setup JDK 11.0.12
-        uses: actions/setup-java@v1
-        with:
-          java-version: 11.0.12
+      # - name: Setup JDK 11.0.12
+      #   uses: actions/setup-java@v1
+      #   with:
+      #     java-version: 11.0.12
 
-      - name: Grant gradlew permissions and build Spring server
-        working-directory: ./SouP
-        run: |
-          chmod +x ./gradlew
-          ./gradlew clean build
+      # - name: Grant gradlew permissions and build Spring server
+      #   working-directory: ./SouP
+      #   run: |
+      #     chmod +x ./gradlew
+      #     ./gradlew clean build
 
       - name: Setup NodeJS 14
         uses: actions/setup-node@v3
