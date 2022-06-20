@@ -2,6 +2,7 @@ package Matching.SouP.crawler.CamPick;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,6 +18,6 @@ import java.util.List;
    List<Campick> findTop8ByOrderByIdDesc();
 
     @Query("select c from Campick c where c.num=:num")
-    Campick findByNum(int num);
+    Campick findByNum(@Param("num") int num);
 }
 

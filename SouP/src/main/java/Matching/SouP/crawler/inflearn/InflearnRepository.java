@@ -2,6 +2,7 @@ package Matching.SouP.crawler.inflearn;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface InflearnRepository extends JpaRepository<Inflearn,Long> {
     List<Inflearn> findTop8ByOrderByIdDesc();
 
     @Query("select i from Inflearn i where i.num=:num")
-    Inflearn findByNum(int num);
+    Inflearn findByNum(@Param("num") int num);
 }
