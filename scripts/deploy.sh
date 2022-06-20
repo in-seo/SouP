@@ -3,14 +3,6 @@
 REPOSITORY=/home/ec2-user/SouP/dep
 PROJECT_NAME=SouP
 
-cd $REPOSITORY/zip
-
-ll
-
-echo "> react 실행"
-npx next start
-
-
 cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
 echo "> 현재 구동중인 애플리케이션 pid 확인"
