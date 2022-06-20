@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -114,6 +111,9 @@ public class PostService{
             if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
                 post.addViews();
             form = getDetailForm(post);
+        }
+        else{
+            throw new NoSuchElementException();
         }
         return form;
     }
