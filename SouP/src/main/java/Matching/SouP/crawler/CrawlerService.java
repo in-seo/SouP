@@ -1,10 +1,15 @@
 package Matching.SouP.crawler;
 
+import Matching.SouP.domain.posts.Source;
+import Matching.SouP.dto.project.ShowForm;
+
 import java.util.*;
 import static java.util.Arrays.*;
 
 
-public class CrawlerService {
+public abstract class CrawlerService {
+
+    public abstract List<ShowForm> findAllDesc(Source source);
 
     public String parseTalk(String content, String talk){
         StringTokenizer st = new StringTokenizer(content); //공백으로 나눔

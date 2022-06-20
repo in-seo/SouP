@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HolaService extends CrawlerService {
+public abstract class HolaService extends CrawlerService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
@@ -102,13 +102,5 @@ public class HolaService extends CrawlerService {
 //        holaRepository.save(temp2);
 //    }
 
-    public List<ShowForm> findAllDesc() {
-        List<Hola> holaList = holaRepository.findTop8ByOrderByIdDesc();
-        List<ShowForm> showList = new ArrayList<>();
-        for (Hola hola : holaList) {
-            ShowForm showForm = new ShowForm(hola.getId(),hola.getPostName(),hola.getContent(),hola.getUserName(),hola.getDate(),hola.getLink(),hola.getStack(),hola.getViews(),hola.getTalk(), Source.HOLA,0);
-            showList.add(showForm);
-        }
-        return showList;
-    }
+
 }

@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OkkyService extends CrawlerService{
+public abstract class OkkyService extends CrawlerService{
     private static final String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
@@ -124,13 +124,4 @@ public class OkkyService extends CrawlerService{
         return recent.intValue();
     }
 
-    public List<ShowForm> findAllDesc() {
-        List<Okky> okkyList = okkyRepository.findTop8ByOrderByIdDesc();
-        List<ShowForm> showList = new ArrayList<>();
-        for (Okky okky : okkyList) {
-            ShowForm showForm = new ShowForm(okky.getId(),okky.getPostName(),okky.getContent(),okky.getUserName(),okky.getDate(),okky.getLink(),okky.getStack(),okky.getViews(),okky.getTalk(), Source.OKKY,0);
-            showList.add(showForm);
-        }
-        return showList;
-    }
 }

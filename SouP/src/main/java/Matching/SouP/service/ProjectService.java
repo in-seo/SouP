@@ -3,6 +3,7 @@ package Matching.SouP.service;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
+import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.domain.project.ProjectConnect;
@@ -10,6 +11,7 @@ import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
 import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.PostForm;
+import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -134,5 +136,17 @@ public class ProjectService  extends CrawlerService {
         else
             obj.put("success", false);
         return obj;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ShowForm> findAllDesc(Source source) {
+        List<Post> postList = postsRepository.findTop8BySourceOrderByDateDesc(source);
+        List<ShowForm> showList = new ArrayList<>();
+        for (Post post : postList) {
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(), Source.OKKY,0);
+            showList.add(showForm);
+        }
+        return showList;
     }
 }
