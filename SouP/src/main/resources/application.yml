@@ -4,5 +4,3 @@ aws:
     prefix: /spring-boot-aws
     name: cloud-parameter-store
     profileSeparator: _
-my:
-  password: ${db.username}
