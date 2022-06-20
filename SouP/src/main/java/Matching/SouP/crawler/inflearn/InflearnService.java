@@ -21,14 +21,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class InflearnService extends CrawlerService {
+public abstract class InflearnService extends CrawlerService {
     private static final String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
     private final InflearnRepository inflearnRepository;
     private final ConvertToPost convertToPost;
 
-    public List<Inflearn> findAll(){
-        return inflearnRepository.findAll();
-    }
 
     public void getInflearnPostData() throws IOException {
         int start = recentPost();
@@ -116,13 +113,5 @@ public class InflearnService extends CrawlerService {
         return inflearnRepository.findRecent().intValue();
     }
 
-    public List<ShowForm> findAllDesc() {
-        List<Inflearn> inflearnList = inflearnRepository.findTop8ByOrderByIdDesc();
-        List<ShowForm> showList = new ArrayList<>();
-        for (Inflearn inf : inflearnList) {
-            ShowForm showForm = new ShowForm(inf.getId(),inf.getPostName(),inf.getContent(),inf.getUserName(),inf.getDate(),inf.getLink(),inf.getStack(),inf.getViews(),inf.getTalk(), Source.INFLEARN,0);
-            showList.add(showForm);
-        }
-        return showList;
-    }
+
 }

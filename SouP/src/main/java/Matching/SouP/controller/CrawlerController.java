@@ -5,9 +5,11 @@ import Matching.SouP.crawler.CamPick.CampickService;
 import Matching.SouP.crawler.Hola.HolaService;
 import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.OkkyService;
+import Matching.SouP.domain.posts.Source;
 import Matching.SouP.dto.project.FeaturedForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PostService;
+import Matching.SouP.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -35,6 +37,7 @@ public class CrawlerController {
     private final HolaService holaService;
     private final CampickService campickService;
     private final PostService postService;
+    private final ProjectService projectService;
 
     private static LocalDateTime crawlTime;
 
@@ -56,10 +59,10 @@ public class CrawlerController {
     @GetMapping("/front/projects")
     public JSONObject front() {
         JSONObject obj=new JSONObject();
-        List<ShowForm> okky = okkyService.findAllDesc();
-        List<ShowForm> inflearn = inflearnService.findAllDesc();
-        List<ShowForm> hola = holaService.findAllDesc();
-        List<ShowForm> campick = campickService.findAllDesc();
+        List<ShowForm> okky = projectService.findAllDesc(Source.OKKY);
+        List<ShowForm> inflearn = projectService.findAllDesc(Source.INFLEARN);
+        List<ShowForm> hola = projectService.findAllDesc(Source.HOLA);
+        List<ShowForm> campick = projectService.findAllDesc(Source.CAMPICK);
         List<ShowForm> soup = postService.findAllDesc();
         obj.put("OKKY",okky);
         obj.put("INFLEARN",inflearn);
