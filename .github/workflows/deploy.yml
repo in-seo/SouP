@@ -76,10 +76,9 @@ jobs:
 
       - name: 📂 Make client zip file
         run: |
-          mkdir pre-deploy
+          mkdir pre-deploy pre-deploy/.next
           cp -r deploy/client/. pre-deploy/
           rm -rf soup-frontend/.next/cache
-          mkdir pre-deploy/.next
           cp -r soup-frontend/.next/. pre-deploy/.next/
           zip -r deploy/soup-client.zip pre-deploy/*
           rm -rf pre-deploy
