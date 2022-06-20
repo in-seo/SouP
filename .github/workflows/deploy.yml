@@ -56,20 +56,18 @@ jobs:
       - name: Make server zip file
         run: |
           mkdir pre-deploy
-          cp deploy/appspec-server.yml pre-deploy/appspec.yml
-          cp deploy/scripts/deploy-server.sh pre-deploy/deploy.sh
+          cp -r deploy/server/. pre-deploy/
           cp SouP/build/libs/*.jar pre-deploy/
           zip -r deploy/soup-server.zip pre-deploy/*
-          rm -d pre-deploy
+          rm -rf pre-deploy
 
       - name: Make client zip file
         run: |
           mkdir pre-deploy
-          cp deploy/appspec-client.yml pre-deploy/appspec.yml
-          cp deploy/scripts/deploy-client.sh pre-deploy/deploy.sh
+          cp -r deploy/client/. pre-deploy/
           cp soup-frontend/.next/* pre-deploy/
           zip -r deploy/soup-client.zip pre-deploy/*
-          rm -d pre-deploy
+          rm -rf pre-deploy
 
       - name: Upload to S3
         env:
