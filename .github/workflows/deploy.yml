@@ -52,12 +52,11 @@ jobs:
 
       - name: Show Current Time
         run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
-        shell: bash
 
       - name: Make client zip file
         run: |
           mkdir before-deploy
-          # cp scripts/*.sh before-deploy/
+          cp scripts/*.sh before-deploy/
       # cp appspec.yml before-deploy/
       # cp SouP/build/libs/*.jar before-deploy/
       # cd before-deploy && zip -r before-deploy *
