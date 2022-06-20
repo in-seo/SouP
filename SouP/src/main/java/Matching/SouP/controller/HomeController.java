@@ -16,24 +16,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RestController
 public class HomeController {
-//    @GetMapping("/profile")
-//    public String profile(@LoginUser SessionUser user, Model model, RedirectAttributes attributes) {
-//        log.info("profile controller");
-//        if(user==null){
-//            attributes.addFlashAttribute("msg","회원가입 후 이용하실 수 있습니다.");
-//            return "redirect:/";
-//        }
-//        Optional<User> User = userRepository.findByEmail(user.getEmail());
-//        if(User.isPresent()){
-//            model.addAttribute("user",User.get());
-//            model.addAttribute("UForm",new UserForm(User.get().getId()));  //id를 post해서 이어쓰기위해서 함
-//            return "profile";
-//        }
-//        else{ //이메일 값 없이 등록한 사람
-//            return "redirect:/";
-//        }
-//
-//    }
 
     @GetMapping("/kakao")
     public void kakaoCode(HttpServletResponse response) throws IOException {  //인가코드 받기

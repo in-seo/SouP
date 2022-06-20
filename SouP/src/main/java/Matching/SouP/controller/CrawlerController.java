@@ -102,9 +102,9 @@ public class CrawlerController {
     }
 
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ErrorResponse handleException1() {
-        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "로직을 실행하기 위한 DB에 저장된 값 개수가 부족함");
+        return ErrorResponse.of(HttpStatus.NOT_FOUND, "로직을 실행하기 위한 DB에 저장된 값 개수가 부족함");
     }
 
 }

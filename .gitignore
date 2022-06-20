@@ -40,5 +40,6 @@ out/
 *.iml
 out
 gen
-application-oauth.properties
-application-real-db.properties
+/SouP/src/main/resources/application-oauth.properties
+/SouP/src/main/resources/application-real-db.properties
+
