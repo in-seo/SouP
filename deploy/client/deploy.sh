@@ -5,5 +5,7 @@ PROJECT_NAME=SouP
 
 cd $REPOSITORY/zip
 
+. ~/.nvm/nvm.sh
+
 echo "> react 실행"
-npm start
+npx next start
