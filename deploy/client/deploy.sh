@@ -8,4 +8,4 @@ cd $REPOSITORY/zip
 . ~/.nvm/nvm.sh
 
 echo "> react 실행"
-npx next start
+npm start
