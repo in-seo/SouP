@@ -6,6 +6,8 @@ PROJECT_NAME=SouP
 cd $REPOSITORY/zip
 
 . ~/.nvm/nvm.sh
+echo "> npx 버전"
+npx -v
 
 echo "> react 실행"
-npm start
+npx next start
