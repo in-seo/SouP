@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public abstract class HolaService extends CrawlerService {
+public class HolaService extends CrawlerService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
@@ -92,6 +92,11 @@ public abstract class HolaService extends CrawlerService {
             Thread.sleep(500); //리소스 초과 방지
             driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         }
+    }
+
+    @Override
+    public List<ShowForm> findAllDesc(Source source) {
+        return null;
     }
 
 //    @PostConstruct
