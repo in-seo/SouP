@@ -11,4 +11,5 @@ npm -v
 
 
 echo "> react 실행"
+cd .next
 npm start
