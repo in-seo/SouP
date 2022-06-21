@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public abstract class CampickService extends CrawlerService {
+public class CampickService extends CrawlerService {
 
     private static final String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
@@ -116,6 +116,11 @@ public abstract class CampickService extends CrawlerService {
 //            Thread.sleep(500); //리소스 초과 방지
             driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 //        }  //글 120개
+    }
+
+    @Override
+    public List<ShowForm> findAllDesc(Source source) {
+        return null;
     }
 
 //    @PostConstruct

@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public abstract class OkkyService extends CrawlerService{
+public class OkkyService extends CrawlerService{
     private static final String urlOkky ="https://okky.kr/articles/gathering";  //https://okky.kr/articles/gathering?offset=24단위로
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
@@ -124,4 +124,8 @@ public abstract class OkkyService extends CrawlerService{
         return recent.intValue();
     }
 
+    @Override
+    public List<ShowForm> findAllDesc(Source source) {
+        return null;
+    }
 }

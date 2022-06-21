@@ -2,10 +2,10 @@ package Matching.SouP.crawler;
 
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.dto.project.ShowForm;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import static java.util.Arrays.*;
-
 
 public abstract class CrawlerService {
 

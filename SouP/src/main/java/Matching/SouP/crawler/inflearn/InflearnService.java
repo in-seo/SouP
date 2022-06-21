@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public abstract class InflearnService extends CrawlerService {
+public class InflearnService extends CrawlerService {
     private static final String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
     private final InflearnRepository inflearnRepository;
     private final ConvertToPost convertToPost;
@@ -114,4 +114,8 @@ public abstract class InflearnService extends CrawlerService {
     }
 
 
+    @Override
+    public List<ShowForm> findAllDesc(Source source) {
+        return null;
+    }
 }
