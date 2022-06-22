@@ -11,4 +11,4 @@ npx -v
 
 
 echo "> react 실행"
-npx next start
+nohup npx next start > $REPOSITORY/nohup-client.out 2>&1 &
