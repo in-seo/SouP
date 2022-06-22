@@ -8,6 +8,6 @@ echo "> deploy server"
 
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 chmod +x $JAR_NAME
-mv [option] $JAR_NAME $REPOSITORY/server.jar
+mv -f $JAR_NAME $REPOSITORY/server.jar
 
 pm2 restart soup-server
