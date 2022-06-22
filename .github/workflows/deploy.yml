@@ -99,14 +99,14 @@ jobs:
         run: |
           aws deploy create-deployment \
           --application-name soup \
-          --deployment-group-name soup-group \
+          --deployment-group-name soup-client \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=soup-build,bundleType=zip,key=soup-client.zip \
           --region ap-northeast-2
 
           aws deploy create-deployment \
           --application-name soup \
-          --deployment-group-name soup-group \
+          --deployment-group-name soup-server \
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=soup-build,bundleType=zip,key=soup-server.zip \
           --region ap-northeast-2
