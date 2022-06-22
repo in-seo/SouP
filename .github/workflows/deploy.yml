@@ -3,7 +3,7 @@ name: soup
 on:
   push:
     branches:
-      - production
+      - master
   workflow_dispatch:
 
 jobs:
