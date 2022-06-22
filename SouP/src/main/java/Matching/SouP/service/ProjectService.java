@@ -1,6 +1,7 @@
 package Matching.SouP.service;
 
 
+import Matching.SouP.config.MyOkHttpClient;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.okky.Okky;
@@ -22,9 +23,12 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,8 +77,8 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
-    public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
-        JSONObject obj = new JSONObject();
+    public Object[] fav(User user, @RequestBody favForm form){   // 좋아요
+        Object[] obj = new Object[2];
         boolean isfav=false;
         List<ProjectConnect> projectList = new ArrayList<>();
         if(user.getProjectConnectList().size()!=0){
@@ -92,23 +96,21 @@ public class ProjectService  extends CrawlerService {
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
             projectConnectRepository.save(connect);
-            isfav=true;
-            obj.put("success",true);
+            obj[0]=true;
         }
         else if(!form.isMode() && isfav){
             post.minusFav();
             for (ProjectConnect connect : projectList) {
                 if(connect.getUser().getId()==user.getId()){
                     projectConnectRepository.delete(connect);
-                    isfav=false;
                     break;
                 }
             }
-            obj.put("success",true);
+            obj[0]=true;
         }
         else
-            obj.put("success",false);
-        obj.put("isfav",isfav);
+            obj[0]=false;
+        obj[1] = post;
         return obj;
     }
 
