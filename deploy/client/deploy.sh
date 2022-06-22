@@ -1,9 +1,9 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/SouP/dep
+REPOSITORY=/home/ec2-user/SouP/dep/client
 PROJECT_NAME=SouP
 
-cd $REPOSITORY/zip
+exit 0
 
 . ~/.nvm/nvm.sh
 echo "> npx 버전"

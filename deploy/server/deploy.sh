@@ -1,25 +1,27 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/SouP/dep
+REPOSITORY=/home/ec2-user/SouP/dep/server
 PROJECT_NAME=SouP
 
-cp $REPOSITORY/zip/*.jar $REPOSITORY/
+# cp $REPOSITORY/zip/*.jar $REPOSITORY/
 
-echo "> 현재 구동중인 애플리케이션 pid 확인"
+exit 0
+
+echo "> 서버 pid 확인"
 
 CURRENT_PID=$(pgrep -fl SouP | grep jar | awk '{print $1}')
 
-echo "> 현재 구동중인 애플리케이션 pid: $CURRENT_PID"
+echo "> 서버 pid: $CURRENT_PID"
 
 if [ -z "$CURRENT_PID" ]; then
-    echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다."
+    echo "> 구동 중인 서버가 없음"
 else
     echo "> kill -15 $CURRENT_PID"
     kill -15 $CURRENT_PID
     sleep 5
 fi
 
-echo "> 새 어플리케이션 배포"
+echo "> 서버 배포"
 
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 

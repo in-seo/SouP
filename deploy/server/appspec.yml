@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/SouP/dep/zip/
+    destination: /home/ec2-user/SouP/dep/server/
     overwrite: yes
 
 permissions:
