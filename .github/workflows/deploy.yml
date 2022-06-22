@@ -76,10 +76,11 @@ jobs:
 
       - name: 📂 Make client zip file
         run: |
-          mkdir pre-deploy pre-deploy/.next
+          mkdir pre-deploy
           cp -r deploy/client/. pre-deploy/
-          rm -rf soup-frontend/.next/cache
-          cp -r soup-frontend/.next/. pre-deploy/.next/
+          cp -r soup-frontend/.next/standalone pre-deploy/
+          cp -r soup-frontend/public pre-deploy/public
+          cp -r soup-frontend/.next/static pre-deploy/.next/static
           zip -r deploy/soup-client.zip pre-deploy
           rm -rf pre-deploy
 
@@ -110,4 +111,3 @@ jobs:
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=soup-build,bundleType=zip,key=soup-server.zip \
           --region ap-northeast-2
-
