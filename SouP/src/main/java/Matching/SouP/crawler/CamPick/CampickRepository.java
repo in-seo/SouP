@@ -15,8 +15,6 @@ import java.util.List;
     @Query("select c from Campick c order by c.id DESC")
     List<Campick> findAllDesc();
 
-   List<Campick> findTop8ByOrderByIdDesc();
-
     @Query("select c from Campick c where c.num=:num")
     Campick findByNum(@Param("num") int num);
 }
