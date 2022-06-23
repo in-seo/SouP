@@ -3,7 +3,6 @@ package Matching.SouP.crawler.Hola;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
@@ -16,9 +15,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +41,7 @@ public class HolaService extends CrawlerService {
             int count = element.select(">li").size();
             log.info("훌라 크롤링 시작. {}개 예정",count-postCount);
             if(count>postCount){
-                for (Long i = count-postCount; i >0; i--) {
+                for (long i = count-postCount; i >0; i--) {
                     scroll((JavascriptExecutor) driver);
                     Elements eachPost = element.select("li:nth-child(" + i + ")");
                     driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child("+i+")")).click();

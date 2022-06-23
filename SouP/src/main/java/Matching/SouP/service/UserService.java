@@ -5,11 +5,8 @@ import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
@@ -26,11 +23,5 @@ public class UserService {
     public List<ProjectConnect> showFav(User user){
         return user.getProjectConnectList();
     }
-
-
-//    public void sendPost(String token){
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-//        params.add("");
-//    }
 
 }

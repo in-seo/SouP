@@ -77,14 +77,14 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
-    public Object[] fav(User user, @RequestBody favForm form){   // 좋아요
-        Object[] obj = new Object[2];
+    public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
+        JSONObject obj = new JSONObject();
         boolean isfav=false;
         List<ProjectConnect> projectList = new ArrayList<>();
         if(user.getProjectConnectList().size()!=0){
             projectList = projectConnectRepository.findByPostId(form.getId());
             for (ProjectConnect connect : projectList) {
-                if(connect.getUser().getId()==user.getId()){
+                if(connect.getUser().getId().equals(user.getId())){
                     isfav=true;
                     break;
                 }
@@ -96,21 +96,23 @@ public class ProjectService  extends CrawlerService {
             post.plusFav();
             ProjectConnect connect = ProjectConnect.createConnect(post, user);
             projectConnectRepository.save(connect);
-            obj[0]=true;
+            isfav=true;
+            obj.put("success",true);
         }
         else if(!form.isMode() && isfav){
             post.minusFav();
             for (ProjectConnect connect : projectList) {
-                if(connect.getUser().getId()==user.getId()){
+                if(connect.getUser().getId().equals(user.getId())){
                     projectConnectRepository.delete(connect);
+                    isfav=false;
                     break;
                 }
             }
-            obj[0]=true;
+            obj.put("success",true);
         }
         else
-            obj[0]=false;
-        obj[1] = post;
+            obj.put("success",false);
+        obj.put("isfav",isfav);
         return obj;
     }
 
@@ -118,7 +120,7 @@ public class ProjectService  extends CrawlerService {
     public JSONObject editProject(User user, EditForm form){
         JSONObject obj = new JSONObject();
         Post post = postsRepository.findById(form.getId()).orElseThrow();
-        if(post.getUser().getId()==user.getId()){
+        if(post.getUser().getId().equals(user.getId())){
             post.edit(form.getTitle(),form.getContent().toString());
             obj.put("success", true);
         }
@@ -131,7 +133,7 @@ public class ProjectService  extends CrawlerService {
     public JSONObject deleteProject(User user, Long id) {
         JSONObject obj = new JSONObject();
         Post post = postsRepository.findById(id).orElseThrow();
-        if(post.getUser().getId()==user.getId()){
+        if(post.getUser().getId().equals(user.getId())){
             postsRepository.delete(post);
             obj.put("success", true);
         }
@@ -150,5 +152,13 @@ public class ProjectService  extends CrawlerService {
             showList.add(showForm);
         }
         return showList;
+    }
+
+    public String makeTemplate(Source source, String link, String stack, String email, String talk){
+        String start = "안녕하세요 "+ source +"의 "+link+ " 보고 연락 드렸습니다.\n";
+        String middle = " 모집중이신 "+stack+"을 이용한 프로젝트/스터디에 관심이 있고 [           ] 정도 다뤄봤으며, [          ]와 같은 구현 경험이 있습니다.\n";
+        String end = " 자세한 내용은 ['깃허브주소']를 참고해 주시거나 "+email+"으로 연락주세요. 카톡도 가능합니다 :) !! \n\n지원 오픈카톡 --> "+ talk;
+        String template = start+middle+end;
+        return template;
     }
 }

@@ -15,8 +15,6 @@ public interface OkkyRepository extends JpaRepository<Okky,Long> {
     @Query("select o from Okky o order by o.id DESC")
     List<Okky> findAllDesc();
 
-    List<Okky> findTop8ByOrderByIdDesc();
-
     @Query("select o from Okky o where o.num=:num")
     Okky findByNum(@Param("num") int num);
 }

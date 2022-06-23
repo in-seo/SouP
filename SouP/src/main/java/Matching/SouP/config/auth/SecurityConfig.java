@@ -20,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()// URL별 권한 권리
                 .antMatchers("/","/css/**","/images/**","/js/**","/h2-console/**").permitAll()
 //                .antMatchers("/buildProject").hasRole(Role.USER.name()) // /project/build는 가입 시 접근 가능
-//                .anyRequest().authenticated() // anyRequest : 설정된 값들 이외 나머지 URL 나타냄, authenticated : 인증된 사용자 씨발이거때문에'
+//                .anyRequest().authenticated() // anyRequest : 설정된 값들 이외 나머지 URL 나타냄
                 .and()
                 .logout()
                 .logoutSuccessUrl("/")
