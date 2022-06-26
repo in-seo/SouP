@@ -18,9 +18,9 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
         String serverName = request.getServerName();     // hostname.com
         int serverPort = request.getServerPort();        // 80
         StringBuilder url = new StringBuilder();
-        url.append(scheme).append("://").append(serverName);
+        url.append(scheme).append("s://").append("soup.pw");
         if (serverPort != 80 && serverPort != 443) {
-            url.append(":").append(serverPort);
+            url.append(":").append(3000);
         }
         System.out.println("url = " + url);
         response.sendRedirect(url.toString());
