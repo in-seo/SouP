@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'Matching'
-version = '0.0.4-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
+version = '0.0.5-SNAPSHOT-'+new Date().format("yyyyMMddHHmmss")
 sourceCompatibility = '11'
 
 configurations {
