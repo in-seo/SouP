@@ -21,7 +21,7 @@ public class Inflearn {
     private String date;
     private String link;
     private String stack;
-    private int views=(int)Math.random()*100+50;
+    private int views=(int) (Math.random() * 70) + 30;
     private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 
