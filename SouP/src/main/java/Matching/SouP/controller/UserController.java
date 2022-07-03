@@ -5,8 +5,11 @@ import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
+import Matching.SouP.dto.MyFavForm;
+import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -24,14 +27,15 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    @GetMapping("/mypost")
-    public List<Post> showMyPost(@LoginUser SessionUser user){
-        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-        return userService.showPost(User);
-    }
+//    @GetMapping("/mypost")  //내가쓴글
+//    public List<Post> showMyPost(@LoginUser SessionUser user){
+//        User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
+//        return userService.showPost(User);
+//    }
 
     @GetMapping("/myfav")
-    public List<ProjectConnect> showMyFav(@LoginUser SessionUser user){
+    @ApiOperation(value = "내 스크랩 글 조회")
+    public List<MyFavForm> showMyFav(@LoginUser SessionUser user){
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return userService.showFav(User);
     }
