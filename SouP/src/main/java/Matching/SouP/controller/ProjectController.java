@@ -66,9 +66,9 @@ public class ProjectController {
 
     @PostMapping("/projects/fav")    //로컬에서 실행할때 fav 한 후에    http://localhost:8080/kakao   로 접속하면 카톡옴
     @ApiOperation(value = "프로젝트 스크랩 추가")
-    public void fav(@LoginUser SessionUser user, @RequestBody favForm form, HttpServletResponse response) {
+    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form, HttpServletResponse response) {
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-        projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
+        return projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
     }
 //    String str = MyOkHttpClient.makeTemplate(post.getSource(), post.getLink(), post.getStack(), user.getEmail(), post.getTalk()); // Post를 토대로 추출한 지원 양식
     @GetMapping("/projects/{id}")
