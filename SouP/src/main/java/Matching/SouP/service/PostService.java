@@ -126,7 +126,7 @@ public class PostService{
             Post post = projectList.get(i);
             ShowForm showForm;
             if(post.getSource()==Source.SOUP)
-                showForm = new ShowForm(post.getId(), post.getParse(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             else
                 showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             recentPost.add(showForm);
