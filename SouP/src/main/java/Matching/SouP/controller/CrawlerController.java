@@ -41,7 +41,7 @@ public class CrawlerController {
     private final ProjectService projectService;
     private static LocalDateTime crawlTime;
 
-    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
+    @CacheEvict(value = { "front", "featured" }, allEntries = true)
     @GetMapping("/crawl")
 //    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
