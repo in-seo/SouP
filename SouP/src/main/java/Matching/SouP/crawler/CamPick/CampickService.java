@@ -7,6 +7,7 @@ import Matching.SouP.crawler.Selenium;
 import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.dto.project.ShowForm;
+import Matching.SouP.service.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -30,6 +31,8 @@ public class CampickService extends CrawlerService {
     private static final String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
     private final ConvertToPost convertToPost;
+    private static String id;
+    private static String pass;
 
     public void getCampickPostData() throws InterruptedException {
         Selenium set = new Selenium();
@@ -97,8 +100,8 @@ public class CampickService extends CrawlerService {
 
     private void login(WebDriver driver) throws InterruptedException {
         driver.get("https://www.campuspick.com/login");
-        driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys("insi2000");
-        driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys("insi4426!");
+        driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys(PropertyUtil.getProperty("m.i"));
+        driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys(PropertyUtil.getProperty("m.p"));
         driver.findElement(By.cssSelector("#container > div.form > div > input.submit")).click();
         Thread.sleep(2000);  //로그인 처리 대기
     }
