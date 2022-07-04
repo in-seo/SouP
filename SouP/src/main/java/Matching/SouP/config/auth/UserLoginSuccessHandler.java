@@ -14,15 +14,16 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException{
-        String scheme = request.getScheme();             // http
+//        String scheme = request.getScheme();             // http
 //        String serverName = request.getServerName();     // hostname.com
 //        int serverPort = request.getServerPort();        // 80
         StringBuilder url = new StringBuilder();
-        url.append(scheme).append("s://").append("soup.pw");
+//        url.append(scheme).append("s://").append("soup.pw");
 //        if (serverPort != 80 && serverPort != 443) {
 //            url.append(":").append(3000);
 //        }
-        System.out.println("url = " + url);
+//        System.out.println("url = " + url);
+        url.append("http://localhost:3000");
         response.sendRedirect(url.toString());
     }
 }

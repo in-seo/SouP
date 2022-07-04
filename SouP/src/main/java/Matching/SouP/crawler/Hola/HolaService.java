@@ -33,7 +33,7 @@ public class HolaService extends CrawlerService {
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
         try {
-            Long postCount = holaRepository.findRecent();  //저장되어있는 Hola 사이트 글의 개수  홀라는 따로 해야된다 --> 첫글부터 긁어올거라
+            Long postCount = holaRepository.getPostCount();  //저장되어있는 Hola 사이트 글의 개수  홀라는 따로 해야된다 --> 첫글부터 긁어올거라
 //            scroll((JavascriptExecutor) driver);  //전체스크롤
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);

@@ -2,17 +2,28 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
-import Matching.SouP.domain.posts.Post;
-import Matching.SouP.domain.project.ProjectConnect;
+import Matching.SouP.domain.user.NickName;
 import Matching.SouP.domain.user.User;
+import Matching.SouP.dto.UserForm;
+import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,18 +35,96 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
 
-    @GetMapping("/mypost")
-    public List<Post> showMyPost(@LoginUser SessionUser user){
-        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-        return userService.showPost(User);
+    @GetMapping("/auth")
+    public JSONObject showAuth(@LoginUser SessionUser user){
+        JSONObject obj = new JSONObject();
+        try{
+            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+            if(optionalUser.isPresent()){
+                User User = optionalUser.get();
+                obj.put("success",true);
+                obj.put("user_id",User.getId());
+                obj.put("username",User.getName());
+//                obj.put("profileImage",User.getPicture());
+            }
+            return obj;
+        }catch (NullPointerException e){
+            obj.put("success",false);
+            return obj;
+        }
     }
 
+
     @GetMapping("/myfav")
-    public List<ProjectConnect> showMyFav(@LoginUser SessionUser user){
+    @ApiOperation(value = "내 스크랩 글 조회")
+    public List<ShowForm> showMyFav(@LoginUser SessionUser user){
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return userService.showFav(User);
     }
 
+    @GetMapping("/mypage")
+    @ApiOperation(value = "내 정보 조회")
+    public JSONObject showMyInfo(@LoginUser SessionUser user){
+        JSONObject obj = new JSONObject();
+        try{
+            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+            if(optionalUser.isPresent()){
+                User User = optionalUser.get();
+                obj.put("success",true);
+                obj.put("user_id",User.getId());
+                obj.put("username",User.getName());
+                obj.put("nickname",User.getNickName());
+            }
+            return obj;
+        }catch (NullPointerException e){
+            obj.put("success",false);
+            return obj;
+        }
+    }
 
+    @PostMapping("/nickname")
+    @Transactional
+    @ApiOperation(value = "닉네임 변경")
+    public JSONObject changeNick(@LoginUser SessionUser user, @RequestBody UserForm userForm){
+        JSONObject obj = new JSONObject();
+        try{
+            Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
+            if(optionalUser.isPresent()){
+                User User = optionalUser.get();
+                if(userForm.isMode())
+                    User.changeName(userForm.getNickName());
+                else
+                    User.changeName(NickName.makeNickName());
+                obj.put("success",true);
+                log.info("nickname={}",User.getNickName());
+            }
+            return obj;
+        }catch (NullPointerException e){
+            obj.put("success",false);
+            return obj;
+        }
+    }
 
+    //    @PostMapping("/profile")  //Post요청 시
+//    @Transactional
+//    public String profile(UserForm userForm) {
+//        User user = userRepository.findById(userForm.getId()).get();
+//        user.updateProfile(userForm);  //이메일이 있다면 정식멤버 승인.
+//        sessionReset(user); //회원등급 GUEST -> USER로 변환
+//        return "redirect:/";
+//    }
+
+//    public void sessionReset(User user){
+//        /**
+//         * 지리는 코드다 시바;;;
+//         */
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
+//        for (GrantedAuthority updatedAuthority : updatedAuthorities) {
+//            System.out.println(updatedAuthority.getAuthority());
+//        }
+//        updatedAuthorities.add(new SimpleGrantedAuthority(user.getRoleKey())); //add your role here [e.g., new SimpleGrantedAuthority("ROLE_NEW_ROLE")]
+//        Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
+//        SecurityContextHolder.getContext().setAuthentication(newAuth);
+//    }
 }

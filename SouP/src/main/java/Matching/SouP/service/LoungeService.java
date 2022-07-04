@@ -33,10 +33,11 @@ public class LoungeService {
         for (Lounge lounge : loungeList) {
             boolean br = true;
             JSONObject obj = makeLoungeForm(lounge);
+            System.out.println("size = "+user.getLoungeConnectList().size());
             if(user.getLoungeConnectList().size()!=0){
                 List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
                 for (LoungeConnect loungeConnect : byLoungeId) {
-                    if(loungeConnect.getUser().getId()== user.getId()) {
+                    if(loungeConnect.getUser().getId().equals(user.getId())) {
                         obj.put("isfav", true);
                         br=false;
                     }
@@ -79,7 +80,7 @@ public class LoungeService {
         if(user.getLoungeConnectList().size()!=0){
             loungeList = loungeConnectRepository.findByLoungeId(form.getId());
             for (LoungeConnect connect : loungeList) {
-                if(connect.getUser().getId()==user.getId()){
+                if(connect.getUser().getId().equals(user.getId())){
                     isfav=true;
                     break;
                 }
@@ -96,7 +97,7 @@ public class LoungeService {
         else if(!form.isMode() && isfav){
             lounge.minusFav();
             for (LoungeConnect connect : loungeList) {
-                if(connect.getUser().getId()==user.getId()){
+                if(connect.getUser().getId().equals(user.getId())){
                     loungeConnectRepository.delete(connect);
                     isfav=false;
                     break;
