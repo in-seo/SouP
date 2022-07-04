@@ -45,8 +45,9 @@ public class PostService{
             }
             if(isStack){
                 ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                if(post.getSource()==Source.SOUP)
-                    showForm.setContent(post.getParse());
+                if(post.getSource()==Source.SOUP) {
+                    showForm.setContent(post.getProsemirror());
+                }
                 if(user.getProjectConnectList().size()!=0){
                     List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
                     for (ProjectConnect projectConnect : projectConnectList) {

@@ -68,7 +68,6 @@ public class ProjectService  extends CrawlerService {
         }
         if(obj.containsKey("content")){
             JSONArray content = (JSONArray) obj.get("content");
-            log.warn(content.toString());
             String s = "";
             for (int i = 0; i < content.size(); i++) {
                 JSONObject jsonObject = (JSONObject) content.get(i);
