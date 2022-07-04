@@ -35,14 +35,6 @@ public class User extends BaseTimeEntity {
     @Column
     private String nickName;
 
-    @Column
-    private String stack;
-
-    @Column
-    private String favor;
-    
-    @Column
-    private String portfolio; //포폴 링크
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -68,7 +60,7 @@ public class User extends BaseTimeEntity {
         this.email = email;
         this.picture = picture;
         this.role = role;
-        this.nickName = NickName.makeNickName();
+        this.nickName = name;
     }
 
     protected User() {
@@ -84,16 +76,20 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
-
-    public User updateProfile(UserForm userForm){
-        if(!userForm.getEmail().isEmpty())
-            this.role=Role.USER;  //정식 승인
-        this.email = userForm.getEmail();
-        this.nickName = userForm.getNickName();
-        this.stack = userForm.getStack();
-        this.favor = userForm.getFavor();
-        this.portfolio=userForm.getPortfolio();
+    public User changeName(String name) {
+        this.nickName = name;
         return this;
     }
+
+//    public User updateProfile(UserForm userForm){
+//        if(!userForm.getEmail().isEmpty())
+//            this.role=Role.USER;  //정식 승인
+//        this.email = userForm.getEmail();
+//        this.nickName = userForm.getNickName();
+//        this.stack = userForm.getStack();
+//        this.favor = userForm.getFavor();
+//        this.portfolio=userForm.getPortfolio();
+//        return this;
+//    }
 
 }

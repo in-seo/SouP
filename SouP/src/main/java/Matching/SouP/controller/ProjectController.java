@@ -55,7 +55,7 @@ public class ProjectController {
         }
     }
 
-    @Caching(evict = { @CacheEvict(value = "front"), @CacheEvict(value = "featured")})
+    @CacheEvict(value = { "front", "featured" }, allEntries = true)
     @PostMapping("/projects/build")
     @ApiOperation(value = "프로젝트 작성")
     public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
@@ -63,10 +63,16 @@ public class ProjectController {
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
     }
 
+    @CacheEvict(value = { "front", "featured" }, allEntries = true)
+    @PostMapping("/reset")
+    public void reset() {
+    }
+
+
 
     @PostMapping("/projects/fav")    //로컬에서 실행할때 fav 한 후에    http://localhost:8080/kakao   로 접속하면 카톡옴
     @ApiOperation(value = "프로젝트 스크랩 추가")
-    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form, HttpServletResponse response) {
+    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form) {
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
     }

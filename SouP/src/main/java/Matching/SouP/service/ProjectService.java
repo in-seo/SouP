@@ -21,6 +21,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,6 +45,7 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
+    @CacheEvict(value = { "front", "featured" }, allEntries = true)
     public JSONObject tempSave(PostForm pForm, User user) throws ParseException {  //프로젝트정보 임시저장, 사람과 연결 전
         JSONObject obj = new JSONObject();
         JSONParser parser = new JSONParser();
@@ -60,11 +62,13 @@ public class ProjectService  extends CrawlerService {
     }
 
     private String parseString(JSONObject obj,String str){
+        System.out.println(obj);
         if(obj.containsKey("text")){
             str+=obj.get("text").toString();
         }
         if(obj.containsKey("content")){
             JSONArray content = (JSONArray) obj.get("content");
+            log.warn(content.toString());
             String s = "";
             for (int i = 0; i < content.size(); i++) {
                 JSONObject jsonObject = (JSONObject) content.get(i);
