@@ -33,7 +33,6 @@ public class LoungeService {
         for (Lounge lounge : loungeList) {
             boolean br = true;
             JSONObject obj = makeLoungeForm(lounge);
-            System.out.println("size = "+user.getLoungeConnectList().size());
             if(user.getLoungeConnectList().size()!=0){
                 List<LoungeConnect> byLoungeId = loungeConnectRepository.findByLoungeId(lounge.getId());
                 for (LoungeConnect loungeConnect : byLoungeId) {
