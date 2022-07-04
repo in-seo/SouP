@@ -21,6 +21,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,15 +45,17 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
+    @CacheEvict(value = { "front", "featured" }, allEntries = true)
     public JSONObject tempSave(PostForm pForm, User user) throws ParseException {  //프로젝트정보 임시저장, 사람과 연결 전
         JSONObject obj = new JSONObject();
         JSONParser parser = new JSONParser();
         JSONObject content = (JSONObject)parser.parse(String.valueOf(pForm.getContent()));
         String temp="";
-        String str= parseString(content,temp);
+        String prosemirror= parseString(content,temp);
         String talk = "";
-        talk = parseTalk(str, talk);     StringBuilder stack = parseStack(pForm.getTitle(),str);
+        talk = parseTalk(prosemirror, talk);     StringBuilder stack = parseStack(pForm.getTitle(),prosemirror);
         Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
+        post.setProsemirror(prosemirror);
         Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
         obj.put("id",soup.getId());
         obj.put("success", true);
