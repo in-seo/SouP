@@ -15,8 +15,7 @@ public class Selenium {
     public Selenium() {
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36");
-        options.setHeadless(true);
+//        options.setHeadless(true);
         options.addArguments("no-sandbox");
         options.addArguments("disable-dev-shm-usage");
         options.addArguments("lang=ko");

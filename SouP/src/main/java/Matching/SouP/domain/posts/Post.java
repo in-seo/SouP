@@ -36,6 +36,8 @@ public class Post {
     private boolean end = false;
     private int fav =0;
     private String parse="";
+    @Column(columnDefinition = "TEXT")
+    private String prosemirror="";
     @Enumerated(value = EnumType.STRING)
     private Source source;  //ex) okky, inflearn, ...
 
@@ -70,6 +72,10 @@ public class Post {
     public void setUser(User user) {
         user.getPostList().add(this);
         this.user = user;
+    }
+
+    public void setProsemirror(String prosemirror) {
+        this.prosemirror = prosemirror;
     }
 
     public void addViews() {views++;}
