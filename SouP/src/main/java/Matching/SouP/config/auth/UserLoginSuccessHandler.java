@@ -23,7 +23,7 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 //            url.append(":").append(3000);
 //        }
 //        System.out.println("url = " + url);
-        url.append("http://localhost:3000");
+        url.append("http://localhost:3000/api/login-redirect");
         response.sendRedirect(url.toString());
     }
 }
