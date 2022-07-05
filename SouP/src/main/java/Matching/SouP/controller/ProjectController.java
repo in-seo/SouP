@@ -7,10 +7,7 @@ import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
-import Matching.SouP.dto.project.DetailForm;
-import Matching.SouP.dto.project.EditForm;
-import Matching.SouP.dto.project.PostForm;
-import Matching.SouP.dto.project.ShowForm;
+import Matching.SouP.dto.project.*;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.ProjectService;
@@ -104,6 +101,12 @@ public class ProjectController {
     }
 
 
+    @GetMapping("/projects/form")
+    @ApiOperation(value = "프로젝트 양식 제공")
+    public JSONObject showTemplate(@LoginUser SessionUser user, @RequestBody TemplateForm form){
+        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        return projectService.showTemplate(form.getId(),User);
+    }
 //
 //    @PostConstruct
 //    public void init(){

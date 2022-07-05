@@ -1,5 +1,15 @@
 package Matching.SouP.domain.posts;
 
 public enum Source {
-    OKKY, INFLEARN, HOLA, CAMPICK, SOUP
+    OKKY("OKKY"), INFLEARN("인프런"), HOLA("홀라"), CAMPICK("캠퍼스픽"), SOUP("SOUP");
+
+    private String krName;
+
+    Source(String krName) {
+        this.krName = krName;
+    }
+
+    public String getKrName() {
+        return krName;
+    }
 }

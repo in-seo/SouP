@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -145,6 +146,14 @@ public class ProjectService  extends CrawlerService {
         return obj;
     }
 
+    public JSONObject showTemplate(Long id, User user){
+        JSONObject obj = new JSONObject();
+        Post post = postsRepository.findById(id).orElseThrow();
+        String template = makeTemplate(post.getSource(), post.getLink(), post.getStack(), post.getTalk(),user.getEmail());
+        obj.put("form",template);
+        return obj;
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<ShowForm> findAllDesc(Source source) {
@@ -157,8 +166,12 @@ public class ProjectService  extends CrawlerService {
         return showList;
     }
 
-    public String makeTemplate(Source source, String link, String stack, String email, String talk){
-        String start = "안녕하세요 "+ source +"의 "+link+ " 보고 연락 드렸습니다.\n";
+    public String makeTemplate(Source source, String link, String stack, String talk,String email){
+        if(talk.equals(""))
+            talk = "(오픈 카카오톡 링크가 존재하지 않습니다.)";
+        if(stack.equals(""))
+            stack = "(~~)";
+        String start = "안녕하세요 "+ source.getKrName() +"의 "+link+ " 보고 연락 드렸습니다.\n";
         String middle = " 모집중이신 "+stack+"을 이용한 프로젝트/스터디에 관심이 있고 [           ] 정도 다뤄봤으며, [          ]와 같은 구현 경험이 있습니다.\n";
         String end = " 자세한 내용은 ['깃허브주소']를 참고해 주시거나 "+email+"으로 연락주세요. 카톡도 가능합니다 :) !! \n\n지원 오픈카톡 --> "+ talk;
         return start+middle+end;
