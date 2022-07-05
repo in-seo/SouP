@@ -31,7 +31,7 @@ public class UserService {
             Post post = postsRepository.findById(pc.getPost().getId()).get();
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()== Source.SOUP)
-                showForm.setContent(post.getParse());
+                showForm.setContent(post.getProsemirror());
             showForm.setIsfav(true);  // 내 스크랩 글이니 항상 true
             list.add(showForm);
         }
