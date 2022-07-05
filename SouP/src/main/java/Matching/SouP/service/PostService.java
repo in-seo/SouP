@@ -38,27 +38,20 @@ public class PostService{
             projectList = filter(stacks, pageable);  //파라미터 입력받았을 경우
         List<ShowForm> showList = new ArrayList<>();
         for (Post post : projectList.getContent()) {
-            boolean isStack=true;
-            for (String stack : stacks) {
-                if (!post.getStack().contains(stack))
-                    isStack = false;
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+            if(post.getSource()==Source.SOUP) {
+                showForm.setContent(post.getProsemirror());
             }
-            if(isStack){
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                if(post.getSource()==Source.SOUP) {
-                    showForm.setContent(post.getProsemirror());
-                }
-                if(user.getProjectConnectList().size()!=0){
-                    List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
-                    for (ProjectConnect projectConnect : projectConnectList) {
-                        if(projectConnect.getUser().getId().equals(user.getId())) {
-                            showForm.setIsfav(true);
-                            break;
-                        }
+            if(user.getProjectConnectList().size()!=0){
+                List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
+                for (ProjectConnect projectConnect : projectConnectList) {
+                    if(projectConnect.getUser().getId().equals(user.getId())) {
+                        showForm.setIsfav(true);
+                        break;
                     }
                 }
-                showList.add(showForm);
             }
+            showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
@@ -72,17 +65,10 @@ public class PostService{
         List<ShowForm> showList = new ArrayList<>();
 
         for (Post post : projectList.getContent()) {
-            boolean isStack=true;
-            for (String stack : stacks) {
-                if(!post.getStack().contains(stack))
-                    isStack=false;
-            }
-            if(isStack){
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                if(post.getSource()==Source.SOUP)
-                    showForm.setContent(post.getParse());
-                showList.add(showForm);
-            }
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+            if(post.getSource()==Source.SOUP)
+                showForm.setContent(post.getParse());
+            showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
@@ -126,7 +112,7 @@ public class PostService{
             Post post = projectList.get(i);
             ShowForm showForm;
             if(post.getSource()==Source.SOUP)
-                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                showForm = new ShowForm(post.getId(), post.getParse(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             else
                 showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             recentPost.add(showForm);

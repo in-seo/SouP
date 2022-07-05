@@ -54,7 +54,7 @@ public class ProjectService  extends CrawlerService {
         String prosemirror= parseString(content,temp);
         String talk = "";
         talk = parseTalk(prosemirror, talk);     StringBuilder stack = parseStack(pForm.getTitle(),prosemirror);
-        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
+        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getNickName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setProsemirror(prosemirror);
         Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
         obj.put("id",soup.getId());
@@ -161,7 +161,6 @@ public class ProjectService  extends CrawlerService {
         String start = "안녕하세요 "+ source +"의 "+link+ " 보고 연락 드렸습니다.\n";
         String middle = " 모집중이신 "+stack+"을 이용한 프로젝트/스터디에 관심이 있고 [           ] 정도 다뤄봤으며, [          ]와 같은 구현 경험이 있습니다.\n";
         String end = " 자세한 내용은 ['깃허브주소']를 참고해 주시거나 "+email+"으로 연락주세요. 카톡도 가능합니다 :) !! \n\n지원 오픈카톡 --> "+ talk;
-        String template = start+middle+end;
-        return template;
+        return start+middle+end;
     }
 }
