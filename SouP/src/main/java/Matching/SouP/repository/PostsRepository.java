@@ -32,4 +32,12 @@ public interface PostsRepository extends PagingAndSortingRepository<Post, Long> 
     @Query("select p from Post p where p.stack like %:stack1% or p.stack like %:stack2% or p.stack like %:stack3% order by p.date desc")
     Page<Post> findBy3StacksDesc(Pageable pageable, @Param("stack1")String stack1, @Param("stack2")String stack2, @Param("stack3")String stack3);
 
+    @Query("select p from Post p where p.date>:date and p.stack like %:stack% order by p.date desc")
+    List<Post> find1RecommendNDaysBefore(@Param("date") String date, @Param("stack")String stack);
+
+    @Query("select p from Post p where p.date>:date and p.stack like %:stack1% or p.stack like %:stack2% order by p.date desc")
+    List<Post> find2RecommendNDaysBefore(@Param("date") String date, @Param("stack1")String stack1, @Param("stack2")String stack2);
+
+    @Query("select p from Post p where p.date>:date and p.stack like %:stack1% or p.stack like %:stack2% or p.stack like %:stack3% order by p.date desc")
+    List<Post> find3RecommendNDaysBefore(@Param("date") String date, @Param("stack1")String stack1, @Param("stack2")String stack2, @Param("stack3")String stack3);
 }

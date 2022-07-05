@@ -103,6 +103,15 @@ public class CrawlerController {
         return obj;
     }
 
+//    @GetMapping("/projects/suggest")
+//    public JSONObject detailSuggest(){
+//        JSONObject obj = new JSONObject();
+//        List<FeaturedForm> SuggestForm = new ArrayList<>();
+//        postService.findSuggestPost(6);
+//        obj.put("RECOMMEND",SuggestForm);
+//        return obj;
+//    }
+
     @ExceptionHandler(IndexOutOfBoundsException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ErrorResponse handleException1() {

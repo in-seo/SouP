@@ -72,6 +72,7 @@ public class UserController {
                 User User = optionalUser.get();
                 obj.put("success",true);
                 obj.put("user_id",User.getId());
+                obj.put("email", User.getEmail());
                 obj.put("username",User.getName());
                 obj.put("nickname",User.getNickName());
             }
