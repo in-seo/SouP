@@ -69,10 +69,9 @@ public class CampickService extends CrawlerService {
                 date = standard(date);
                 String people = article.select("div > p:nth-child(6) > span").text();
                 String content = article.select("p.text").text();
-                content = content +"\n 캠퍼스픽 글은 로그인 없이 볼 수 없음에 원본링크를 첨부합니다. : "+link;  //캠픽 글들은 이렇게 해주자. 로그인없이 볼 수가 없음.
-
                 String talk="";
                 talk = parseTalk(content,talk);
+                content = content +"\n 캠퍼스픽 글은 로그인 없이 볼 수 없음에 원본링크를 첨부합니다. : "+link;  //캠픽 글들은 이렇게 해주자. 로그인없이 볼 수가 없음.
 
                 StringBuilder stack = parseStack(postName,content);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
