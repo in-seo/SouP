@@ -156,6 +156,24 @@ public class PostService{
         return randomList;
     }
 
+//    public List<ShowForm> findSuggestPost(Long id, long n){
+//        Post Post = postsRepository.findById(id).orElseThrow();
+//        if (Post.getStack().size() == 1)
+//            return postsRepository.findBy1StacksDesc(pageable, stacks.get(0));
+//        else if (stacks.size() == 2)
+//            return postsRepository.findBy2StacksDesc(pageable, stacks.get(0), stacks.get(1));
+//        else if (stacks.size() == 3)
+//            return postsRepository.findBy3StacksDesc(pageable, stacks.get(0), stacks.get(1), stacks.get(2));
+//        else
+//            return postsRepository.findAllDesc(pageable);
+//        List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0,18));
+//        List<ShowForm> SuggestList = new ArrayList<>();
+//
+//            }
+//        }
+//        return randomList;
+//    }
+
 
     public List<ShowForm> findAllDesc() {
         List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
