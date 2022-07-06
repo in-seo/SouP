@@ -75,6 +75,7 @@ public class UserController {
                 obj.put("email", User.getEmail());
                 obj.put("username",User.getName());
                 obj.put("nickname",User.getNickName());
+                obj.put("origin",User.getOrigin());
             }
             return obj;
         }catch (NullPointerException e){
