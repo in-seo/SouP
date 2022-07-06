@@ -12,7 +12,7 @@ public class Hola {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Hola_SEQ")
     private Long id;
-
+    private String num;
     private String postName;
     private String content;
     private String userName;
@@ -23,7 +23,8 @@ public class Hola {
     private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 
-    public Hola(String postName, String content, String userName, String date, String link, String stack, int views,  String talk) {
+    public Hola(String num, String postName, String content, String userName, String date, String link, String stack, int views,  String talk) {
+        this.num = num;
         this.postName = postName;
         this.content = content;
         this.userName = userName;
