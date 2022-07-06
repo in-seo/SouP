@@ -33,6 +33,9 @@ public class User extends BaseTimeEntity {
     private String picture;
 
     @Column
+    private String origin;
+
+    @Column
     private String nickName;
 
 
@@ -55,10 +58,11 @@ public class User extends BaseTimeEntity {
     private List<Lounge> loungeList = new ArrayList<>();
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, String picture, String origin, Role role) {
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.origin = origin;
         this.role = role;
         this.nickName = name;
     }

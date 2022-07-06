@@ -16,14 +16,16 @@ public class OAuthAttributes {
     private String name;
     private String email;
     private String picture;
+    private String origin;
 
     @Builder
-    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
+    public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture, String origin) {
         this.attributes = attributes;
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.origin = origin;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes){
@@ -34,15 +36,14 @@ public class OAuthAttributes {
         return ofGoogle(userNameAttributeName, attributes);
     }
     private static OAuthAttributes ofFaceBook(String userNameAttributeName, Map<String, Object> attributes){
-        System.out.println(attributes);
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("profile_image_url"))
+                .origin("Facebook")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
-
     }
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes){
         Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
@@ -51,6 +52,7 @@ public class OAuthAttributes {
                 .name((String) profile.get("nickname"))
                 .email((String) kakao_account.get("email"))
                 .picture((String) profile.get("profile_image_url"))
+                .origin("Kakao")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -63,6 +65,7 @@ public class OAuthAttributes {
                 .name((String) response.get("name"))
                 .email((String) response.get("email"))
                 .picture((String) response.get("profile_image"))
+                .origin("Naver")
                 .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -74,6 +77,7 @@ public class OAuthAttributes {
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
                 .picture((String) attributes.get("picture"))
+                .origin("Google")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
@@ -84,6 +88,7 @@ public class OAuthAttributes {
                 .name(name)
                 .email(email)
                 .picture(picture)
+                .origin(origin)
                 .role(Role.GUEST) // 기본 권한 GUEST
                 .build();
     }
