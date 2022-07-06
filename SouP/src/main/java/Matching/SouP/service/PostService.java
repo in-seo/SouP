@@ -156,23 +156,30 @@ public class PostService{
         return randomList;
     }
 
-//    public List<ShowForm> findSuggestPost(Long id, long n){
-//        Post Post = postsRepository.findById(id).orElseThrow();
-//        if (Post.getStack().size() == 1)
-//            return postsRepository.findBy1StacksDesc(pageable, stacks.get(0));
-//        else if (stacks.size() == 2)
-//            return postsRepository.findBy2StacksDesc(pageable, stacks.get(0), stacks.get(1));
-//        else if (stacks.size() == 3)
-//            return postsRepository.findBy3StacksDesc(pageable, stacks.get(0), stacks.get(1), stacks.get(2));
-//        else
-//            return postsRepository.findAllDesc(pageable);
-//        List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0,18));
-//        List<ShowForm> SuggestList = new ArrayList<>();
-//
-//            }
-//        }
-//        return randomList;
-//    }
+    public List<ShowForm> findSuggestPost(Long id){
+        Post Post = postsRepository.findById(id).orElseThrow();
+        List<Post> projectList;
+        List<ShowForm> suggestList = new ArrayList<>();
+        String[] stacks = Post.getStack().split(",|\\s+");
+        if (stacks.length ==1)
+            projectList = postsRepository.find1RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0]);
+        else if (stacks.length == 2)
+            projectList = postsRepository.find2RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0], stacks[1]);
+        else if (stacks.length == 3)
+            projectList = postsRepository.find3RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0], stacks[1], stacks[2]);
+        else
+            projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18));
+
+        for (int i = 1; i <= projectList.size(); i++) {
+            if(i>7)
+                break;
+            Post post = projectList.get(i);
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+            suggestList.add(showForm);
+
+        }
+        return suggestList;
+    }
 
 
     public List<ShowForm> findAllDesc() {
