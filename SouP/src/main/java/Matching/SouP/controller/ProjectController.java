@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -60,13 +61,6 @@ public class ProjectController {
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
     }
 
-    @CacheEvict(value = { "front", "featured" }, allEntries = true)
-    @PostMapping("/reset")
-    public void reset() {
-    }
-
-
-
     @PostMapping("/projects/fav")    //로컬에서 실행할때 fav 한 후에    http://localhost:8080/kakao   로 접속하면 카톡옴
     @ApiOperation(value = "프로젝트 스크랩 추가")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form) {
@@ -84,6 +78,12 @@ public class ProjectController {
         catch (NullPointerException e){
             return postService.showProject(id);
         }
+    }
+
+    @GetMapping("/projects/{id}/suggest")
+    @ApiOperation(value = "프로젝트 추천")
+    public List<ShowForm> detailSuggest(@PathVariable Long id){
+        return postService.findSuggestPost(id);
     }
 
     @PostMapping("/projects/edit")
