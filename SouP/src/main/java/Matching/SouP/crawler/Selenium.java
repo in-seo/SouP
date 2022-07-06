@@ -10,10 +10,9 @@ public class Selenium {
 
     private WebDriver driver;
     public static String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static String WEB_DRIVER_PATH = "../../chromedriver";
+    public static String WEB_DRIVER_PATH = "chromedriver";
 
     public Selenium() {
-        System.out.println("WEB_DRIVER_PATH = " + WEB_DRIVER_PATH);
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         ChromeOptions options = new ChromeOptions();
 //        options.setHeadless(true);
