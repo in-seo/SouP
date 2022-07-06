@@ -10,7 +10,7 @@ public class Selenium {
 
     private WebDriver driver;
     public static String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static String WEB_DRIVER_PATH = "chromedriver";
+    public static String WEB_DRIVER_PATH = "~/SouP/chromedriver";
 
     public Selenium() {
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
