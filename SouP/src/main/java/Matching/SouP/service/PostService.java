@@ -67,7 +67,7 @@ public class PostService{
         for (Post post : projectList.getContent()) {
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()==Source.SOUP)
-                showForm.setContent(post.getParse());
+                showForm.setContent(post.getProsemirror());
             showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
@@ -112,7 +112,7 @@ public class PostService{
             Post post = projectList.get(i);
             ShowForm showForm;
             if(post.getSource()==Source.SOUP)
-                showForm = new ShowForm(post.getId(), post.getParse(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                showForm = new ShowForm(post.getId(), post.getPostName(), post.getProsemirror(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             else
                 showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             recentPost.add(showForm);
@@ -156,12 +156,37 @@ public class PostService{
         return randomList;
     }
 
+    public List<ShowForm> findSuggestPost(Long id){
+        Post Post = postsRepository.findById(id).orElseThrow();
+        List<Post> projectList;
+        List<ShowForm> suggestList = new ArrayList<>();
+        String[] stacks = Post.getStack().split(",|\\s+");
+        if (stacks.length ==1)
+            projectList = postsRepository.find1RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0]);
+        else if (stacks.length == 2)
+            projectList = postsRepository.find2RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0], stacks[1]);
+        else if (stacks.length == 3)
+            projectList = postsRepository.find3RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0], stacks[1], stacks[2]);
+        else
+            projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18));
+
+        for (int i = 1; i <= projectList.size(); i++) {
+            if(i>7)
+                break;
+            Post post = projectList.get(i);
+            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
+            suggestList.add(showForm);
+
+        }
+        return suggestList;
+    }
+
 
     public List<ShowForm> findAllDesc() {
         List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
         List<ShowForm> showList = new ArrayList<>();
         for (Post soup : soupList) {
-            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getParse(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
+            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getProsemirror(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
             showList.add(showForm);
         }
         return showList;

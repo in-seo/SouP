@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -52,14 +53,6 @@ public class OkkyService extends CrawlerService{
                 }
                 String link = "https://okky.kr/article/"+num;
                 Document realPost = Jsoup.connect(link).get();
-
-//                int size = realPost.select("#content-body > div").select("a").size();
-//                for (int j = 3; j <= size+1; j++) {
-//                    stack.append(realPost.select("#content-body > div > a:nth-child(" + j + ")").text()).append(" ");
-//                    if(j==5)
-//                        break; //3개까지만저장
-//                }
-
                 String content = realPost.select("#content-body > article").text();
 
                 StringBuilder stack = parseStack(postName,content);
@@ -89,13 +82,6 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-//    @PostConstruct
-//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Okky temp = new Okky("1238250","임시 기준점","","","","","",64,"");
-//        okkyRepository.save(temp);
-//    }
-
-
     private int startPage(int start) throws IOException {
         int page=1;  //page가 1이면 okky에선 2페이지이다..
         /**
@@ -123,4 +109,10 @@ public class OkkyService extends CrawlerService{
     public List<ShowForm> findAllDesc(Source source) {
         return null;
     }
+
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Okky temp = new Okky("1261666","임시 기준점","","","","","",64,"");
+//        okkyRepository.save(temp);
+//    }
 }
