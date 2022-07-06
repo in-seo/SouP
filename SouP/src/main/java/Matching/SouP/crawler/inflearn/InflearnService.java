@@ -2,6 +2,7 @@ package Matching.SouP.crawler.inflearn;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
+import Matching.SouP.crawler.okky.Okky;
 import Matching.SouP.domain.posts.Source;
 import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
@@ -98,9 +99,14 @@ public class InflearnService extends CrawlerService {
         return inflearnRepository.findRecent().intValue();
     }
 
-
     @Override
     public List<ShowForm> findAllDesc(Source source) {
         return null;
     }
+
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Inflearn temp = new Inflearn("580443","임시 기준점","","","","","","");
+//        inflearnRepository.save(temp);
+//    }
 }

@@ -107,11 +107,7 @@ public class HolaService extends CrawlerService {
             driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         }
     }
-    @PostConstruct
-    private void init() {
-        Hola temp = new Hola("62b1bda32e6e4c00139dd1d6","기준점","daf","awegaw","awegaew","kdjafha","124",12,"");
-        holaRepository.save(temp);
-    }
+
     public String recentPost(){
         return holaRepository.findRecent();
     }
@@ -119,6 +115,10 @@ public class HolaService extends CrawlerService {
     public List<ShowForm> findAllDesc(Source source) {
         return null;
     }
-
+//    @PostConstruct
+//    private void init() {
+//        Hola temp = new Hola("62b1bda32e6e4c00139dd1d6","임시 기준점","daf","awegaw","awegaew","kdjafha","124",12,"");
+//        holaRepository.save(temp);
+//    }
 
 }

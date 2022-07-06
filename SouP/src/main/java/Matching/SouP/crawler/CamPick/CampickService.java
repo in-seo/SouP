@@ -127,7 +127,7 @@ public class CampickService extends CrawlerService {
 
 //    @PostConstruct
 //    private void init() {
-//        Campick temp = new Campick(231849,"기준점","daf","awegaw","awegaew","kdjafha","124",12,"","dfa","");
+//        Campick temp = new Campick(231849,"임시 기준점","daf","awegaw","awegaew","kdjafha","124",12,"","dfa","");
 //        campickRepository.save(temp);
 //    }
 }
