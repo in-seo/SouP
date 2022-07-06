@@ -15,6 +15,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -32,43 +33,59 @@ public class HolaService extends CrawlerService {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
+        int flag = 0;
         try {
-            Long postCount = holaRepository.getPostCount();  //저장되어있는 Hola 사이트 글의 개수  홀라는 따로 해야된다 --> 첫글부터 긁어올거라
-//            scroll((JavascriptExecutor) driver);  //전체스크롤
+            String standard = recentPost();
+            scroll((JavascriptExecutor) driver);  //전체스크롤
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > main > div.mainContent_appWrapper___CgAh > ul");
+            log.info("훌라 크롤링 시작, 가장 최신글번호 = {}",standard);
             int count = element.select(">li").size();
-            log.info("훌라 크롤링 시작. {}개 예정",count-postCount);
-            if(count>postCount){
-                for (long i = count-postCount; i >0; i--) {
+            for (int i = count; i >0; i--) {
+                if(i==count){
                     scroll((JavascriptExecutor) driver);
-                    Elements eachPost = element.select("li:nth-child(" + i + ")");
-                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child("+i+")")).click();
-                    Thread.sleep(500);
-                    Document realPost = Jsoup.parse(driver.getPageSource());
-                    String link = driver.getCurrentUrl();
-                    driver.navigate().back();
-                    String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").text();
-                    String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
-                    if(talk.isEmpty()){talk = parseTalk(content,talk);}
-                    if(talk.length()>200)
-                        talk = talk.substring(0,199);
-                    if(content.length()>200)
-                        content = content.substring(0, 199);
-                    String userName = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_user__1XYmH > div").text();
-                    String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
-                    date=standard(date);
-                    String postName = eachPost.select("h1").text();
-                    StringBuilder stack = parseStack(postName,content);
-                    int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
-                    Hola hola = new Hola(postName,content,userName,date,link,stack.toString(),views,talk);
-                    holaRepository.save(hola);
-                    convertToPost.hola(hola);
+                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child(1)")).click();
+                    if(driver.getCurrentUrl().substring(27).compareTo(standard)<=0) {
+                        log.warn("불러올 글이 없습니다!");
+                        return;
+                    }
+                    else
+                        driver.navigate().back();
                 }
+                Elements eachPost = element.select("li:nth-child(" + i + ")");
+                driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child("+i+")")).click();
+                Thread.sleep(500);
+                Document realPost = Jsoup.parse(driver.getPageSource());
+                String link = driver.getCurrentUrl();
+                String num = link.substring(27);
+                if(num.compareTo(standard)<=0){
+                    driver.navigate().back();
+                    continue;   //이미 불러온 글이면 패스
+                }
+                driver.navigate().back();
+                String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").text();
+                String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
+                if(talk.isEmpty()){talk = parseTalk(content,talk);}
+                if(talk.length()>200)
+                    talk = talk.substring(0,199);
+                if(content.length()>200)
+                    content = content.substring(0, 199);
+                String userName = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_user__1XYmH > div").text();
+                String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
+                date=standard(date);
+                String postName = eachPost.select("h1").text();
+                StringBuilder stack = parseStack(postName,content);
+                int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
+                Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
+                holaRepository.save(hola);
+                convertToPost.hola(hola);
+                flag++;
             }
-            else
+            if(flag==0)
                 log.warn("불러올 글이 없습니다!");
+            else
+                log.info("홀라 크롤링 {}개 완료",flag);
         }catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -85,24 +102,23 @@ public class HolaService extends CrawlerService {
 
     private void scroll(JavascriptExecutor driver) throws InterruptedException {
         var stTime = new Date().getTime(); //현재시간
-        while (new Date().getTime() < stTime + 2000) { //5초 동안 무한스크롤 지속
-            Thread.sleep(500); //리소스 초과 방지
+        while (new Date().getTime() < stTime + 500) { //5초 동안 무한스크롤 지속
+            Thread.sleep(300); //리소스 초과 방지
             driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
         }
     }
-
+    @PostConstruct
+    private void init() {
+        Hola temp = new Hola("62b1bda32e6e4c00139dd1d6","기준점","daf","awegaw","awegaew","kdjafha","124",12,"");
+        holaRepository.save(temp);
+    }
+    public String recentPost(){
+        return holaRepository.findRecent();
+    }
     @Override
     public List<ShowForm> findAllDesc(Source source) {
         return null;
     }
-
-//    @PostConstruct
-//    private void init() {
-//        Hola temp1 = new Hola("클론프로젝트 하실분 !","dd","dd","dd","dd","",13,"111");
-//        Hola temp2 = new Hola("사이드프로젝트 그룹원을 모집합니다)","dd","dd","dd","111","dd",17,"ddd");
-//        holaRepository.save(temp1);
-//        holaRepository.save(temp2);
-//    }
 
 
 }

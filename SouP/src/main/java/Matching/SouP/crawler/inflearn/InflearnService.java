@@ -11,6 +11,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -48,13 +49,6 @@ public class InflearnService extends CrawlerService {
                     content=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
                     content+=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div > ul").text();
 
-//                Elements tags = element.select("a > div > div.question__info > div.question__tags");
-//                int tagCount = tags.select("button").size();
-//                for (int j = 1; j <= tagCount; j++) {
-//                    stack.append(tags.select("button:nth-child(" + j + ")").select("span.ac-tag__name").text()).append(" ");
-//                    if(j==3)
-//                        break;
-//                }
                 StringBuilder stack = parseStack(postName,content);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
@@ -77,12 +71,6 @@ public class InflearnService extends CrawlerService {
             Page--;
         }
     }
-//    @PostConstruct
-//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Inflearn temp = new Inflearn("548298","기준점","","","","","","");
-//        inflearnRepository.save(temp);
-//    }
-
     private String standard(String date) {
         date = date.substring(0,4)+'-'+date.substring(5,7)+'-'+date.substring(8,10)+'T'+ LocalDateTime.now().toLocalTime().toString().substring(0,8);
         date = LocalDateTime.parse(date).toString();
