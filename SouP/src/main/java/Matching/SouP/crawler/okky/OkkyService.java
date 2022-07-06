@@ -82,13 +82,6 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    @PostConstruct
-    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1261666","임시 기준점","","","","","",64,"");
-        okkyRepository.save(temp);
-    }
-
-
     private int startPage(int start) throws IOException {
         int page=1;  //page가 1이면 okky에선 2페이지이다..
         /**
@@ -116,4 +109,10 @@ public class OkkyService extends CrawlerService{
     public List<ShowForm> findAllDesc(Source source) {
         return null;
     }
+
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Okky temp = new Okky("1261666","임시 기준점","","","","","",64,"");
+//        okkyRepository.save(temp);
+//    }
 }
