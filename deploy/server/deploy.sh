@@ -8,12 +8,9 @@ export NVM_DIR="$HOME/.nvm"
 
 echo "> deploy server"
 
-echo ">chmod chromedriver.exe"
-cd $REPOSITORY
-chmod +x chromedriver.exe
-
 JAR_NAME=$(ls -tr $REPOSITORY/*.jar | tail -n 1)
 chmod +x $JAR_NAME
 mv -f $JAR_NAME $REPOSITORY/server.jar
 
+cd /home/ec2-user/SouP
 pm2 restart soup-server
