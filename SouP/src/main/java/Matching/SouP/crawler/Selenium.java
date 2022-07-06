@@ -13,11 +13,12 @@ public class Selenium {
     public static String WEB_DRIVER_PATH = "../../chromedriver";
 
     public Selenium() {
+        System.out.println("WEB_DRIVER_PATH = " + WEB_DRIVER_PATH);
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         ChromeOptions options = new ChromeOptions();
 //        options.setHeadless(true);
-        options.addArguments("no-sandbox");
-        options.addArguments("disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("lang=ko");
         options.setCapability("ignoreProtectedModeSettings", true);
         driver = new ChromeDriver(options);
