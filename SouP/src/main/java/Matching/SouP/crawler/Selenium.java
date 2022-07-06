@@ -19,6 +19,8 @@ public class Selenium {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
+        options.addArguments("--start-maximized");
+        options.addArguments("--window-size=1920,1080");
         options.addArguments("lang=ko");
         options.setCapability("ignoreProtectedModeSettings", true);
         driver = new ChromeDriver(options);
