@@ -35,7 +35,6 @@ public class Post {
     private String talk;
     private boolean end = false;
     private int fav =0;
-    private String parse="";
     @Column(columnDefinition = "TEXT")
     private String prosemirror="";
     @Enumerated(value = EnumType.STRING)
@@ -78,11 +77,7 @@ public class Post {
         this.prosemirror = prosemirror;
     }
 
-    public void addViews() {views++;}
-
-    public void setParse(String parse) {
-        this.parse = parse;
-    }
+    public void addViews() {views+=2;}
 
     public void edit(String postName, String content){
         this.postName=postName;

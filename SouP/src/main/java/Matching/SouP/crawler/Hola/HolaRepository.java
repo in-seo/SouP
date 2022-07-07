@@ -13,4 +13,7 @@ public interface HolaRepository extends JpaRepository<Hola,Long> {
 
     @Query("select h from Hola h order by h.id DESC")
     List<Hola> findAllDesc();
+
+    @Query("select MAX(h.num) from Hola h")
+    String findRecent();
 }
