@@ -1,6 +1,11 @@
 <h1>SouP </h1>
 <h3>Subtitle : 슾</h3>
 
+
+[![배너-05](https://user-images.githubusercontent.com/94730032/177748360-33b02f88-e191-439d-a250-3a0e952ab5fd.jpg)](https://soup.pw)
+**[🔗도메인 : soup.pw](https://soup.pw)**
+
+
 [**🔗 soup - 프론트 엔드 저장소로 바로가기 Click !**](https://github.com/plrs9816/soup-frontend/) 👈  **(!현재 private)**
 
 기능 :  추후 기록 예정
