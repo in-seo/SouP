@@ -1,7 +1,7 @@
 package Matching.SouP.service;
 
-import Matching.SouP.domain.posts.Lounge;
-import Matching.SouP.domain.posts.LoungeConnect;
+import Matching.SouP.domain.post.Lounge;
+import Matching.SouP.domain.post.LoungeConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.favForm;
@@ -113,7 +113,7 @@ public class LoungeService {
     private JSONObject makeLoungeForm(Lounge lounge) {
         JSONObject obj=new JSONObject();
         obj.put("user_id",lounge.getUser().getId());
-        obj.put("username",lounge.getUser().getNickName());
+        obj.put("userName",lounge.getUser().getNickName());
         obj.put("picture",lounge.getUser().getPicture());
         obj.put("content",lounge.getContent());
         obj.put("date",lounge.getCreatedDate().toString());

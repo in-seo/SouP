@@ -1,12 +1,10 @@
 package Matching.SouP.service;
 
 
-import Matching.SouP.config.MyOkHttpClient;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
-import Matching.SouP.crawler.okky.Okky;
-import Matching.SouP.domain.posts.Post;
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Post;
+import Matching.SouP.domain.post.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.favForm;
@@ -24,16 +22,12 @@ import org.json.simple.parser.ParseException;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

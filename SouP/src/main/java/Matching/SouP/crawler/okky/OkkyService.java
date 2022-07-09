@@ -2,7 +2,7 @@ package Matching.SouP.crawler.okky;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Source;
 import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;

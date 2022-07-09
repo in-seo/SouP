@@ -1,11 +1,10 @@
 package Matching.SouP.domain.user;
 
 import Matching.SouP.domain.BaseTimeEntity;
-import Matching.SouP.domain.posts.Lounge;
-import Matching.SouP.domain.posts.LoungeConnect;
-import Matching.SouP.domain.posts.Post;
+import Matching.SouP.domain.post.Lounge;
+import Matching.SouP.domain.post.LoungeConnect;
+import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.project.ProjectConnect;
-import Matching.SouP.dto.UserForm;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -37,7 +36,6 @@ public class User extends BaseTimeEntity {
 
     @Column
     private String nickName;
-
 
     @Enumerated(EnumType.STRING)
     private Role role;

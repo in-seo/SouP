@@ -2,7 +2,7 @@ package Matching.SouP.domain.project;
 
 import Matching.SouP.domain.BaseTimeEntity;
 
-import Matching.SouP.domain.posts.Post;
+import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.user.User;
 import lombok.Getter;
 
