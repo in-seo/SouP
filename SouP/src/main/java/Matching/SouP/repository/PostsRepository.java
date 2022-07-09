@@ -1,7 +1,7 @@
 package Matching.SouP.repository;
 
-import Matching.SouP.domain.posts.Post;
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Post;
+import Matching.SouP.domain.post.Source;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;

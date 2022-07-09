@@ -1,4 +1,4 @@
-package Matching.SouP.domain.posts;
+package Matching.SouP.domain.post;
 
 public enum Source {
     OKKY("OKKY"), INFLEARN("인프런"), HOLA("홀라"), CAMPICK("캠퍼스픽"), SOUP("SOUP");

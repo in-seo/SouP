@@ -44,7 +44,7 @@ public class UserController {
                 User User = optionalUser.get();
                 obj.put("success",true);
                 obj.put("user_id",User.getId());
-                obj.put("username",User.getName());
+                obj.put("userName",User.getNickName());
 //                obj.put("profileImage",User.getPicture());
             }
             return obj;
@@ -73,8 +73,7 @@ public class UserController {
                 obj.put("success",true);
                 obj.put("user_id",User.getId());
                 obj.put("email", User.getEmail());
-                obj.put("username",User.getName());
-                obj.put("nickname",User.getNickName());
+                obj.put("userName",User.getNickName());
                 obj.put("origin",User.getOrigin());
             }
             return obj;
@@ -94,11 +93,11 @@ public class UserController {
             if(optionalUser.isPresent()){
                 User User = optionalUser.get();
                 if(userForm.isMode())
-                    User.changeName(userForm.getNickName());
+                    User.changeName(userForm.getUserName());
                 else
                     User.changeName(NickName.makeNickName());
                 obj.put("success",true);
-                log.info("nickname={}",User.getNickName());
+                log.info("userName change={}",User.getNickName());
             }
             return obj;
         }catch (NullPointerException e){

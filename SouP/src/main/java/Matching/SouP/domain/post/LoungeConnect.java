@@ -1,4 +1,4 @@
-package Matching.SouP.domain.posts;
+package Matching.SouP.domain.post;
 
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.user.User;

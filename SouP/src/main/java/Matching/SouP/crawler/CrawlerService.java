@@ -1,6 +1,6 @@
 package Matching.SouP.crawler;
 
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Source;
 import Matching.SouP.dto.project.ShowForm;
 
 import java.util.*;

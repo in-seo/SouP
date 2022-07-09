@@ -1,6 +1,6 @@
 package Matching.SouP.dto.project;
 
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Source;
 import lombok.Getter;
 
 import java.util.Arrays;

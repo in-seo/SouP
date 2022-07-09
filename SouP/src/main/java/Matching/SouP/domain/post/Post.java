@@ -1,4 +1,4 @@
-package Matching.SouP.domain.posts;
+package Matching.SouP.domain.post;
 
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
@@ -48,11 +48,11 @@ public class Post {
     private User user;
 
     @Builder
-    public Post(Long sourceId, String postName, String content, String userName, String date, String link, String stack, int views, String talk, Source source) {
+    public Post(Long sourceId, String postName, String content, String nickName, String date, String link, String stack, int views, String talk, Source source) {
         this.sourceId = sourceId;
         this.postName = postName;
         this.content = content;
-        this.userName = userName;
+        this.userName = nickName;
         this.date = date;
         this.link = link;
         this.stack = stack;

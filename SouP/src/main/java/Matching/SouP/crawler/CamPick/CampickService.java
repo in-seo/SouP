@@ -4,8 +4,7 @@ package Matching.SouP.crawler.CamPick;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.crawler.okky.Okky;
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Source;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PropertyUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +17,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

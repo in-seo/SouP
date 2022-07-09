@@ -1,7 +1,7 @@
 package Matching.SouP.service;
 
-import Matching.SouP.domain.posts.Post;
-import Matching.SouP.domain.posts.Source;
+import Matching.SouP.domain.post.Post;
+import Matching.SouP.domain.post.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.DetailForm;
