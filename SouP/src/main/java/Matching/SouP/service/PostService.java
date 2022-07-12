@@ -5,6 +5,8 @@ import Matching.SouP.domain.post.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.project.DetailForm;
+import Matching.SouP.dto.project.MainAPIForm;
+import Matching.SouP.dto.project.ProjectsAPIForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.repository.PostsRepository;
 import Matching.SouP.repository.ProjectConnectRepository;
@@ -105,36 +107,47 @@ public class PostService{
         return form;
     }
 
-    public List<ShowForm> findRecentPost(){
+    public List<MainAPIForm> findRecentPost(){
         List<Post> projectList = postsRepository.findTop3ByOrderByDateDesc();
-        List<ShowForm> recentPost = new ArrayList<>();
+        List<MainAPIForm> recentPost = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Post post = projectList.get(i);
-            ShowForm showForm;
+            MainAPIForm mainAPIForm;
             if(post.getSource()==Source.SOUP)
-                showForm = new ShowForm(post.getId(), post.getPostName(), post.getProsemirror(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(),post.getViews(), post.getTalk(), post.getSource(), post.getFav());
+                mainAPIForm = new MainAPIForm(post.getPostName(), post.getProsemirror(),post.getId());
             else
-                showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
-            recentPost.add(showForm);
+                mainAPIForm = new MainAPIForm(post.getPostName(), post.getContent(), post.getId());
+            recentPost.add(mainAPIForm);
         }
         return recentPost;
     }
 
 
-    public List<ShowForm> findHotPost(long n){
+    public List<MainAPIForm> findHotPost(long n){
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
-        List<ShowForm> hotList = new ArrayList<>();
+        List<MainAPIForm> hotList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            Post post = projectList.get(i);
-            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            hotList.add(showForm);
+            Post post = projectList.get(i); //hot에 SOUP게시물 올라올 일이 아직없으니 if문보류
+            MainAPIForm form = new MainAPIForm(post.getPostName(),post.getContent(),post.getId());
+            hotList.add(form);
         }
         return hotList;
     }
 
-    public List<ShowForm> findRandomPost(long n){
+    public List<ProjectsAPIForm> findHotPost(){
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
-        List<ShowForm> randomList = new ArrayList<>();
+        List<ProjectsAPIForm> hotList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            Post post = projectList.get(i); //hot에 SOUP게시물 올라올 일이 아직없으니 if문보류
+            ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(),post.getUserName(),post.getId());
+            hotList.add(form);
+        }
+        return hotList;
+    }
+
+    public List<ProjectsAPIForm> findRandomPost(long n){
+        List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
+        List<ProjectsAPIForm> randomList = new ArrayList<>();
         if(projectList.size()<3){
             log.error("글이 3개 미만이기에 추천 불가능.");
         }
@@ -149,8 +162,8 @@ public class PostService{
                         i--;
                 }
                 Post post = projectList.get(num);
-                ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-                randomList.add(showForm);
+                ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(),post.getUserName(),post.getId());
+                randomList.add(form);
             }
         }
         return randomList;
