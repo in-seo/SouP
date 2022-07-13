@@ -5,8 +5,9 @@ import Matching.SouP.crawler.CamPick.CampickService;
 import Matching.SouP.crawler.Hola.HolaService;
 import Matching.SouP.crawler.inflearn.InflearnService;
 import Matching.SouP.crawler.okky.OkkyService;
-import Matching.SouP.domain.posts.Source;
-import Matching.SouP.dto.project.FeaturedForm;
+import Matching.SouP.domain.post.Source;
+import Matching.SouP.dto.project.MainAPIForm;
+import Matching.SouP.dto.project.ProjectsAPIForm;
 import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.ProjectService;
@@ -15,9 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +41,7 @@ public class CrawlerController {
     private static LocalDateTime crawlTime;
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
-    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
+//    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         crawlTime = LocalDateTime.now();
         log.info("현 시각: {} , 크롤링 시작.", crawlTime);
@@ -76,30 +75,20 @@ public class CrawlerController {
     @GetMapping("/front/featured")
     public JSONObject mainFeatured(){
         JSONObject obj = new JSONObject();
-        List<ShowForm> hotPost = postService.findHotPost(8);
-        List<ShowForm> recentPost = postService.findRecentPost();
+        List<MainAPIForm> recentPost = postService.findRecentPost();
+        List<MainAPIForm> hotPost = postService.findHotPost(8);
         obj.put("HOT",hotPost);
         obj.put("NEW",recentPost);
         return obj;
     }
 
-//    @Cacheable(value = "random")
     @GetMapping("/projects/featured")
     public JSONObject detailFeatured(){
         JSONObject obj = new JSONObject();
-        List<FeaturedForm> RandomForm = new ArrayList<>();
-        List<ShowForm> randomPost = postService.findRandomPost(3);
-        for (ShowForm random : randomPost)
-            RandomForm.add(new FeaturedForm(random.getPostName(),random.getUserName(),random.getId()));
-
-        List<FeaturedForm> HotForm = new ArrayList<>();
-        List<ShowForm> hotPost = postService.findHotPost(3);
-        for (ShowForm hot : hotPost)
-            HotForm.add(new FeaturedForm(hot.getPostName(), hot.getUserName(),hot.getId()));
-
-
-        obj.put("RECOMMEND",RandomForm);
-        obj.put("HOT",HotForm);
+        List<ProjectsAPIForm> randomForm = postService.findRandomPost(3);
+        List<ProjectsAPIForm> hotForm = postService.findHotPost();
+        obj.put("RECOMMEND",randomForm);
+        obj.put("HOT",hotForm);
         return obj;
     }
 

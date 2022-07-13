@@ -1,12 +1,10 @@
 package Matching.SouP.controller;
 
-import Matching.SouP.config.MyOkHttpClient;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
-import Matching.SouP.domain.posts.Post;
 import Matching.SouP.domain.user.User;
-import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.FavForm;
 import Matching.SouP.dto.project.*;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
@@ -17,17 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -63,7 +56,7 @@ public class ProjectController {
 
     @PostMapping("/projects/fav")    //로컬에서 실행할때 fav 한 후에    http://localhost:8080/kakao   로 접속하면 카톡옴
     @ApiOperation(value = "프로젝트 스크랩 추가")
-    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form) {
+    public JSONObject fav(@LoginUser SessionUser user, @RequestBody FavForm form) {
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
     }

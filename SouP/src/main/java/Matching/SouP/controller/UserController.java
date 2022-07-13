@@ -2,6 +2,7 @@ package Matching.SouP.controller;
 
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
+import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.NickName;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.UserForm;
@@ -12,19 +13,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Slf4j
@@ -44,7 +38,7 @@ public class UserController {
                 User User = optionalUser.get();
                 obj.put("success",true);
                 obj.put("user_id",User.getId());
-                obj.put("username",User.getName());
+                obj.put("userName",User.getNickName());
 //                obj.put("profileImage",User.getPicture());
             }
             return obj;
@@ -73,8 +67,7 @@ public class UserController {
                 obj.put("success",true);
                 obj.put("user_id",User.getId());
                 obj.put("email", User.getEmail());
-                obj.put("username",User.getName());
-                obj.put("nickname",User.getNickName());
+                obj.put("userName",User.getNickName());
                 obj.put("origin",User.getOrigin());
             }
             return obj;
@@ -94,17 +87,29 @@ public class UserController {
             if(optionalUser.isPresent()){
                 User User = optionalUser.get();
                 if(userForm.isMode())
-                    User.changeName(userForm.getNickName());
+                    User.changeName(userForm.getUserName());
                 else
                     User.changeName(NickName.makeNickName());
                 obj.put("success",true);
-                log.info("nickname={}",User.getNickName());
+                log.info("userName change={}",User.getNickName());
             }
             return obj;
         }catch (NullPointerException e){
             obj.put("success",false);
             return obj;
         }
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ErrorResponse handleException1() {
+        return ErrorResponse.of(HttpStatus.BAD_REQUEST, "존재하지 않는 회원이거나 null 값 조회중입니다.");
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    protected ErrorResponse handleException2() {
+        return ErrorResponse.of(HttpStatus.NOT_FOUND, "존재하지 않는 회원이거나 존재하지 않는 글에 요청을 합니다.");
     }
 
     //    @PostMapping("/profile")  //Post요청 시

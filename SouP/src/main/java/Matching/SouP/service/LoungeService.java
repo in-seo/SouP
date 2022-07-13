@@ -1,10 +1,10 @@
 package Matching.SouP.service;
 
-import Matching.SouP.domain.posts.Lounge;
-import Matching.SouP.domain.posts.LoungeConnect;
+import Matching.SouP.domain.post.Lounge;
+import Matching.SouP.domain.post.LoungeConnect;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
-import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.FavForm;
 import Matching.SouP.repository.LoungeConnectRepository;
 import Matching.SouP.repository.LoungeRepository;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +72,7 @@ public class LoungeService {
     }
 
     @Transactional
-    public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
+    public JSONObject fav(User user, @RequestBody FavForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
         List<LoungeConnect> loungeList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class LoungeService {
     private JSONObject makeLoungeForm(Lounge lounge) {
         JSONObject obj=new JSONObject();
         obj.put("user_id",lounge.getUser().getId());
-        obj.put("username",lounge.getUser().getNickName());
+        obj.put("userName",lounge.getUser().getNickName());
         obj.put("picture",lounge.getUser().getPicture());
         obj.put("content",lounge.getContent());
         obj.put("date",lounge.getCreatedDate().toString());
