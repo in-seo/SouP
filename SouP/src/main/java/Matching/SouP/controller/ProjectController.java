@@ -94,7 +94,7 @@ public class ProjectController {
     }
 
 
-    @GetMapping("/projects/form")
+    @PostMapping("/projects/form")
     @ApiOperation(value = "프로젝트 양식 제공")
     public JSONObject showTemplate(@LoginUser SessionUser user, @RequestBody TemplateForm form){
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
