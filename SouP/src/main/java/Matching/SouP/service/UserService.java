@@ -20,14 +20,12 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UserService {
     private final PostsRepository postsRepository;
-//    public List<Post> showPost(User user){
-//        return user.getPostList();
-//    }
 
     public List<ShowForm> showFav(User user){
         List<ProjectConnect> projectConnectList = user.getProjectConnectList();
         List<ShowForm> list = new ArrayList<>();
-        for (ProjectConnect pc : projectConnectList) {
+        for (int i = projectConnectList.size()-1; i >= 0; i--) {
+            ProjectConnect pc = projectConnectList.get(i);
             Post post = postsRepository.findById(pc.getPost().getId()).get();
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()== Source.SOUP)
