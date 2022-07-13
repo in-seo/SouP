@@ -60,7 +60,7 @@ public class ProjectController {
         User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
         return projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
     }
-//    String str = MyOkHttpClient.makeTemplate(post.getSource(), post.getLink(), post.getStack(), user.getEmail(), post.getTalk()); // Post를 토대로 추출한 지원 양식
+    //    String str = MyOkHttpClient.makeTemplate(post.getSource(), post.getLink(), post.getStack(), user.getEmail(), post.getTalk()); // Post를 토대로 추출한 지원 양식
     @GetMapping("/projects/{id}")
     @ApiOperation(value = "프로젝트 조회")
     public DetailForm showProject(@PathVariable Long id, @LoginUser SessionUser user) throws ParseException {
@@ -75,7 +75,7 @@ public class ProjectController {
 
     @GetMapping("/projects/{id}/suggest")
     @ApiOperation(value = "프로젝트 추천")
-    public List<ShowForm> detailSuggest(@PathVariable Long id){
+    public List<ProjectsAPIForm> detailSuggest(@PathVariable Long id){
         return postService.findSuggestPost(id);
     }
 

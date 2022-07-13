@@ -157,22 +157,27 @@ public class PostService{
             for (int i = 0; i < n; i++) {
                 int num = ran.nextInt(projectList.size());
                 arr[i]=num;
+                boolean duplicate = false;
                 for (int j = 0; j < i; j++) {
-                    if(arr[i]==arr[j])
+                    if(arr[i]==arr[j]){
                         i--;
+                        duplicate = true;
+                    }
                 }
-                Post post = projectList.get(num);
-                ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(),post.getUserName(),post.getId());
-                randomList.add(form);
+                if(!duplicate){
+                    Post post = projectList.get(num);
+                    ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(),post.getUserName(),post.getId());
+                    randomList.add(form);
+                }
             }
         }
         return randomList;
     }
 
-    public List<ShowForm> findSuggestPost(Long id){
+    public List<ProjectsAPIForm> findSuggestPost(Long id){
         Post Post = postsRepository.findById(id).orElseThrow();
         List<Post> projectList;
-        List<ShowForm> suggestList = new ArrayList<>();
+        List<ProjectsAPIForm> suggestList = new ArrayList<>();
         String[] stacks = Post.getStack().split(",|\\s+");
         if (stacks.length ==1)
             projectList = postsRepository.find1RecommendNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18), stacks[0]);
@@ -187,9 +192,8 @@ public class PostService{
             if(i>7)
                 break;
             Post post = projectList.get(i);
-            ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            suggestList.add(showForm);
-
+            ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(), post.getUserName(), post.getId());
+            suggestList.add(form);
         }
         return suggestList;
     }
