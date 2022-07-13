@@ -5,7 +5,7 @@ import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
-import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.FavForm;
 import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class LoungeController {
 
 
     @PostMapping("/lounge/fav")
-    public JSONObject fav(@LoginUser SessionUser user, @RequestBody favForm form){
+    public JSONObject fav(@LoginUser SessionUser user, @RequestBody FavForm form){
         User User = userRepository.findByEmailFetchLC(user.getEmail()).orElseThrow();
         return loungeService.fav(User, form);
     }

@@ -7,7 +7,7 @@ import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.post.Source;
 import Matching.SouP.domain.project.ProjectConnect;
 import Matching.SouP.domain.user.User;
-import Matching.SouP.dto.favForm;
+import Matching.SouP.dto.FavForm;
 import Matching.SouP.dto.project.EditForm;
 import Matching.SouP.dto.project.PostForm;
 import Matching.SouP.dto.project.ShowForm;
@@ -75,7 +75,7 @@ public class ProjectService  extends CrawlerService {
 
 
     @Transactional
-    public JSONObject fav(User user, @RequestBody favForm form){   // 좋아요
+    public JSONObject fav(User user, @RequestBody FavForm form){   // 좋아요
         JSONObject obj = new JSONObject();
         boolean isfav=false;
         List<ProjectConnect> projectList = new ArrayList<>();
