@@ -1,7 +1,6 @@
 package Matching.SouP.crawler.okky;
 
 import lombok.Getter;
-import lombok.ToString;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;

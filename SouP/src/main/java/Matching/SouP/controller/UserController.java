@@ -3,7 +3,6 @@ package Matching.SouP.controller;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
-import Matching.SouP.domain.user.NickName;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.UserForm;
 import Matching.SouP.dto.project.ShowForm;
@@ -86,12 +85,13 @@ public class UserController {
             Optional<User> optionalUser = userRepository.findByEmail(user.getEmail());
             if(optionalUser.isPresent()){
                 User User = optionalUser.get();
-                if(userForm.isMode())
+                if(userForm.isMode()){
                     User.changeName(userForm.getUserName());
+                    obj.put("success",true);
+                }
                 else
-                    User.changeName(NickName.makeNickName());
-                obj.put("success",true);
-                log.info("userName change={}",User.getNickName());
+                    obj.put("success",false);
+                log.info("[닉네임 변경] user ID = {}, {}님이 닉네임 {}로 변경함",User.getId(),User.getName(),User.getNickName());
             }
             return obj;
         }catch (NullPointerException e){

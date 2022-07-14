@@ -1,13 +1,7 @@
 package Matching.SouP.dto.project;
 
 import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import java.time.LocalDateTime;
-import java.util.LinkedHashMap;
 
 @Getter
 public class PostForm {

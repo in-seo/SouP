@@ -1,9 +1,5 @@
 package Matching.SouP.config;
 
-import lombok.extern.slf4j.Slf4j;
-
-
-@Slf4j
 public class MyOkHttpClient {
 //    private static final String BASE_URL = "https://kauth.kakao.com";
 //    private static final String APP_KEY = OauthConfig.getClientId();
