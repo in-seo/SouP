@@ -1,8 +1,6 @@
 package Matching.SouP.dto;
 
 import lombok.Getter;
-import lombok.Setter;
-
 
 @Getter
 public class UserForm {   //nickname 수정 폼

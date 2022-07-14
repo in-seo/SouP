@@ -164,7 +164,7 @@ public class ProjectService  extends CrawlerService {
         if(talk.equals(""))
             talk = "(오픈 카카오톡 링크가 존재하지 않습니다.)";
         if(stack.equals(""))
-            stack = "(~~)";
+            stack = "(미정)";
         String start = "안녕하세요 "+ source.getKrName() +"의 "+link+ " 보고 연락 드렸습니다.\n";
         String middle = " 모집중이신 "+stack+"을 이용한 프로젝트/스터디에 관심이 있고 [           ] 정도 다뤄봤으며, [          ]와 같은 구현 경험이 있습니다.\n";
         String end = " 자세한 내용은 ['깃허브주소']를 참고해 주시거나 "+email+"으로 연락주세요. 카톡도 가능합니다 :) !! \n\n지원 오픈카톡 --> "+ talk;
