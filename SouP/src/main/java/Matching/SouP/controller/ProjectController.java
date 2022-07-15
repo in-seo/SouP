@@ -79,6 +79,7 @@ public class ProjectController {
         return postService.findSuggestPost(id);
     }
 
+    @CacheEvict(value = "featured", allEntries = true)
     @PostMapping("/projects/edit")
     @ApiOperation(value = "프로젝트 편집")
     public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody EditForm eForm){
