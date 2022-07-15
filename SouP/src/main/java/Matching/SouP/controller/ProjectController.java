@@ -86,6 +86,7 @@ public class ProjectController {
         return projectService.editProject(User,eForm);
     }
 
+    @CacheEvict(value = "featured", allEntries = true)
     @PostMapping("/projects/delete")
     @ApiOperation(value = "프로젝트 삭제")
     public JSONObject deleteProject(@LoginUser SessionUser user, @RequestBody EditForm form){
