@@ -24,7 +24,10 @@ public class OAuthAttributes {
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
-        this.picture = picture;
+        if(origin.equals("Facebook"))
+            this.picture = "https://graph.facebook.com/"+picture+"/picture?type=large&width=720&height=720";
+        else
+            this.picture = picture;
         this.origin = origin;
     }
 
@@ -39,7 +42,7 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .name((String) attributes.get("name"))
                 .email((String) attributes.get("email"))
-                .picture((String) attributes.get("profile_image_url"))
+                .picture((String) attributes.get("id"))
                 .origin("Facebook")
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
