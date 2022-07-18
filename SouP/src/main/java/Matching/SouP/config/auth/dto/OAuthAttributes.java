@@ -5,11 +5,13 @@ import Matching.SouP.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
-@ToString
+@Slf4j
 public class OAuthAttributes {
     private Map<String, Object> attributes; // OAuth2 반환하는 유저 정보 Map
     private String nameAttributeKey;
@@ -87,6 +89,7 @@ public class OAuthAttributes {
     }
 
     public User toEntity(){
+        log.error("새로운 회원가입자 이름 = {} , 이메일 = {}, 경로 = {} , 가입 시간 = {}",name,email,origin, LocalDateTime.now());
         return User.builder()
                 .name(name)
                 .email(email)
