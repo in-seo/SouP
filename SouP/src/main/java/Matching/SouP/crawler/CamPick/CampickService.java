@@ -53,7 +53,13 @@ public class CampickService extends CrawlerService {
                 if(num<=lastPost){
                     Campick update = campickRepository.findByNum(num);
                     if(update!=null){
-                        int views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
+                        String view = eachPost.select("p.info > span:nth-child(2)").text();
+                        int views;
+                        if(view.length()<4)
+                            views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
+                        else{
+                            views = (int) (Math.random() * 50) + 1000;
+                        }
                         update.updateViews(views);
                     }
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
@@ -72,8 +78,13 @@ public class CampickService extends CrawlerService {
 
                 StringBuilder stack = parseStack(postName,content);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
-
-                int views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
+                String view = eachPost.select("p.info > span:nth-child(2)").text();
+                int views;
+                if(view.length()<4)
+                    views = Integer.parseInt(eachPost.select("p.info > span:nth-child(2)").text());
+                else{
+                    views = (int) (Math.random() * 50) + 1000;
+                }
                 Campick pick = new Campick(num,postName,content,userName,date,link,stack.toString(),views,talk,people,region);
                 campickRepository.save(pick);
                 convertToPost.campick(pick);
@@ -113,7 +124,7 @@ public class CampickService extends CrawlerService {
 //        var stTime = new Date().getTime(); //현재시간
 //        while (new Date().getTime() < stTime + 2500) { //5초 동안 무한스크롤 지속
 //            Thread.sleep(500); //리소스 초과 방지
-            driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        driver.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 //        }  //글 120개
     }
 
