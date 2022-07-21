@@ -1,20 +1,24 @@
 <h1>SouP </h1>
-<h3>Subtitle : 슾</h3>
+<h3>Subtitle : 스프</h3>
 
 
 [![배너-05](https://user-images.githubusercontent.com/94730032/177748360-33b02f88-e191-439d-a250-3a0e952ab5fd.jpg)](https://soup.pw)
-**[🔗도메인 : soup.pw](https://soup.pw)**
-
 
 [**🔗 soup - 프론트 엔드 저장소로 바로가기 Click !**](https://github.com/plrs9816/soup-frontend/) 👈  **(!현재 private)**
 
-기능 :  추후 기록 예정
 
- >5/30기준 로직 90% 이상 구현. 최적화 단계 진입
-> 
- >현재 남은 사항 : 백엔드 배포(OK), 프론트 통합 배포+도메인 연동(진행중), 보안(▲)
- > 
- >자세한 내용은 출시 직전 기록 예정
+<hr>
+
+**[🔗도메인 : soup.pw](https://soup.pw)**
+![home](https://user-images.githubusercontent.com/94730032/180217883-243b428a-d5c7-404b-9857-333511a807de.gif)
+
+<hr>
+
+**[🔗세부 페이지 : soup.pw/projects](https://soup.pw/projects)**
+![projects](https://user-images.githubusercontent.com/94730032/180216226-d1541e8f-124d-44f1-ba79-a54936e0ec5b.gif)
+
+<hr>
+
 # <small>프로젝트 중점 사항</small>
 > 기록 예정.
 >
@@ -89,7 +93,8 @@
 </table>
 
 ## 📅 개발 기간
-<strong>22.03.16. ~ </strong>
+<strong>22.03.16. ~  22.07.17 </strong>
+실 개발 기간 : 2~3개월
 
 
 # <small>초기 ERD</small>
