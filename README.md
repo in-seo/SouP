@@ -1,20 +1,58 @@
 <h1>SouP </h1>
-<h3>Subtitle : 슾</h3>
+<h3>Subtitle : 스프</h3>
 
 
 [![배너-05](https://user-images.githubusercontent.com/94730032/177748360-33b02f88-e191-439d-a250-3a0e952ab5fd.jpg)](https://soup.pw)
-**[🔗도메인 : soup.pw](https://soup.pw)**
-
 
 [**🔗 soup - 프론트 엔드 저장소로 바로가기 Click !**](https://github.com/plrs9816/soup-frontend/) 👈  **(!현재 private)**
 
-기능 :  추후 기록 예정
 
- >5/30기준 로직 90% 이상 구현. 최적화 단계 진입
-> 
- >현재 남은 사항 : 백엔드 배포(OK), 프론트 통합 배포+도메인 연동(진행중), 보안(▲)
- > 
- >자세한 내용은 출시 직전 기록 예정
+<hr>
+
+**[🔗도메인 : soup.pw](https://soup.pw)**
+![home](https://user-images.githubusercontent.com/94730032/180217883-243b428a-d5c7-404b-9857-333511a807de.gif)
+
+<hr>
+
+**[🔗세부 페이지 : soup.pw/projects](https://soup.pw/projects)**
+![projects](https://user-images.githubusercontent.com/94730032/180216226-d1541e8f-124d-44f1-ba79-a54936e0ec5b.gif)
+
+<hr>
+
+# <small>기능 요약</small>
+## 🚀글 자동 게시 및 분석
+![image1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0b77c66c-872c-4b87-a296-46e6467d53e8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132337Z&X-Amz-Expires=86400&X-Amz-Signature=7cea0f33e6f9b31e2d05c54389a1c1893a8851da58a2bdcf283b3c01b7556d31&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+- 1시간 간격으로 게시 된 여러 글들을 불러오고, 글의 내용에 기반한 키워드를 추출해 태그를 생성합니다.
+- 생성된 태그를 통해 쉽게 원하는 내용을 검색할 수 있습니다.
+
+
+
+## 🗒️스크랩 지원, 양식 제공
+![image2-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/34f559b6-f0bc-4cc1-9421-23c8aafbee5e/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133145Z&X-Amz-Expires=86400&X-Amz-Signature=728a6db0b17f48237fae46f3b11a8fdc1395971b52ad953379226ad43c7abd72&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![image2-2](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d96fa690-19d9-4a84-9d89-b0904cec1951/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132920Z&X-Amz-Expires=86400&X-Amz-Signature=925fa7bec87c90713cc9da7ae514d46c21ba8fced1b8cf61bb6e1a9696b29d04&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+## 📢자율 홍보 게시판
+![image3](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/6c2b5188-5b7b-4e39-b113-017492f82cd0/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132736Z&X-Amz-Expires=86400&X-Amz-Signature=57fad5aa455cb9939ded1f1c55bda39c9d7b1c9f339127ff9ed7059309b325b8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+- 부담 없이 자신의 프로젝트를 홍보 할 수 있습니다.
+
+
+## ⁉️ 조회수, 글 내용 분석 기반 추천 기능
+
+![image4-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/2c708d98-0d08-457d-8781-aa1fef3cc121/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133316Z&X-Amz-Expires=86400&X-Amz-Signature=55c1df7c47cbed414f7eb6da4e3932359f4b4e1c6fd99c2c7ade0722681f70eb&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![image4-2](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/7fe5dcdf-8853-44f4-bcc3-8b840b33eb0d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T134345Z&X-Amz-Expires=86400&X-Amz-Signature=a6e40ffa442261ae0d3978ebfab961e1676cbac3c5e7fc4248ce2ef2162a8897&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+
+## 원본 링크 이동
+![image4](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f236199e-40c8-4330-a11a-d04fc84bf144/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133416Z&X-Amz-Expires=86400&X-Amz-Signature=728fefbec4b1ef075ce68d632ba327a74f78bc3e03966ed7f39f250bc70cd1fc&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+- **저작권 우려 및  본 페이지의 취지에 맞게  모아주는 역할을 기반 + 양식 제공 및 태그 검색을 활용하고자 했습니다.   클릭 시 글의 원문으로 가도록 했습니다**
+
+## 📝스크랩 기능 도입
+![image5](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/581283db-b633-44b4-850b-e9f9ab42fad2/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133458Z&X-Amz-Expires=86400&X-Amz-Signature=891876f96bbb2e1cf245a61ba2ae6d391ed19bfe2dceb0c30bcc6f056ce91a58&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+
+
+
+
 # <small>프로젝트 중점 사항</small>
 > 기록 예정.
 >
@@ -89,7 +127,8 @@
 </table>
 
 ## 📅 개발 기간
-<strong>22.03.16. ~ </strong>
+<strong>22.03.16. ~  22.07.17 </strong>
+실 개발 기간 : 2~3개월
 
 
 # <small>초기 ERD</small>
