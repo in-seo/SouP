@@ -40,7 +40,7 @@ public class HolaService extends CrawlerService {
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > main > div.mainContent_appWrapper___CgAh > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}",standard);
-            int count = element.select(">li").size();
+            int count = element.select(">a").size();
             for (int i = count; i >0; i--) {
                 if(i==count){
                     scroll((JavascriptExecutor) driver);
