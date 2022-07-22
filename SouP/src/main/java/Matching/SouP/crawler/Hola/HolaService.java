@@ -44,16 +44,17 @@ public class HolaService extends CrawlerService {
             for (int i = count; i >0; i--) {
                 if(i==count){
                     scroll((JavascriptExecutor) driver);
-                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child(1)")).click();
-                    if(driver.getCurrentUrl().substring(27).compareTo(standard)<=0) {
-                        log.warn("불러올 글이 없습니다!");
+                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > a:nth-child(1)")).click();
+                    String first = driver.getCurrentUrl().substring(27);
+                    if(first.compareTo(standard)<=0) {
+                        log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
                         return;
                     }
                     else
                         driver.navigate().back();
                 }
-                Elements eachPost = element.select("li:nth-child(" + i + ")");
-                driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > li:nth-child("+i+")")).click();
+                Elements eachPost = element.select("a:nth-child(" + i + ")");
+                driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > a:nth-child("+i+")")).click();
                 Thread.sleep(500);
                 Document realPost = Jsoup.parse(driver.getPageSource());
                 String link = driver.getCurrentUrl();
