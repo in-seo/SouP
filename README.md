@@ -1,5 +1,5 @@
-<h1>SouP </h1>
-<h3>Subtitle : 스프</h3>
+<h1>스프</h1>
+<h3>Subtitle : SouP</h3>
 
 
 [![배너-05](https://user-images.githubusercontent.com/94730032/177748360-33b02f88-e191-439d-a250-3a0e952ab5fd.jpg)](https://soup.pw)
@@ -55,7 +55,7 @@
 
 
 # <small>간략 아키텍쳐</small>
-![architecture](https://user-images.githubusercontent.com/94730032/170948874-8664a523-c1f0-459a-b119-6cad26c4cc04.jpg)
+![architecture_대지 1](https://user-images.githubusercontent.com/94730032/180914096-5269518b-386e-49d6-82c5-df239f8f5f2a.jpg)
 
 
 ### 📜 사용 스택
@@ -66,13 +66,13 @@
 | :----------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
 |                                                             HTML5                                                              |                                                             CSS3                                                             |                                                           TypeScript                                                            |
 
-| <img src="https://profilinator.rishav.dev/skills-assets/react-original-wordmark.svg" alt="React.js" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/redux-original.svg" alt="Redux" width="50px" height="50px" /> | <img src="https://cdn.worldvectorlogo.com/logos/redux-saga.svg" alt="Redux-Saga" width="50px" height="50px" /> | <img src="https://react-query-v2.tanstack.com/_next/static/images/emblem-light-5d1cdce6c8bbb006ac6cefb8e1642877.svg" alt="React-Query" width="50px" height="50px" /> |
+| <img src="https://profilinator.rishav.dev/skills-assets/react-original-wordmark.svg" alt="React.js" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/redux-original.svg" alt="Redux" width="50px" height="50px" /> | <img src="https://cdn.worldvectorlogo.com/logos/redux-saga.svg" alt="Redux-Saga" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/nodejs-original-wordmark.svg" alt="Node.js" width="50px" height="50px" /> |
 | :-------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-|                                                               React                                                               |                                                         Redux                                                         |                                                   Redux-Saga                                                   |                                                                             React-Query                                                                              |
+|                                                               React                                                               |                                                         Redux                                                         |                                                   Redux-Saga                                                   |                                                                             Node.js                                                                             |
 
 | <img src="https://cdn.worldvectorlogo.com/logos/socket-io.svg" alt="Socket.io" width="50px" height="50px" /> | <img src="https://mui.com/static/logo.png" alt="MUI" width="50px" height="50px" /> | <img src="https://github.com/mswjs/msw/raw/main/media/msw-logo.svg" alt="Mock Service Worker" width="50px" height="50px" /> | <img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Swagger-logo.png" alt="Swagger" width="50px" height="50px" /> |
 | :----------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------: | 
-|                                                  Socket.io                                                   |                                        MUI                                         |                                                     Mock Service Worker                                                     |                                                           Swagger                                                           |
+|               -+                                   Socket.io                                                   |                                        MUI                                         |                                                     Mock Service Worker                                                     |                                                           Swagger                                                           |
 
 
 ### **Back-end**
@@ -87,9 +87,9 @@
 
 ### **DevOps**
 
-| <img src="https://profilinator.rishav.dev/skills-assets/nginx-original.svg" alt="NGiNX" width="50px" height="50px" /> | <img src="https://pbs.twimg.com/profile_images/1351702967561252865/aXfcETIt_400x400.jpg" alt="aws" width="50px" height="50px" /> | 
-| :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: | 
-|                                                         NGiNX                                                         |                                                               aws                                                                | 
+| <img src="https://pbs.twimg.com/profile_images/1351702967561252865/aXfcETIt_400x400.jpg" alt="AWS" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/linux-original.svg" alt="Linux" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/gnu_bash-icon.svg" alt="Bash" width="50px" height="50px" /> | <img src="https://profilinator.rishav.dev/skills-assets/adobe_illustrator-icon.svg" alt="AI" width="50px" height="50px" /> |    
+| :-------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: |
+|                                                         AWS                                                         |                                                               Linux                                                               |                                                                Bash                                               |                                                                Illustratior                                               |
 
 <br />
 
