@@ -23,18 +23,17 @@ public class Okky {
     private String date;
     private String link;
     private String stack;
-    private int views;
+    private int views = (int) (Math.random() * 70) + 30;
     private String talk; //연락 링크
     private boolean End = false;  //마감 여부
 
-    public Okky(String num, String postName, String content, String userName, String date, String link, String stack, int views,  String talk) {
+    public Okky(String num, String postName, String content, String userName, String date, String link, String stack,  String talk) {
         this.num = Integer.parseInt(num);
         this.postName = postName;
         this.content = content;
         this.userName = userName;
         this.date = date;
         this.stack = stack;
-        this.views = views;
         this.link = link;
         this.talk = talk;
     }

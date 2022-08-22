@@ -67,7 +67,7 @@ public class OkkyService extends CrawlerService{
                 String userName = information.select("div > div > a").attr("title");
                 String date = information.select("div > div > div.date-created > span").text();
                 date = standard(date);
-                Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),views,talk);
+                Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
                 okkyRepository.save(okky);
                 convertToPost.okky(okky);
             }
