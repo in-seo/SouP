@@ -45,7 +45,7 @@ public class CrawlerController {
     public void crawlList() throws InterruptedException, IOException {
         crawlTime = LocalDateTime.now();
         log.info("현 시각: {} , 크롤링 시작.", crawlTime);
-//        okkyService.getOkkyPostData();
+        okkyService.getOkkyPostData();
         inflearnService.getInflearnPostData();
         holaService.getHolaPostData();  //잠깐보류  오래걸려서.
         campickService.getCampickPostData();
