@@ -55,7 +55,6 @@ public class OkkyService extends CrawlerService{
                 String link = "https://okky.kr/articles/"+num;
                 Document realPost = click(driver, link);
                 String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
-                System.out.println("content = " + content);
                 StringBuilder stack = parseStack(postName,content);
                 String talk = "";
                 talk = parseTalk(content,talk);
@@ -65,14 +64,6 @@ public class OkkyService extends CrawlerService{
 
                 String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                 String date = LocalDateTime.now().toString();
-                System.out.println(num);
-                System.out.println(postName);
-                System.out.println(content);
-                System.out.println(userName);
-                System.out.println(date);
-                System.out.println(link);
-                System.out.println(stack.toString());
-                System.out.println(talk);
                 Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
                 okkyRepository.save(okky);
                 convertToPost.okky(okky);
@@ -106,7 +97,6 @@ public class OkkyService extends CrawlerService{
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(1) > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
-            System.out.println(sNum+"번!");
             int num = Integer.parseInt(sNum);
             if(num<start){
                 log.info("{}페이지부터 시작",page-1);
