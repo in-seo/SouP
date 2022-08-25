@@ -30,46 +30,51 @@ public class OkkyService extends CrawlerService{
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlOkky);
-        int start = recentPost();
-        log.info("OKKY 크롤링 시작. {}번부터",start);
-        int Page = startPage(driver,start);
-        while(Page>=1){
-            driver.get(urlOkky + "?page=" + Page);
-            String html = driver.getPageSource();
-            Document doc = Jsoup.parse(html);
-            for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
-                if(i==6)
-                    continue;
-                Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + i + ")");
-                Elements title = element.select("div > div.my-2 > a");
-                String postName = title.text();
+        try{
+            int start = recentPost();
+            log.info("OKKY 크롤링 시작. {}번부터",start);
+            int Page = startPage(driver,start);
+            while(Page>=1){
+                driver.get(urlOkky + "?page=" + Page);
+                String html = driver.getPageSource();
+                Document doc = Jsoup.parse(html);
+                for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
+                    if(i==6)
+                        continue;
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + i + ")");
+                    Elements title = element.select("div > div.my-2 > a");
+                    String postName = title.text();
 //                if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
-                String num= title.attr("href").substring(10);
-                if(Integer.parseInt(num)<=start){
-                    Okky update = okkyRepository.findByNum(Integer.parseInt(num));
-                    if(update!=null)
-                        update.updateViews(update.getViews()+10);
+                    String num= title.attr("href").substring(10);
+                    if(Integer.parseInt(num)<=start){
+                        Okky update = okkyRepository.findByNum(Integer.parseInt(num));
+                        if(update!=null)
+                            update.updateViews(update.getViews()+10);
 
-                    continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
-                }
-                String link = "https://okky.kr/articles/"+num;
-                Document realPost = click(driver, link);
-                String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
-                StringBuilder stack = parseStack(postName,content);
-                String talk = "";
-                talk = parseTalk(content,talk);
-                if(content.length()>200) {
-                    content = content.substring(0, 199);
-                }
+                        continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
+                    }
+                    String link = "https://okky.kr/articles/"+num;
+                    Document realPost = click(driver, link);
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
+                    StringBuilder stack = parseStack(postName,content);
+                    String talk = "";
+                    talk = parseTalk(content,talk);
+                    if(content.length()>200) {
+                        content = content.substring(0, 199);
+                    }
 
-                String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
-                String date = LocalDateTime.now().toString();
-                Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
-                okkyRepository.save(okky);
-                convertToPost.okky(okky);
+                    String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
+                    String date = LocalDateTime.now().toString();
+                    Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
+                    okkyRepository.save(okky);
+                    convertToPost.okky(okky);
+                }
+                Page--;
+            }} catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                driver.close(); // 브라우저 종료
             }
-            Page--;
-        }
     }
 
     private Document click(WebDriver driver, String link) throws InterruptedException {
