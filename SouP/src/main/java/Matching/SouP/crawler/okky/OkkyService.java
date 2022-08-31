@@ -56,7 +56,7 @@ public class OkkyService extends CrawlerService{
                     }
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
                     talk = parseTalk(content,talk);
@@ -67,7 +67,6 @@ public class OkkyService extends CrawlerService{
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
                     Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
-                    log.warn("{} 크롤링",okky);
                     okkyRepository.save(okky);
                     convertToPost.okky(okky);
                     flag = true;
@@ -77,7 +76,7 @@ public class OkkyService extends CrawlerService{
             if(!flag)
                 log.warn("불러올 글이 없습니다!");
             else
-                log.info("오키 크롤링 {}개 완료",flag);
+                log.info("오키 크롤링 성공");
         } catch (Exception e) {
                 e.printStackTrace();
             } finally {
