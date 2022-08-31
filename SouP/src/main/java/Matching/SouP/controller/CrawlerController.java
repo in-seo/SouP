@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class CrawlerController {
     private static LocalDateTime crawlTime;
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
-//    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
+    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         crawlTime = LocalDateTime.now();
         log.info("현 시각: {} , 크롤링 시작.", crawlTime);

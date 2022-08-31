@@ -30,6 +30,7 @@ public class OkkyService extends CrawlerService{
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlOkky);
+        boolean flag = false;
         try{
             int start = recentPost();
             log.info("OKKY 크롤링 시작. {}번부터",start);
@@ -41,7 +42,7 @@ public class OkkyService extends CrawlerService{
                 for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                     if(i==6)
                         continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + i + ")");
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
 //                if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
@@ -66,11 +67,18 @@ public class OkkyService extends CrawlerService{
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
                     Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
+                    log.warn("{} 크롤링",okky);
                     okkyRepository.save(okky);
                     convertToPost.okky(okky);
+                    flag = true;
                 }
                 Page--;
-            }} catch (Exception e) {
+            }
+            if(!flag)
+                log.warn("불러올 글이 없습니다!");
+            else
+                log.info("오키 크롤링 {}개 완료",flag);
+        } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 driver.close(); // 브라우저 종료
@@ -101,7 +109,7 @@ public class OkkyService extends CrawlerService{
             driver.get(urlOkky + "?page=" + page);
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(1) > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+            String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child(1) > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
             int num = Integer.parseInt(sNum);
             if(num<start){
                 log.info("{}페이지부터 시작",page-1);
@@ -123,7 +131,7 @@ public class OkkyService extends CrawlerService{
 
 //    @PostConstruct
 //    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Okky temp = new Okky("1301764","임시 기준점","","","","","","");
+//        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
 //        okkyRepository.save(temp);
 //    }
 }
