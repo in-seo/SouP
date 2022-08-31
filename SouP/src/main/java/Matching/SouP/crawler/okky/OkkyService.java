@@ -67,7 +67,6 @@ public class OkkyService extends CrawlerService{
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
                     Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
-                    log.warn("{} 크롤링",okky);
                     okkyRepository.save(okky);
                     convertToPost.okky(okky);
                     flag = true;
@@ -129,9 +128,9 @@ public class OkkyService extends CrawlerService{
         return null;
     }
 
-    @PostConstruct
-    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
-        okkyRepository.save(temp);
-    }
+//    @PostConstruct
+//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+//        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
+//        okkyRepository.save(temp);
+//    }
 }
