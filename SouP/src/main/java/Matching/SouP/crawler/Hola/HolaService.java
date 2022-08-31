@@ -32,7 +32,7 @@ public class HolaService extends CrawlerService {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
-        int flag = 0;
+        boolean flag = false;
         try {
             String standard = recentPost();
             scroll((JavascriptExecutor) driver);  //전체스크롤
@@ -80,9 +80,9 @@ public class HolaService extends CrawlerService {
                 Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
                 holaRepository.save(hola);
                 convertToPost.hola(hola);
-                flag++;
+                flag = true;
             }
-            if(flag==0)
+            if(!flag)
                 log.warn("불러올 글이 없습니다!");
             else
                 log.info("홀라 크롤링 {}개 완료",flag);
