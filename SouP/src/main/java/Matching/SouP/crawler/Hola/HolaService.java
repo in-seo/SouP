@@ -85,7 +85,7 @@ public class HolaService extends CrawlerService {
             if(!flag)
                 log.warn("불러올 글이 없습니다!");
             else
-                log.info("홀라 크롤링 {}개 완료",flag);
+                log.info("홀라 크롤링 성공");
         }catch (Exception e) {
             e.printStackTrace();
         } finally {

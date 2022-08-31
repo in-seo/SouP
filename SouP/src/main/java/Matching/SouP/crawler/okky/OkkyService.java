@@ -56,7 +56,7 @@ public class OkkyService extends CrawlerService{
                     }
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(1) > div:nth-child(3) > div > div > div").text();
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
                     talk = parseTalk(content,talk);
@@ -77,7 +77,7 @@ public class OkkyService extends CrawlerService{
             if(!flag)
                 log.warn("불러올 글이 없습니다!");
             else
-                log.info("오키 크롤링 {}개 완료",flag);
+                log.info("오키 크롤링 성공");
         } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -129,9 +129,9 @@ public class OkkyService extends CrawlerService{
         return null;
     }
 
-//    @PostConstruct
-//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
-//        okkyRepository.save(temp);
-//    }
+    @PostConstruct
+    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
+        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
+        okkyRepository.save(temp);
+    }
 }
