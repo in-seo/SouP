@@ -21,34 +21,31 @@
 
 ## 🚀글 자동 게시 및 분석
 
-![image1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0b77c66c-872c-4b87-a296-46e6467d53e8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052256Z&X-Amz-Expires=86400&X-Amz-Signature=13403d1481049774ab59c2f3eb1f67c9ab38fe080d405ce8cdc2bed7b5e0ba36&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+![1](https://user-images.githubusercontent.com/94730032/190840402-bb04e9b0-4c29-4085-a7e2-a26f76f02fca.png)
 
 - 1시간 간격으로 게시 된 여러 글들을 불러오고, 글의 내용에 기반한 키워드를 추출해 태그를 생성합니다.
 - 생성된 태그를 통해 쉽게 원하는 내용을 검색할 수 있습니다.
 
 ## 🗒️맞춤형 양식 제공
-
-![image2-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/e1e77e9b-7a7f-409e-b8ec-eb0650dec0df/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052353Z&X-Amz-Expires=86400&X-Amz-Signature=b722832de3528db20542bc7672d80e85103ddaaed52763ad11204957e4058b34&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled](https://user-images.githubusercontent.com/94730032/190840401-8d97666c-adfc-4ab8-8e2d-1de527c11b25.png)
 
 ## 📢자율 홍보 게시판
-
-![image3](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/2678bcf0-4c3d-4807-a6a6-95ddec105037/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052658Z&X-Amz-Expires=86400&X-Amz-Signature=1ce23ff3054774f025243323a4d2e4c15f543fadbe15830c2aa5863201833893&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (1)](https://user-images.githubusercontent.com/94730032/190840399-ccd22091-d641-42cf-9906-365be3825f79.png)
 
 - 부담 없이 자신의 프로젝트를 홍보 할 수 있습니다.
 
 ## ⁉️ 조회수, 글 내용 분석 기반 추천 기능
 
-![image4-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/2c708d98-0d08-457d-8781-aa1fef3cc121/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052513Z&X-Amz-Expires=86400&X-Amz-Signature=e220b0e8f3964b7494c0280d69f867e4df38f783efc9af40d898036647a47195&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (2)](https://user-images.githubusercontent.com/94730032/190840398-2757b502-d402-4624-965d-1490cb794f88.png)
 
 ## 원본 링크 이동
-
-![image4](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f236199e-40c8-4330-a11a-d04fc84bf144/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052528Z&X-Amz-Expires=86400&X-Amz-Signature=5d464697c571a7e0826f6fd20c46e015377a6dbf4463a03a4e47ecc54036e1f1&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (3)](https://user-images.githubusercontent.com/94730032/190840396-a16ea3a7-32e6-4cb9-a2d1-8ac676cb4ae2.png)
 
 - **저작권 우려 및 본 페이지의 취지에 맞게 모아주는 역할을 기반 + 양식 제공 및 태그 검색을 활용하고자 했습니다. 클릭 시 글의 원문으로 가도록 했습니다**
 
 ## 📝스크랩 기능 도입
-
-![image5](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/581283db-b633-44b4-850b-e9f9ab42fad2/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220912%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220912T052726Z&X-Amz-Expires=86400&X-Amz-Signature=1848b11a7456d1139d13bf4c5324e96a7cf5d4a60737e9d6de9aa9f15aeafdf0&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (4)](https://user-images.githubusercontent.com/94730032/190840394-212fd0f8-c41d-4d80-8f29-812ae039f78b.png)
 
 # <small>간략 아키텍쳐</small>
 
