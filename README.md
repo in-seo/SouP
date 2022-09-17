@@ -8,6 +8,8 @@
 <hr>
 
 **[🔗주소 : soup.pw](https://soup.pw)**
+
+
 ![home](https://user-images.githubusercontent.com/94730032/180217883-243b428a-d5c7-404b-9857-333511a807de.gif)
 
 <hr>
@@ -29,7 +31,7 @@
 
 ## 🗒️맞춤형 양식 제공
 ![Untitled](https://user-images.githubusercontent.com/94730032/190840401-8d97666c-adfc-4ab8-8e2d-1de527c11b25.png)
-
+![20220917_132917](https://user-images.githubusercontent.com/94730032/190840461-f6662cfa-f381-48db-b6f9-a633ae79cd06.png)
 ## 📢자율 홍보 게시판
 ![Untitled (1)](https://user-images.githubusercontent.com/94730032/190840399-ccd22091-d641-42cf-9906-365be3825f79.png)
 
@@ -37,6 +39,7 @@
 
 ## ⁉️ 조회수, 글 내용 분석 기반 추천 기능
 
+![20220917_132939](https://user-images.githubusercontent.com/94730032/190840462-e4cf2012-91a0-481b-b4a2-2c9d87a3f574.png)
 ![Untitled (2)](https://user-images.githubusercontent.com/94730032/190840398-2757b502-d402-4624-965d-1490cb794f88.png)
 
 ## 원본 링크 이동
