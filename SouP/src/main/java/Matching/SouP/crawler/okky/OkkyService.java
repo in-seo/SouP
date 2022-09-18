@@ -40,7 +40,6 @@ public class OkkyService extends CrawlerService{
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
                 for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
-                    System.out.println(i+"번째");
                     if(i==6)
                         continue;
                     Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li.py-4:nth-child(" + i + ")");
