@@ -42,11 +42,16 @@ public class OkkyService extends CrawlerService{
                 for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                     if(i==6)
                         continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child(" + i + ")");
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li.py-4:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
-//                if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
-                    String num= title.attr("href").substring(10);
+                    String num="";
+                    try {
+                        num= title.attr("href").substring(10);
+                    } catch (StringIndexOutOfBoundsException e) {
+                        i--;
+                        continue;
+                    }
                     if(Integer.parseInt(num)<=start){
                         Okky update = okkyRepository.findByNum(Integer.parseInt(num));
                         if(update!=null)
@@ -78,10 +83,10 @@ public class OkkyService extends CrawlerService{
             else
                 log.info("오키 크롤링 성공");
         } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                driver.close(); // 브라우저 종료
-            }
+            e.printStackTrace();
+        } finally {
+            driver.close(); // 브라우저 종료
+        }
     }
 
     private Document click(WebDriver driver, String link) throws InterruptedException {
@@ -98,22 +103,33 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    private int startPage(WebDriver driver, int start) throws IOException {
+    private int startPage(WebDriver driver, int start) throws IOException, StringIndexOutOfBoundsException {
         int page=2;  //page가 1이면 okky에선 1페이지이다..
         /**
          * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
          * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됌
          */
+        int cnt = 1;
         while(true){
             driver.get(urlOkky + "?page=" + page);
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child(1) > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
-            int num = Integer.parseInt(sNum);
+            int num = 3000000;
+            try {
+                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+                num = Integer.parseInt(sNum);
+            }catch (StringIndexOutOfBoundsException e){
+                cnt++;
+                continue;
+            }catch (NullPointerException e){
+                cnt++;
+                continue;
+            }
             if(num<start){
                 log.info("{}페이지부터 시작",page-1);
                 return page-1;
             }
+            cnt=1;
             page++;
         }
     }
@@ -130,7 +146,7 @@ public class OkkyService extends CrawlerService{
 
 //    @PostConstruct
 //    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Okky temp = new Okky("1306989","임시 기준점","","","","","","");
+//        Okky temp = new Okky("1316111","임시 기준점","","","","","","");
 //        okkyRepository.save(temp);
 //    }
 }
