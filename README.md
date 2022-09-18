@@ -8,6 +8,8 @@
 <hr>
 
 **[🔗주소 : soup.pw](https://soup.pw)**
+
+
 ![home](https://user-images.githubusercontent.com/94730032/180217883-243b428a-d5c7-404b-9857-333511a807de.gif)
 
 <hr>
@@ -21,36 +23,32 @@
 
 ## 🚀글 자동 게시 및 분석
 
-![image1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/0b77c66c-872c-4b87-a296-46e6467d53e8/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132337Z&X-Amz-Expires=86400&X-Amz-Signature=7cea0f33e6f9b31e2d05c54389a1c1893a8851da58a2bdcf283b3c01b7556d31&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+
+![1](https://user-images.githubusercontent.com/94730032/190840402-bb04e9b0-4c29-4085-a7e2-a26f76f02fca.png)
 
 - 1시간 간격으로 게시 된 여러 글들을 불러오고, 글의 내용에 기반한 키워드를 추출해 태그를 생성합니다.
 - 생성된 태그를 통해 쉽게 원하는 내용을 검색할 수 있습니다.
 
-## 🗒️스크랩 지원, 양식 제공
-
-![image2-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/34f559b6-f0bc-4cc1-9421-23c8aafbee5e/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133145Z&X-Amz-Expires=86400&X-Amz-Signature=728a6db0b17f48237fae46f3b11a8fdc1395971b52ad953379226ad43c7abd72&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
-![image2-2](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/d96fa690-19d9-4a84-9d89-b0904cec1951/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132920Z&X-Amz-Expires=86400&X-Amz-Signature=925fa7bec87c90713cc9da7ae514d46c21ba8fced1b8cf61bb6e1a9696b29d04&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
-
+## 🗒️맞춤형 양식 제공
+![Untitled](https://user-images.githubusercontent.com/94730032/190840401-8d97666c-adfc-4ab8-8e2d-1de527c11b25.png)
+![20220917_132917](https://user-images.githubusercontent.com/94730032/190840461-f6662cfa-f381-48db-b6f9-a633ae79cd06.png)
 ## 📢자율 홍보 게시판
-
-![image3](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/6c2b5188-5b7b-4e39-b113-017492f82cd0/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T132736Z&X-Amz-Expires=86400&X-Amz-Signature=57fad5aa455cb9939ded1f1c55bda39c9d7b1c9f339127ff9ed7059309b325b8&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (1)](https://user-images.githubusercontent.com/94730032/190840399-ccd22091-d641-42cf-9906-365be3825f79.png)
 
 - 부담 없이 자신의 프로젝트를 홍보 할 수 있습니다.
 
 ## ⁉️ 조회수, 글 내용 분석 기반 추천 기능
 
-![image4-1](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/2c708d98-0d08-457d-8781-aa1fef3cc121/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133316Z&X-Amz-Expires=86400&X-Amz-Signature=55c1df7c47cbed414f7eb6da4e3932359f4b4e1c6fd99c2c7ade0722681f70eb&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
-![image4-2](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/7fe5dcdf-8853-44f4-bcc3-8b840b33eb0d/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T134345Z&X-Amz-Expires=86400&X-Amz-Signature=a6e40ffa442261ae0d3978ebfab961e1676cbac3c5e7fc4248ce2ef2162a8897&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![20220917_132939](https://user-images.githubusercontent.com/94730032/190840462-e4cf2012-91a0-481b-b4a2-2c9d87a3f574.png)
+![Untitled (2)](https://user-images.githubusercontent.com/94730032/190840398-2757b502-d402-4624-965d-1490cb794f88.png)
 
 ## 원본 링크 이동
-
-![image4](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f236199e-40c8-4330-a11a-d04fc84bf144/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133416Z&X-Amz-Expires=86400&X-Amz-Signature=728fefbec4b1ef075ce68d632ba327a74f78bc3e03966ed7f39f250bc70cd1fc&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (3)](https://user-images.githubusercontent.com/94730032/190840396-a16ea3a7-32e6-4cb9-a2d1-8ac676cb4ae2.png)
 
 - **저작권 우려 및 본 페이지의 취지에 맞게 모아주는 역할을 기반 + 양식 제공 및 태그 검색을 활용하고자 했습니다. 클릭 시 글의 원문으로 가도록 했습니다**
 
 ## 📝스크랩 기능 도입
-
-![image5](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/581283db-b633-44b4-850b-e9f9ab42fad2/Untitled.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20220721%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20220721T133458Z&X-Amz-Expires=86400&X-Amz-Signature=891876f96bbb2e1cf245a61ba2ae6d391ed19bfe2dceb0c30bcc6f056ce91a58&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22Untitled.png%22&x-id=GetObject)
+![Untitled (4)](https://user-images.githubusercontent.com/94730032/190840394-212fd0f8-c41d-4d80-8f29-812ae039f78b.png)
 
 # <small>간략 아키텍쳐</small>
 
