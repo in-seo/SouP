@@ -116,7 +116,7 @@ public class OkkyService extends CrawlerService{
             Document doc = Jsoup.parse(html);
             int num = 3000000;
             try {
-                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException e){
                 cnt++;
