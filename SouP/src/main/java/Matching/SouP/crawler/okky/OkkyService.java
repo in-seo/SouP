@@ -42,7 +42,7 @@ public class OkkyService extends CrawlerService{
                 for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                     if(i==6)
                         continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li.py-4:nth-child(" + i + ")");
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li.py-4:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
                     String num="";
@@ -61,7 +61,7 @@ public class OkkyService extends CrawlerService{
                     }
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
                     talk = parseTalk(content,talk);
@@ -116,7 +116,7 @@ public class OkkyService extends CrawlerService{
             Document doc = Jsoup.parse(html);
             int num = 3000000;
             try {
-                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException e){
                 cnt++;
