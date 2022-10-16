@@ -189,7 +189,7 @@ public class PostService{
             projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(7).toString().substring(0, 18));
 
         for (int i = 1; i <= projectList.size(); i++) {
-            if(i>7)
+            if(i>=7)
                 break;
             Post post = projectList.get(i);
             ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(), post.getUserName(), post.getId());
