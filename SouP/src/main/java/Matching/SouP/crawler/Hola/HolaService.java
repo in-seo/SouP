@@ -41,10 +41,10 @@ public class HolaService extends CrawlerService {
             Elements element = doc.select("#root > main > div.mainContent_appWrapper___CgAh > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}",standard);
             int count = element.select(">a").size();
-            for (int i = count; i >0; i--) {
+            for (int i = count; i >1; i--) {
                 if(i==count){
                     scroll((JavascriptExecutor) driver);
-                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > a:nth-child(1)")).click();
+                    driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > a:nth-child(2)")).click();
                     String first = driver.getCurrentUrl().substring(27);
                     if(first.compareTo(standard)<=0) {
                         log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
@@ -86,8 +86,8 @@ public class HolaService extends CrawlerService {
                 log.warn("불러올 글이 없습니다!");
             else
                 log.info("홀라 크롤링 성공");
-        }catch (Exception e) {
-            e.printStackTrace();
+        }catch (StringIndexOutOfBoundsException | InterruptedException e) {
+            log.error("잘못된 파싱. substring 실패");
         } finally {
             driver.close(); // 브라우저 종료
         }
