@@ -35,18 +35,16 @@ public class InflearnService extends CrawlerService {
                 Elements title = element.select("a > div > div.question__info > div.question__title");
                 String postName = title.select("h3").text();
                 String link = element.select("a").attr("href");
-                String num = link.substring(9);
+                String num = link.substring(9).split("/")[0];
                 link = "https://www.inflearn.com"+link;
                 if(Integer.parseInt(num)<=start){
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
                 }
                 Document realPost = Jsoup.connect(link).get();
-                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text().substring(2);
+                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > div > div > span.sub-title__created-at").text();
+
                 date = standard(date); //표준시간 변환
-                String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
-                if(content.length()<3)
-                    content=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
-                    content+=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div > ul").text();
+                String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
 
                 StringBuilder stack = parseStack(postName,content);
 
@@ -59,7 +57,7 @@ public class InflearnService extends CrawlerService {
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
                         String pass = title.select("span").text();
 
-                if(pass.equals("모집완료 ")){
+                if(pass.equals("모집완료")){
                     continue;  //모집완료이면 패스
                 }
                 if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
