@@ -84,7 +84,7 @@ public class InflearnService extends CrawlerService {
          */
         while(true){
             Document doc = Jsoup.connect(urlInf + "?page="+page).get();
-            String sNum = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child(1) > a").attr("href").substring(9);
+            String sNum = doc.select("#main > section.community-body > div.community-body__content > div.question-list-container > ul > li:nth-child(1) > a").attr("href").substring(9).split("/")[0];
             int num = Integer.parseInt(sNum);
             if(num<start){
                 log.info("{}페이지부터 시작",page-1);
