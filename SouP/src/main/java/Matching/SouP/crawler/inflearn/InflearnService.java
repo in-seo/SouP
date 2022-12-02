@@ -57,7 +57,7 @@ public class InflearnService extends CrawlerService {
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6").text();
                         String pass = title.select("span").text();
 
-                if(pass.equals("모집완료 ")){
+                if(pass.equals("모집완료")){
                     continue;  //모집완료이면 패스
                 }
                 if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감

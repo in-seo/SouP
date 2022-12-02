@@ -87,7 +87,7 @@ public class HolaService extends CrawlerService {
             else
                 log.info("홀라 크롤링 성공");
         }catch (StringIndexOutOfBoundsException | InterruptedException e) {
-            log.error("잘못된 파싱. substring 실패");
+            e.printStackTrace();
         } finally {
             driver.close(); // 브라우저 종료
         }
