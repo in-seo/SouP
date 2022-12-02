@@ -35,7 +35,7 @@ public class InflearnService extends CrawlerService {
                 Elements title = element.select("a > div > div.question__info > div.question__title");
                 String postName = title.select("h3").text();
                 String link = element.select("a").attr("href");
-                String num = link.substring(9);
+                String num = link.substring(9).split("/")[0];
                 link = "https://www.inflearn.com"+link;
                 if(Integer.parseInt(num)<=start){
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
