@@ -41,12 +41,9 @@ public class InflearnService extends CrawlerService {
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
                 }
                 Document realPost = Jsoup.connect(link).get();
-                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text().substring(2);
+                String date = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > span").text();
                 date = standard(date); //표준시간 변환
-                String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div").text();
-                if(content.length()<3)
-                    content=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
-                    content+=realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body > div > ul").text();
+                String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
 
                 StringBuilder stack = parseStack(postName,content);
 
