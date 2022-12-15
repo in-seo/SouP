@@ -62,7 +62,6 @@ public class OkkyService extends CrawlerService{
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
                     String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
-                    #__next > main > div > div.w-full.min-w-0.flex-auto.lg\:static.lg\:max-h-full.lg\:overflow-visible > div > div:nth-child(2) > div.mt-8.mb-14.w-full.sm\:mt-9 > div.my-6.text-sm.text-gray-700.dark\:text-gray-300.sm\:my-8.sm\:text-base
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
                     talk = parseTalk(content,talk);
