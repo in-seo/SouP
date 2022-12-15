@@ -103,7 +103,7 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    private int startPage(WebDriver driver, int start) throws IOException, StringIndexOutOfBoundsException {
+    private int startPage(WebDriver driver, int start) /*throws IOException, StringIndexOutOfBoundsException*/ {
         int page=2;  //page가 1이면 okky에선 1페이지이다..
         /**
          * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
