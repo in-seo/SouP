@@ -26,7 +26,7 @@ public class OkkyService extends CrawlerService{
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
 
-    public void getOkkyPostData() throws IOException, InterruptedException {
+    public void getOkkyPostData() {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlOkky);
@@ -103,7 +103,7 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    private int startPage(WebDriver driver, int start) /*throws IOException, StringIndexOutOfBoundsException*/ {
+    private int startPage(WebDriver driver, int start) throws StringIndexOutOfBoundsException {
         int page=2;  //page가 1이면 okky에선 1페이지이다..
         /**
          * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
@@ -114,7 +114,7 @@ public class OkkyService extends CrawlerService{
             driver.get(urlOkky + "?page=" + page);
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            int num = 3000000;
+            int num = Integer.MAX_VALUE;
             try {
                 String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
