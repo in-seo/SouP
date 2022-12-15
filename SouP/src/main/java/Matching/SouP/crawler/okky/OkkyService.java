@@ -22,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class OkkyService extends CrawlerService{
-    private static final String urlOkky ="https://okky.kr/events/gathering";
+    private static final String urlOkky ="https://okky.kr/community/gathering";
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
 
