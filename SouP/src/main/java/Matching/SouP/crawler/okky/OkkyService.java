@@ -22,11 +22,11 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class OkkyService extends CrawlerService{
-    private static final String urlOkky ="https://okky.kr/events/gathering";
+    private static final String urlOkky ="https://okky.kr/community/gathering";
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
 
-    public void getOkkyPostData() throws IOException, InterruptedException {
+    public void getOkkyPostData() {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlOkky);
@@ -42,7 +42,7 @@ public class OkkyService extends CrawlerService{
                 for (int i = 21; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                     if(i==6)
                         continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li.py-4:nth-child(" + i + ")");
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li.py-4:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
                     String num="";
@@ -61,7 +61,7 @@ public class OkkyService extends CrawlerService{
                     }
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
                     talk = parseTalk(content,talk);
@@ -103,7 +103,7 @@ public class OkkyService extends CrawlerService{
         return date;
     }
 
-    private int startPage(WebDriver driver, int start) throws IOException, StringIndexOutOfBoundsException {
+    private int startPage(WebDriver driver, int start) throws StringIndexOutOfBoundsException {
         int page=2;  //page가 1이면 okky에선 1페이지이다..
         /**
          * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
@@ -114,9 +114,9 @@ public class OkkyService extends CrawlerService{
             driver.get(urlOkky + "?page=" + page);
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            int num = 3000000;
+            int num = Integer.MAX_VALUE;
             try {
-                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException e){
                 cnt++;
