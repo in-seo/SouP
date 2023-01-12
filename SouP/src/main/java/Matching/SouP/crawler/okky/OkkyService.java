@@ -13,8 +13,6 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,9 +38,7 @@ public class OkkyService extends CrawlerService{
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
                 for (int i = 28; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
-                    if(i==6)
-                        continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li.py-4:nth-child(" + i + ")");
+                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li.py-4:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
                     String num="";
@@ -118,10 +114,7 @@ public class OkkyService extends CrawlerService{
             try {
                 String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
-            }catch (StringIndexOutOfBoundsException e){
-                cnt++;
-                continue;
-            }catch (NullPointerException e){
+            }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
                 continue;
             }
