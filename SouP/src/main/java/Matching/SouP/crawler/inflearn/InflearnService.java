@@ -54,8 +54,8 @@ public class InflearnService extends CrawlerService {
                     content = content.substring(0, 199);
                 }
 
-                String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > h6 > a").text();
-                        String pass = title.select("span").text();
+                String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > div > h6 > a").text();
+                String pass = title.select("span").text();
 
                 if(pass.equals("모집완료")){
                     continue;  //모집완료이면 패스
