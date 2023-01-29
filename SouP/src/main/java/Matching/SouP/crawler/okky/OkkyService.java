@@ -48,16 +48,9 @@ public class OkkyService extends CrawlerService{
                         i--;
                         continue;
                     }
-                    if(Integer.parseInt(num)<=start){
-                        Okky update = okkyRepository.findByNum(Integer.parseInt(num));
-                        if(update!=null)
-                            update.updateViews(update.getViews()+10);
-
-                        continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
-                    }
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
 
                     StringBuilder stack = parseStack(postName,content);
                     String talk = "";
@@ -117,6 +110,7 @@ public class OkkyService extends CrawlerService{
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
+                log.info("StringIndexOutOfBoundsException");
                 continue;
             }
             if(num<start){
