@@ -16,6 +16,7 @@ public class Selenium {
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
         ChromeOptions options = new ChromeOptions();
         options.setHeadless(true);
+        options.addArguments("--disable-setuid-sandbox");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
