@@ -48,6 +48,9 @@ public class OkkyService extends CrawlerService{
                         i--;
                         continue;
                     }
+                    if(Integer.parseInt(num)<=start)
+                        continue;
+
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
                     String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
