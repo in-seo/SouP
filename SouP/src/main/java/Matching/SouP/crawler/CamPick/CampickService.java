@@ -109,6 +109,8 @@ public class CampickService extends CrawlerService {
         driver.get("https://www.campuspick.com/login");
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys(PropertyUtil.getProperty("m.i"));
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys(PropertyUtil.getProperty("m.p"));
+        Thread.sleep(2000);
+        log.warn("driver.findElement(By.cssSelector(\"#recaptcha-token\")).getAttribute(\"value\") = " + driver.findElement(By.cssSelector("#recaptcha-token")).getAttribute("value"));
         driver.findElement(By.cssSelector("#recaptcha-anchor > div.recaptcha-checkbox-border")).click();
         Thread.sleep(2000);
         driver.findElement(By.cssSelector("#container > div.form > div > input.submit")).click();
