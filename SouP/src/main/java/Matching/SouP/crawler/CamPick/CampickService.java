@@ -109,8 +109,10 @@ public class CampickService extends CrawlerService {
         driver.get("https://www.campuspick.com/login");
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys(PropertyUtil.getProperty("m.i"));
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys(PropertyUtil.getProperty("m.p"));
+        driver.findElement(By.cssSelector("#recaptcha-anchor > div.recaptcha-checkbox-border")).click();
+        Thread.sleep(2000);
         driver.findElement(By.cssSelector("#container > div.form > div > input.submit")).click();
-        Thread.sleep(2000);  //로그인 처리 대기
+        Thread.sleep(1000);  //로그인 처리 대기
     }
     private String standard(String date) {
         LocalDateTime now = LocalDateTime.now();
