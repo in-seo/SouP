@@ -1,7 +1,7 @@
 <h1>스프</h1>
 <h3>스프 (SouP): 흩어져 있는 스터디와 프로젝트가 모여있는 곳</h3>
 
-**[🔗소개 페이지 : notion](https://www.notion.so/9a8ec1c290b94b91988a2fab90b61baf)**
+**[🔗소개 페이지 / notion](https://www.notion.so/9a8ec1c290b94b91988a2fab90b61baf)**
 
 [**🔗 SouP - 프론트엔드 레포지토리 바로가기**](https://github.com/plrs9816/soup-frontend/) 👈
 
