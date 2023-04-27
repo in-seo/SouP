@@ -76,8 +76,3 @@ Design System
 
 <strong>22.03.16. ~ 22.07.17 (현 운영중)</strong><br>
 실 개발 기간 : 2~3개월
-
-# <small>초기 ERD</small>
-
-![Bw258zRGC6K2bamAF](https://user-images.githubusercontent.com/94730032/170948911-3a90aaee-8768-43c7-b26b-77f7d8ba15e7.png)
-https://www.erdcloud.com/d/Bw258zRGC6K2bamAF
