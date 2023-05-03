@@ -49,10 +49,14 @@ public class InflearnService extends CrawlerService {
                 StringBuilder stack = parseStack(postName,content);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
-                        if(talk.isEmpty()){talk = parseTalk(content,talk);}
-                if(content.length()>200) {
+                if(talk.isEmpty()){talk = parseTalk(content,talk);}
+
+                if(talk.length()>=200)
+                    talk = talk.substring(0,199);
+
+                if(content.length()>200)
                     content = content.substring(0, 199);
-                }
+
 
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > div > h6 > a").text();
                 String pass = title.select("span").text();

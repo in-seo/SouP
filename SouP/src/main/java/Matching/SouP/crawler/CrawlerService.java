@@ -23,8 +23,6 @@ public abstract class CrawlerService {
                     talk = str;
             }
         }
-        if(talk.length()>=200)
-            talk = talk.substring(0,199);
         return talk;
     }
 
