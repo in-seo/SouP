@@ -41,7 +41,7 @@ public class CrawlerController {
     private static LocalDateTime crawlTime;
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
-    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 20초 뒤에시작, 1시간마다 실행.
+//    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 20초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
         crawlTime = LocalDateTime.now();
         log.info("현 시각: {} , 크롤링 시작.", crawlTime);
