@@ -90,8 +90,8 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           cd deploy
-          aws s3 cp --region ap-northeast-2 --acl private ./soup-server.zip s3://soup-build/
-          aws s3 cp --region ap-northeast-2 --acl private ./soup-client.zip s3://soup-build/
+          aws s3 cp --region ap-northeast-2 --acl private ./soup-server.zip s3://soup-build3/
+          aws s3 cp --region ap-northeast-2 --acl private ./soup-client.zip s3://soup-build3/
 
       - name: 🚀 Deploy
         env:
@@ -102,12 +102,12 @@ jobs:
           --application-name soup \
           --deployment-group-name soup-client \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=soup-build,bundleType=zip,key=soup-client.zip \
+          --s3-location bucket=soup-build3,bundleType=zip,key=soup-client.zip \
           --region ap-northeast-2
 
           aws deploy create-deployment \
           --application-name soup \
           --deployment-group-name soup-server \
           --file-exists-behavior OVERWRITE \
-          --s3-location bucket=soup-build,bundleType=zip,key=soup-server.zip \
+          --s3-location bucket=soup-build3,bundleType=zip,key=soup-server.zip \
           --region ap-northeast-2
