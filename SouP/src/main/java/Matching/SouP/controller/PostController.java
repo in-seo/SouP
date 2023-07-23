@@ -6,9 +6,9 @@ import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.FavForm;
 import Matching.SouP.dto.project.*;
-import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.PostService;
 import Matching.SouP.service.ProjectService;
+import Matching.SouP.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,45 +27,44 @@ import java.util.NoSuchElementException;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-public class ProjectController {
+public class PostController {
     private final ProjectService projectService;
     private final PostService postService;
-    private final UserRepository userRepository;
-
+    private final UserService userService;
 
 
     @GetMapping("/projects")
-    @ApiOperation(value = "프로젝트 목록 조회")
-    public PageImpl<ShowForm> projectList(@LoginUser SessionUser user, @RequestParam(required=false, defaultValue="") List<String> stacks, Pageable pageable) {
+    @ApiOperation(value = "글 목록 조회")
+    public PageImpl<ShowForm> postList(@LoginUser SessionUser user, @RequestParam(required=false, defaultValue="") List<String> stacks, Pageable pageable) {
         try{
-            User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
-            return postService.projectListForUser(User, stacks, pageable);
+            User User = userService.getUserWithPostFav(user.getEmail());
+            return postService.getListForUser(User, stacks, pageable);
         }
         catch (NullPointerException e){
-            return postService.projectListForGuest(stacks,pageable);
+            return postService.getListForGuest(stacks,pageable);
         }
     }
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
     @PostMapping("/projects/build")
-    @ApiOperation(value = "프로젝트 작성")
-    public JSONObject saveProject(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
-        User User = userRepository.findByEmailFetchPL(user.getEmail()).orElseThrow();
+    @ApiOperation(value = "글 작성")
+    public JSONObject savePost(@LoginUser SessionUser user, @RequestBody PostForm pForm) throws ParseException {
+        User User = userService.getUserWithPostList(user.getEmail());
         return projectService.tempSave(pForm,User);//왜 temp 냐면  사람과 연결을 안해서.
     }
 
-    @PostMapping("/projects/fav")    //로컬에서 실행할때 fav 한 후에    http://localhost:8080/kakao   로 접속하면 카톡옴
-    @ApiOperation(value = "프로젝트 스크랩 추가")
+    @PostMapping("/projects/fav")
+    @ApiOperation(value = "글 스크랩 추가")
     public JSONObject fav(@LoginUser SessionUser user, @RequestBody FavForm form) {
-        User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
+        User User = userService.getUserWithPostFav(user.getEmail());
         return projectService.fav(User, form); //obj[0] = 스크랩 성공 여부
     }
-    //    String str = MyOkHttpClient.makeTemplate(post.getSource(), post.getLink(), post.getStack(), user.getEmail(), post.getTalk()); // Post를 토대로 추출한 지원 양식
+
     @GetMapping("/projects/{id}")
     @ApiOperation(value = "프로젝트 조회")
     public DetailForm showProject(@PathVariable Long id, @LoginUser SessionUser user) throws ParseException {
         try{
-            User User = userRepository.findByEmailFetchPC(user.getEmail()).orElseThrow();
+            User User = userService.getUserWithPostFav(user.getEmail());
             return postService.showProject(id,User);
         }
         catch (NullPointerException e){
@@ -83,7 +82,7 @@ public class ProjectController {
     @PostMapping("/projects/edit")
     @ApiOperation(value = "프로젝트 편집")
     public JSONObject updateProject(@LoginUser SessionUser user, @RequestBody EditForm eForm){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userService.getUser(user.getEmail());
         return projectService.editProject(User,eForm);
     }
 
@@ -91,7 +90,7 @@ public class ProjectController {
     @PostMapping("/projects/delete")
     @ApiOperation(value = "프로젝트 삭제")
     public JSONObject deleteProject(@LoginUser SessionUser user, @RequestBody EditForm form){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userService.getUser(user.getEmail());
         return projectService.deleteProject(User,form.getId());
     }
 
@@ -99,7 +98,7 @@ public class ProjectController {
     @PostMapping("/projects/form")
     @ApiOperation(value = "프로젝트 양식 제공")
     public JSONObject showTemplate(@LoginUser SessionUser user, @RequestBody TemplateForm form){
-        User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
+        User User = userService.getUser(user.getEmail());
         return projectService.showTemplate(form.getId(),User);
     }
 

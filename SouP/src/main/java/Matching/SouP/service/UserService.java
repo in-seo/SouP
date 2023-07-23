@@ -1,6 +1,7 @@
 package Matching.SouP.service;
 
 import Matching.SouP.common.SoupResponse;
+import Matching.SouP.common.error.PostNotFoundException;
 import Matching.SouP.common.error.UserNotFoundException;
 import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.post.Source;
@@ -29,10 +30,15 @@ public class UserService {
     private final PostsRepository postsRepository;
 
     @Transactional(readOnly = true)
-    public List<ShowForm> getUserWithPostFav(String email) {
-        User user = userRepository.findByEmailFetchPC(email)
+    public User getUserWithPostFav(String email) {
+        return userRepository.findByEmailFetchPC(email)
                 .orElseThrow(UserNotFoundException::new);
-        return showFav(user);
+    }
+
+    @Transactional(readOnly = true)
+    public User getUserWithPostList(String email) {
+        return userRepository.findByEmailFetchPL(email)
+                .orElseThrow(UserNotFoundException::new);
     }
 
 
@@ -57,6 +63,10 @@ public class UserService {
     private Optional<User> getOptionalUser(String email) {
         return userRepository.findByEmail(email);
     }
+    public User getUser(String email) {
+        return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+    }
+
 
     private JSONObject addDetails(User user) {
         JSONObject obj = SoupResponse.success();
@@ -67,17 +77,16 @@ public class UserService {
         return obj;
     }
 
-    private List<ShowForm> showFav(User user) {
+    public List<ShowForm> showFav(User user) {
         List<ProjectConnect> projectConnectList = user.getProjectConnectList();
         List<ShowForm> list = new ArrayList<>();
+
         for (int i = projectConnectList.size() - 1; i >= 0; i--) {
             ProjectConnect pc = projectConnectList.get(i);
-            Post post = postsRepository.findById(pc.getPost()
-                            .getId())
-                    .get();
+            Post post = postsRepository.findById(pc.getPost().getId()).orElseThrow(PostNotFoundException::new);
             ShowForm showForm = new ShowForm(post.getId(), post.getPostName(), post.getContent(), post.getUserName(), post.getDate(), post.getLink(), post.getStack(), post.getViews(), post.getTalk(), post.getSource(), post.getFav());
             if (post.getSource() == Source.SOUP)
-                showForm.setContent(post.getProsemirror());
+                showForm.customContent(post.getProsemirror());
             showForm.setIsfav(true);  // 내 스크랩 글이니 항상 true
             list.add(showForm);
         }

@@ -35,7 +35,8 @@ public class UserController {
     @GetMapping("/myfav")
     @ApiOperation(value = "내 스크랩 글 조회")
     public List<ShowForm> showMyFav(@LoginUser SessionUser user){
-        return userService.getUserWithPostFav(user.getEmail());
+        User currentUser = userService.getUserWithPostFav(user.getEmail());
+        return userService.showFav(currentUser);
     }
 
     @GetMapping("/mypage")
