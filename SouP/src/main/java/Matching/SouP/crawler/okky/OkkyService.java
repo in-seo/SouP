@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class OkkyService extends CrawlerService{
+public class OkkyService {
     private static final String urlOkky ="https://okky.kr/community/gathering";
     private final OkkyRepository okkyRepository;
     private final ConvertToPost convertToPost;
@@ -55,9 +55,9 @@ public class OkkyService extends CrawlerService{
                     Document realPost = click(driver, link);
                     String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
 
-                    StringBuilder stack = parseStack(postName,content);
+                    StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
-                    talk = parseTalk(content,talk);
+                    talk = CrawlerService.parseTalk(content,talk);
                     if(content.length()>200) {
                         content = content.substring(0, 199);
                     }
@@ -130,10 +130,6 @@ public class OkkyService extends CrawlerService{
         return recent.intValue();
     }
 
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
-    }
 
 //    @PostConstruct
 //    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.

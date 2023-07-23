@@ -6,11 +6,18 @@ import Matching.SouP.dto.project.ShowForm;
 import java.util.*;
 import static java.util.Arrays.*;
 
-public abstract class CrawlerService {
+public class CrawlerService {
 
-    public abstract List<ShowForm> findAllDesc(Source source);
+    public static StringBuilder parseStack(String postName,String content){  //핵심로직!!
+        StringBuilder stack = new StringBuilder();
+        postName = postName.toLowerCase();
+        content = content.toLowerCase();
+        List<String> stackList = StackParser.parse(postName + ' ' + content);
+        stack.append( String.join(",", stackList) );
+        return stack;
+    }
 
-    public String parseTalk(String content, String talk){
+    public static String parseTalk(String content, String talk){
         StringTokenizer st = new StringTokenizer(content); //공백으로 나눔
         while(st.hasMoreTokens()){
             String str=st.nextToken();
@@ -88,15 +95,4 @@ public abstract class CrawlerService {
         StackParser.add("frontend",  asList("프론트엔드","프론트"));
         StackParser.add("backend",  asList("백엔드"));
     }
-
-    public StringBuilder parseStack(String postName,String content){  //핵심로직!!
-        StringBuilder stack = new StringBuilder();
-        postName = postName.toLowerCase();
-        content = content.toLowerCase();
-        List<String> stackList = StackParser.parse(postName + ' ' + content);
-        stack.append( String.join(",", stackList) );
-        return stack;
-    }
-
-
 }

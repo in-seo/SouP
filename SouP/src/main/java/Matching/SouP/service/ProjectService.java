@@ -32,7 +32,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProjectService  extends CrawlerService {
+public class ProjectService {
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
     private final ConvertToPost convertToPost;
@@ -48,7 +48,8 @@ public class ProjectService  extends CrawlerService {
         String temp="";
         String prosemirror= parseString(content,temp);
         String talk = "";
-        talk = parseTalk(prosemirror, talk);     StringBuilder stack = parseStack(pForm.getTitle(),prosemirror);
+        talk = CrawlerService.parseTalk(prosemirror, talk);
+        StringBuilder stack = CrawlerService.parseStack(pForm.getTitle(),prosemirror);
         Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getNickName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setProsemirror(prosemirror);
         Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
@@ -148,7 +149,7 @@ public class ProjectService  extends CrawlerService {
         return obj;
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<ShowForm> findAllDesc(Source source) {
         List<Post> postList = postsRepository.findTop8BySourceOrderByDateDesc(source);

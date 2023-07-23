@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class InflearnService extends CrawlerService {
+public class InflearnService {
     private static final String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
     private final InflearnRepository inflearnRepository;
     private final ConvertToPost convertToPost;
@@ -46,10 +46,10 @@ public class InflearnService extends CrawlerService {
                 date = standard(date); //표준시간 변환
                 String content = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").text();
 
-                StringBuilder stack = parseStack(postName,content);
+                StringBuilder stack = CrawlerService.parseStack(postName,content);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
-                if(talk.isEmpty()){talk = parseTalk(content,talk);}
+                if(talk.isEmpty()){talk = CrawlerService.parseTalk(content,talk);}
 
                 if(talk.length()>=200)
                     talk = talk.substring(0,199);
@@ -97,11 +97,6 @@ public class InflearnService extends CrawlerService {
     }
     public int recentPost(){
         return inflearnRepository.findRecent().intValue();
-    }
-
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
     }
 
 //    @PostConstruct

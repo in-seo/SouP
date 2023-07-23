@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CampickService extends CrawlerService {
+public class CampickService {
 
     private static final String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
@@ -74,10 +74,10 @@ public class CampickService extends CrawlerService {
                 String people = article.select("div > p:nth-child(6) > span").text();
                 String content = article.select("p.text").text();
                 String talk="";
-                talk = parseTalk(content,talk);
+                talk = CrawlerService.parseTalk(content,talk);
                 content = content +"\n 캠퍼스픽 글은 로그인 없이 볼 수 없음에 원본링크를 첨부합니다. : "+link;  //캠픽 글들은 이렇게 해주자. 로그인없이 볼 수가 없음.
 
-                StringBuilder stack = parseStack(postName,content);
+                StringBuilder stack = CrawlerService.parseStack(postName,content);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
                 String view = eachPost.select("p.info > span:nth-child(2)").text();
                 int views;
@@ -139,10 +139,6 @@ public class CampickService extends CrawlerService {
 //        }  //글 120개
     }
 
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
-    }
 
 //    @PostConstruct
 //    private void init() {
