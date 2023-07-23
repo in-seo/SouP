@@ -32,7 +32,7 @@ public class PostService{
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
 
-    public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
+    public PageImpl<ShowForm> getListForUser(User user, List<String> stacks, Pageable pageable){
         Page<Post> projectList;
         if(stacks.size()==0)
             projectList = postsRepository.findAllDesc(pageable);
@@ -42,7 +42,7 @@ public class PostService{
         for (Post post : projectList.getContent()) {
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()==Source.SOUP) {
-                showForm.setContent(post.getProsemirror());
+                showForm.customContent(post.getProsemirror());
             }
             if(user.getProjectConnectList().size()!=0){
                 List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
@@ -58,7 +58,7 @@ public class PostService{
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public PageImpl<ShowForm> projectListForGuest(List<String> stacks, Pageable pageable){
+    public PageImpl<ShowForm> getListForGuest(List<String> stacks, Pageable pageable){
         Page<Post> projectList;
         if(stacks.size()==0)
             projectList = postsRepository.findAllDesc(pageable);
@@ -69,7 +69,7 @@ public class PostService{
         for (Post post : projectList.getContent()) {
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()==Source.SOUP)
-                showForm.setContent(post.getProsemirror());
+                showForm.customContent(post.getProsemirror());
             showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
