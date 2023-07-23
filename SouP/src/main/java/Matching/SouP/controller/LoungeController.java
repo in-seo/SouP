@@ -53,7 +53,6 @@ public class LoungeController {
     }
 
 
-
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ErrorResponse handleException1() {

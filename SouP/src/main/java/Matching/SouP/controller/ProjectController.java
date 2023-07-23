@@ -102,23 +102,7 @@ public class ProjectController {
         User User = userRepository.findByEmail(user.getEmail()).orElseThrow();
         return projectService.showTemplate(form.getId(),User);
     }
-//
-//    @PostConstruct
-//    public void init(){
-//        for (int i=1; i<2; i++){
-//            PostForm pForm = new PostForm();
-//            pForm.setName("프로젝트 "+i);
-//            pForm.setText("설명 : "+i);
-//            pForm.setStack("보유 기술:xxx"+i*10);
-//            pForm.setLink("agowaenawio"+i);
-//            ProjectInfo project = new ProjectInfo("프로젝트 "+i,"설명 : "+i,"보유 기술:xxx"+i*10,"agowaenawio"+i);
-//            pForm.setProject_Type(Project_Type.ETC);
-//            pForm.setMethod(Project_Method.PROJECT);
-//            User user = new User("샤","asjfla@gmail.com","asdfljaweifa.com", Role.USER);
-//            userRepository.save(user);
-//            projectService.tempSave(pForm,user);
-//        }
-//    }
+
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
