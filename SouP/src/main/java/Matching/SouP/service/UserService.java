@@ -41,6 +41,12 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    @Transactional(readOnly = true)
+    public User getUserWithLoungeFav(String email) {
+        return userRepository.findByEmailFetchLC(email)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
 
     @Transactional(readOnly = true)
     public JSONObject makeUserDto(String email) {
