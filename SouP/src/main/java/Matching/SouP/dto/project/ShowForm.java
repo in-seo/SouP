@@ -45,7 +45,7 @@ public class ShowForm {
         this.isfav = isfav;
     }
 
-    public void setContent(String parse) {
+    public void customContent(String parse) {
         this.content = parse;
     }
 
