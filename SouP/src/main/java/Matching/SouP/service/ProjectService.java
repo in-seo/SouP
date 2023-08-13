@@ -32,7 +32,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ProjectService  extends CrawlerService {
+public class ProjectService {
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
     private final ConvertToPost convertToPost;
@@ -45,21 +45,22 @@ public class ProjectService  extends CrawlerService {
         JSONObject obj = new JSONObject();
         JSONParser parser = new JSONParser();
         JSONObject content = (JSONObject)parser.parse(String.valueOf(pForm.getContent()));
-        String temp="";
-        String prosemirror= parseString(content,temp);
+        String temp = "";
+        String prosemirror = parseString(content,temp);
         String talk = "";
-        talk = parseTalk(prosemirror, talk);     StringBuilder stack = parseStack(pForm.getTitle(),prosemirror);
-        Post post = new Post(soupId++,pForm.getTitle(),pForm.getContent().toString(),user.getNickName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
+        talk = CrawlerService.parseTalk(prosemirror, talk);
+        StringBuilder stack = CrawlerService.parseStack(pForm.getTitle(),prosemirror);
+        Post post = new Post(soupId++, pForm.getTitle(), pForm.getContent().toString(), user.getNickName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setProsemirror(prosemirror);
-        Post soup = convertToPost.soup(post, user);//post형태로 회원과 연결 및 저장
-        obj.put("id",soup.getId());
+        Post soup = convertToPost.soup(post, user); //post형태로 회원과 연결 및 저장
+        obj.put("id", soup.getId());
         obj.put("success", true);
         return obj;
     }
 
-    private String parseString(JSONObject obj,String str){
+    private String parseString(JSONObject obj, String str){
         if(obj.containsKey("text")){
-            str+=obj.get("text").toString();
+            str += obj.get("text").toString();
         }
         if(obj.containsKey("content")){
             JSONArray content = (JSONArray) obj.get("content");
@@ -68,7 +69,7 @@ public class ProjectService  extends CrawlerService {
                 JSONObject jsonObject = (JSONObject) content.get(i);
                 s += parseString(jsonObject,str);
             }
-            str+=s;
+            str += s;
         }
         return str;
     }
@@ -77,13 +78,13 @@ public class ProjectService  extends CrawlerService {
     @Transactional
     public JSONObject fav(User user, @RequestBody FavForm form){   // 좋아요
         JSONObject obj = new JSONObject();
-        boolean isfav=false;
+        boolean isfav = false;
         List<ProjectConnect> projectList = new ArrayList<>();
         if(user.getProjectConnectList().size()!=0){
             projectList = projectConnectRepository.findByPostId(form.getId());
             for (ProjectConnect connect : projectList) {
                 if(connect.getUser().getId().equals(user.getId())){
-                    isfav=true;
+                    isfav = true;
                     break;
                 }
             }
@@ -148,7 +149,7 @@ public class ProjectService  extends CrawlerService {
         return obj;
     }
 
-    @Override
+
     @Transactional(readOnly = true)
     public List<ShowForm> findAllDesc(Source source) {
         List<Post> postList = postsRepository.findTop8BySourceOrderByDateDesc(source);

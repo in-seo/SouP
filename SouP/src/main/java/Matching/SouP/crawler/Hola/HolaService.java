@@ -3,21 +3,16 @@ package Matching.SouP.crawler.Hola;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -96,7 +91,6 @@ public class HolaService extends CrawlerService {
     private String standard(String date) {
         date = date.substring(0,4)+'-'+date.substring(5,7)+'-'+date.substring(8,10)+'T'+ LocalDateTime.now().toLocalTime().toString().substring(0,8);
         date = LocalDateTime.parse(date).toString();
-
         return date;
     }
 
@@ -110,10 +104,6 @@ public class HolaService extends CrawlerService {
 
     public String recentPost(){
         return holaRepository.findRecent();
-    }
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
     }
 
 }

@@ -9,8 +9,7 @@ import javax.persistence.*;
 @Entity
 public class Campick {
 
-    public Campick() {
-    }
+    public Campick() {}
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "Project_SEQ")
