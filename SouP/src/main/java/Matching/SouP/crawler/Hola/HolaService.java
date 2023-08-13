@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class HolaService {
+public class HolaService extends CrawlerService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
@@ -66,7 +66,7 @@ public class HolaService {
                 driver.navigate().back();
                 String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").text();
                 String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div > div").select("a").attr("href");
-                if(talk.isEmpty()){talk = CrawlerService.parseTalk(content,talk);}
+                if(talk.isEmpty()){talk = parseTalk(content,talk);}
                 if(talk.length()>200)
                     talk = talk.substring(0,199);
                 if(content.length()>200)
@@ -75,7 +75,7 @@ public class HolaService {
                 String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
                 date=standard(date);
                 String postName = eachPost.select("h1").text();
-                StringBuilder stack = CrawlerService.parseStack(postName,content);
+                StringBuilder stack = parseStack(postName,content);
                 int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
                 Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
                 holaRepository.save(hola);
@@ -111,7 +111,10 @@ public class HolaService {
     public String recentPost(){
         return holaRepository.findRecent();
     }
-
+    @Override
+    public List<ShowForm> findAllDesc(Source source) {
+        return null;
+    }
 //    @PostConstruct
 //    private void init() {
 //        Hola temp = new Hola("62b1bda32e6e4c00139dd1d6","임시 기준점","daf","awegaw","awegaew","kdjafha","124",12,"");

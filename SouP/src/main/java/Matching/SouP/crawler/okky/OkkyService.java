@@ -110,6 +110,7 @@ public class OkkyService {
             int num = Integer.MAX_VALUE;
             try {
                 String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
