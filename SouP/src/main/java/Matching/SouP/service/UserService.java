@@ -65,10 +65,10 @@ public class UserService {
         return SoupResponse.success();
     }
 
-
     private Optional<User> getOptionalUser(String email) {
         return userRepository.findByEmail(email);
     }
+
     public User getUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }

@@ -1,11 +1,8 @@
 package Matching.SouP.crawler.CamPick;
 
-
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +16,6 @@ import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -90,7 +86,7 @@ public class CampickService {
                 campickRepository.save(pick);
                 convertToPost.campick(pick);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             driver.close(); // 브라우저 종료

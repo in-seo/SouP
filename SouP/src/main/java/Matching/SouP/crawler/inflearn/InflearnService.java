@@ -2,8 +2,6 @@ package Matching.SouP.crawler.inflearn;
 
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -13,13 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class InflearnService {
-    private static final String urlInf ="https://www.inflearn.com/community/studies"; //https://www.inflearn.com/community/studies?page=2
+    private static final String urlInf ="https://www.inflearn.com/community/studies";
     private final InflearnRepository inflearnRepository;
     private final ConvertToPost convertToPost;
 
@@ -37,7 +34,7 @@ public class InflearnService {
                 String link = element.select("a").attr("href");
                 String num = link.substring(9).split("/")[0];
                 link = "https://www.inflearn.com"+link;
-                if(Integer.parseInt(num)<=start){
+                if(Integer.parseInt(num) <= start){
                     continue;   //이미 불러온 글이면 조회수만 업데이트 후 저장 X
                 }
                 Document realPost = Jsoup.connect(link).get();
@@ -49,7 +46,8 @@ public class InflearnService {
                 StringBuilder stack = CrawlerService.parseStack(postName,content);
 
                 String talk = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__content > div.content__body.markdown-body").select("a").attr("href");
-                if(talk.isEmpty()){talk = CrawlerService.parseTalk(content,talk);}
+                if(talk.isEmpty())
+                    talk = CrawlerService.parseTalk(content,talk);
 
                 if(talk.length()>=200)
                     talk = talk.substring(0,199);
@@ -61,10 +59,9 @@ public class InflearnService {
                 String userName = realPost.select("#main > section.community-post-detail__section.community-post-detail__post > div.section__content > div > div.community-post-info__header > div.header__sub-title > div > h6 > a").text();
                 String pass = title.select("span").text();
 
-                if(pass.equals("모집완료")){
-                    continue;  //모집완료이면 패스
-                }
-                if(postName.contains("마감") || postName.contains("모집완료")) continue; //제목에 [마감]이 들어가있으면 마감
+                if(pass.equals("모집완료") || postName.contains("마감") || postName.contains("모집완료"))
+                    continue;
+
                 Inflearn post = new Inflearn(num,postName,content,userName,date,link, stack.toString(),talk);
                 inflearnRepository.save(post);
                 convertToPost.inflearn(post);
@@ -81,8 +78,8 @@ public class InflearnService {
     private int startPage(int start) throws IOException {
         int page=1;
         /**
-         * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
-         * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됌
+         * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됨.
+         * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됨
          */
         while(true){
             Document doc = Jsoup.connect(urlInf + "?page="+page).get();
@@ -95,13 +92,8 @@ public class InflearnService {
             page++;
         }
     }
-    public int recentPost(){
+    public int recentPost() {
         return inflearnRepository.findRecent().intValue();
     }
 
-//    @PostConstruct
-//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Inflearn temp = new Inflearn("580443","임시 기준점","","","","","","");
-//        inflearnRepository.save(temp);
-//    }
 }

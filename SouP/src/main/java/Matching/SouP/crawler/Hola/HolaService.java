@@ -3,8 +3,6 @@ package Matching.SouP.crawler.Hola;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -17,13 +15,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class HolaService extends CrawlerService {
-    private static String urlHola = "https://holaworld.io";
+    private static final String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
 
@@ -41,7 +38,7 @@ public class HolaService extends CrawlerService {
             Elements element = doc.select("#root > main > div.mainContent_appWrapper___CgAh > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}",standard);
             int count = element.select(">a").size();
-            for (int i = count; i >1; i--) {
+            for (int i = count; i > 1; i--) {
                 if(i==count){
                     scroll((JavascriptExecutor) driver);
                     driver.findElement(By.cssSelector("#root > main > div.mainContent_appWrapper___CgAh > ul > a:nth-child(2)")).click();
@@ -86,7 +83,7 @@ public class HolaService extends CrawlerService {
                 log.warn("불러올 글이 없습니다!");
             else
                 log.info("홀라 크롤링 성공");
-        }catch (StringIndexOutOfBoundsException | InterruptedException e) {
+        } catch (StringIndexOutOfBoundsException | InterruptedException e) {
             e.printStackTrace();
         } finally {
             driver.close(); // 브라우저 종료
@@ -111,14 +108,5 @@ public class HolaService extends CrawlerService {
     public String recentPost(){
         return holaRepository.findRecent();
     }
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
-    }
-//    @PostConstruct
-//    private void init() {
-//        Hola temp = new Hola("62b1bda32e6e4c00139dd1d6","임시 기준점","daf","awegaw","awegaew","kdjafha","124",12,"");
-//        holaRepository.save(temp);
-//    }
 
 }

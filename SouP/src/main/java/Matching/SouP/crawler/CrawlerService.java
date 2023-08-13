@@ -13,7 +13,7 @@ public class CrawlerService {
         postName = postName.toLowerCase();
         content = content.toLowerCase();
         List<String> stackList = StackParser.parse(postName + ' ' + content);
-        stack.append( String.join(",", stackList) );
+        stack.append(String.join(",", stackList));
         return stack;
     }
 
@@ -44,7 +44,7 @@ public class CrawlerService {
 
         public static List<String> parse(String content) {
             HashSet<String> stackList = new HashSet<>();
-            for ( String displayName : displayNameToTag.keySet() ){
+            for (String displayName : displayNameToTag.keySet()){
                 if (content.contains(displayName)) stackList.add(displayNameToTag.get(displayName));
             }
             return new ArrayList<>(stackList);

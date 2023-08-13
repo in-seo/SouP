@@ -3,8 +3,6 @@ package Matching.SouP.crawler.okky;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
@@ -14,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -37,13 +34,13 @@ public class OkkyService {
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
-                for (int i = 28; i >0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
+                for (int i = 28; i > 0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
                     Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li.py-4:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
                     String postName = title.text();
-                    String num="";
+                    String num;
                     try {
-                        num= title.attr("href").substring(10);
+                        num = title.attr("href").substring(10);
                     } catch (StringIndexOutOfBoundsException e) {
                         i--;
                         continue;
@@ -58,9 +55,9 @@ public class OkkyService {
                     StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
                     talk = CrawlerService.parseTalk(content,talk);
-                    if(content.length()>200) {
+                    if(content.length()>200)
                         content = content.substring(0, 199);
-                    }
+
 
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
@@ -90,11 +87,6 @@ public class OkkyService {
         return realPost;
     }
 
-    private String standard(String date) {
-        date = date.substring(0,10)+"T"+ date.substring(11);
-        date = LocalDateTime.parse(date).toString();
-        return date;
-    }
 
     private int startPage(WebDriver driver, int start) throws StringIndexOutOfBoundsException {
         int page=2;  //page가 1이면 okky에선 1페이지이다..
@@ -110,7 +102,6 @@ public class OkkyService {
             int num = Integer.MAX_VALUE;
             try {
                 String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
-
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
@@ -127,14 +118,6 @@ public class OkkyService {
     }
 
     public int recentPost(){
-        Long recent = okkyRepository.findRecent();
-        return recent.intValue();
+        return okkyRepository.findRecent().intValue();
     }
-
-
-//    @PostConstruct
-//    private void init() { //임시 기준점 -> 이 번호 이후의 글을 긁어온다.
-//        Okky temp = new Okky("1316111","임시 기준점","","","","","","");
-//        okkyRepository.save(temp);
-//    }
 }
