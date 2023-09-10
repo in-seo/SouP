@@ -118,7 +118,6 @@ public class OkkyService {
     }
 
     public int recentPost(){
-        return 1467956;
-//        return okkyRepository.findRecent().intValue();
+        return okkyRepository.findRecent().intValue();
     }
 }
