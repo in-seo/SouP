@@ -103,7 +103,6 @@ public class OkkyService {
             try {
                 String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(6) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
                 num = Integer.parseInt(sNum);
-                System.out.println(num);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
                 log.info("StringIndexOutOfBoundsException");
