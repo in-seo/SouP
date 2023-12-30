@@ -21,7 +21,6 @@
 
 
 
-
 # <small>간략 아키텍쳐</small>
 
 ![architecture_대지 1](https://user-images.githubusercontent.com/94730032/180914096-5269518b-386e-49d6-82c5-df239f8f5f2a.jpg)
