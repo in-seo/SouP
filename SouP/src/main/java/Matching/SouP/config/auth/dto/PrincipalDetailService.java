@@ -24,13 +24,12 @@ public class PrincipalDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User principal = userRepository.findByEmailWithIndex(email)
-                .orElseThrow(UserNotFoundException::new);
+        Object[] principal = userRepository.findByEmailWithIndex(email);
 
         UserDetails result = org.springframework.security.core.userdetails.User.builder()
-                .username(principal.getEmail())
-                .password(String.valueOf(principal.getId()))
-                .roles(principal.getRoleKey())
+                .username((String) principal[0])
+                .password(String.valueOf(principal))
+                .roles((String) principal[2])
                 .build();
 
         return result;
