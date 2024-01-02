@@ -65,11 +65,13 @@ public class User extends BaseTimeEntity {
         this.nickName = name;
     }
 
-    @Builder
-    public User(String id, String email, Role role) {
-        this.id = Long.valueOf(id);
-        this.email = email;
-        this.role = role;
+    public User(Object[] attributes) {
+        this.id = (Long) attributes[0];
+        this.email = (String) attributes[1];
+        if(attributes[2] == "GUEST")
+            this.role = Role.GUEST;
+        else
+            this.role = Role.ADMIN;
     }
 
     protected User() {}

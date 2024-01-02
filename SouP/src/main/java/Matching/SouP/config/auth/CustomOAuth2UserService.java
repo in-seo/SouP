@@ -44,9 +44,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     // 유저 생성 및 수정 서비스 로직
     private User saveOrUpdate(OAuthAttributes attributes){
-        Optional<User> optionalUser = userRepository.findByEmailWithIndex(attributes.getEmail()); // id, email, role만 가져오는 커버링 인덱스!
-        if(optionalUser.isPresent())
-            return optionalUser.get();
-        return userRepository.save(optionalUser.map(entity -> entity.update(attributes.getName(), attributes.getPicture())).orElse(attributes.toEntity()));
+        Object[] userAttributes = userRepository.findByEmailWithIndex(attributes.getEmail());
+        if(userAttributes.length != 0)
+            return new User(userAttributes);
+
+        return userRepository.save(attributes.toEntity());
     }
 }
