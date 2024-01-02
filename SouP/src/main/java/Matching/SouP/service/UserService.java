@@ -47,16 +47,11 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
     }
 
-
     @Transactional(readOnly = true)
     public JSONObject makeUserDto(String email) {
-        Optional<User> optionalUser = getOptionalUser(email);
-        if (optionalUser.isPresent())
-            return addDetails(optionalUser.get());
-
-        return SoupResponse.fail();
+        User user = getUser(email);
+        return addDetails(user);
     }
-
 
     public JSONObject changeNickName(String email, String nickName) {
         User user = userRepository.findByEmail(email)
@@ -65,9 +60,6 @@ public class UserService {
         return SoupResponse.success();
     }
 
-    private Optional<User> getOptionalUser(String email) {
-        return userRepository.findByEmail(email);
-    }
 
     public User getUser(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
