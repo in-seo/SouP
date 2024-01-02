@@ -35,7 +35,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         // OAuth2UserService
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         User user = saveOrUpdate(attributes);
-        httpSession.setAttribute("user", new SessionUser(user)); // SessionUser (직렬화된 dto 클래스 사용)
+        httpSession.setAttribute("user", new SessionUser(user)); // SessionUser (직렬화된 dto 클래스 사용하되, 커버링 인덱스를 사용하기 위해 id, email만 이용한다.)
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
                 attributes.getAttributes(),
@@ -44,10 +44,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     // 유저 생성 및 수정 서비스 로직
     private User saveOrUpdate(OAuthAttributes attributes){
-//        User user = userRepository.findByEmail(attributes.getEmail())
-//                .map(entity -> entity.update(attributes.getName(), attributes.getPicture()))
-//                .orElse(attributes.toEntity());
-        Optional<User> optionalUser = userRepository.findByEmail(attributes.getEmail());
+        Optional<User> optionalUser = userRepository.findByEmailWithIndex(attributes.getEmail()); // id, email, role만 가져오는 커버링 인덱스!
         if(optionalUser.isPresent())
             return optionalUser.get();
         return userRepository.save(optionalUser.map(entity -> entity.update(attributes.getName(), attributes.getPicture())).orElse(attributes.toEntity()));

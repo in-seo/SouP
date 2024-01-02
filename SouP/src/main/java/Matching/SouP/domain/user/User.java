@@ -77,20 +77,8 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
-    public User changeName(String name) {
+    public void changeName(String name) {
         this.nickName = name;
-        return this;
     }
-
-//    public User updateProfile(UserForm userForm){
-//        if(!userForm.getEmail().isEmpty())
-//            this.role=Role.USER;  //정식 승인
-//        this.email = userForm.getEmail();
-//        this.nickName = userForm.getNickName();
-//        this.stack = userForm.getStack();
-//        this.favor = userForm.getFavor();
-//        this.portfolio=userForm.getPortfolio();
-//        return this;
-//    }
 
 }

@@ -38,17 +38,15 @@ public class CrawlerController {
     private final CampickService campickService;
     private final PostService postService;
     private final ProjectService projectService;
-    private static LocalDateTime crawlTime;
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
-    @Scheduled(fixedDelay = 3600000, initialDelay = 20000) //실행 후 20초 뒤에시작, 1시간마다 실행.
+    @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
     public void crawlList() throws InterruptedException, IOException {
-        crawlTime = LocalDateTime.now();
-        log.info("현 시각: {} , 크롤링 시작.", crawlTime);
-//        okkyService.getOkkyPostData();
-//        inflearnService.getInflearnPostData();
-//        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
-        campickService.getCampickPostData();
+        log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
+        okkyService.getOkkyPostData();
+        inflearnService.getInflearnPostData();
+        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
+//        campickService.getCampickPostData();
         log.info("크롤링 종료");
     }
 
@@ -93,9 +91,9 @@ public class CrawlerController {
     }
 
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     protected ErrorResponse handleException1() {
-        return ErrorResponse.of(HttpStatus.NOT_FOUND, "로직을 실행하기 위한 DB에 저장된 값 개수가 부족함");
+        return ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR, "로직을 실행하기 위한 DB에 저장된 값 개수가 부족함");
     }
 
 }

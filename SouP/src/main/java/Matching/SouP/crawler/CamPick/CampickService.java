@@ -1,11 +1,8 @@
 package Matching.SouP.crawler.CamPick;
 
-
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
-import Matching.SouP.domain.post.Source;
-import Matching.SouP.dto.project.ShowForm;
 import Matching.SouP.service.PropertyUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,15 +12,15 @@ import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class CampickService extends CrawlerService {
+public class CampickService {
 
     private static final String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
@@ -73,10 +70,10 @@ public class CampickService extends CrawlerService {
                 String people = article.select("div > p:nth-child(6) > span").text();
                 String content = article.select("p.text").text();
                 String talk="";
-                talk = parseTalk(content,talk);
+                talk = CrawlerService.parseTalk(content,talk);
                 content = content +"\n 캠퍼스픽 글은 로그인 없이 볼 수 없음에 원본링크를 첨부합니다. : "+link;  //캠픽 글들은 이렇게 해주자. 로그인없이 볼 수가 없음.
 
-                StringBuilder stack = parseStack(postName,content);
+                StringBuilder stack = CrawlerService.parseStack(postName,content);
                 String region = eachPost.select("p.badges > span:nth-child(2)").text();
                 String view = eachPost.select("p.info > span:nth-child(2)").text();
                 int views;
@@ -89,7 +86,7 @@ public class CampickService extends CrawlerService {
                 campickRepository.save(pick);
                 convertToPost.campick(pick);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             driver.close(); // 브라우저 종료
@@ -109,9 +106,17 @@ public class CampickService extends CrawlerService {
         driver.get("https://www.campuspick.com/login");
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(1)")).sendKeys(PropertyUtil.getProperty("m.i"));
         driver.findElement(By.cssSelector("#container > div.form > div > input:nth-child(2)")).sendKeys(PropertyUtil.getProperty("m.p"));
+        WebElement loginButton = driver.findElement(By.cssSelector("#container > div.form > div > input.submit"));
+        Thread.sleep(500);
+        driver.switchTo().frame(0);
+        log.warn("switch");
         driver.findElement(By.cssSelector("#recaptcha-anchor > div.recaptcha-checkbox-border")).click();
+        System.out.println("driver.findElement(By.cssSelector(\"#recaptcha-token\")).getAttribute(\"value\") = " + driver.findElement(By.cssSelector("#recaptcha-token")).getAttribute("value"));
+        driver.switchTo().defaultContent();
         Thread.sleep(2000);
-        driver.findElement(By.cssSelector("#container > div.form > div > input.submit")).click();
+        log.warn("backoff");
+        JavascriptExecutor jse = (JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].click()", loginButton);
         Thread.sleep(1000);  //로그인 처리 대기
     }
     private String standard(String date) {
@@ -130,10 +135,6 @@ public class CampickService extends CrawlerService {
 //        }  //글 120개
     }
 
-    @Override
-    public List<ShowForm> findAllDesc(Source source) {
-        return null;
-    }
 
 //    @PostConstruct
 //    private void init() {

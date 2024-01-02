@@ -1,5 +1,6 @@
 package Matching.SouP.service;
 
+import Matching.SouP.common.error.PostNotFoundException;
 import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.post.Source;
 import Matching.SouP.domain.project.ProjectConnect;
@@ -23,42 +24,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class PostService{
+public class PostService {
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
 
-    public PageImpl<ShowForm> projectListForUser(User user, List<String> stacks, Pageable pageable){
-        Page<Post> projectList;
-        if(stacks.size()==0)
-            projectList = postsRepository.findAllDesc(pageable);
-        else
-            projectList = filter(stacks, pageable);  //파라미터 입력받았을 경우
+    public PageImpl<ShowForm> getListForUser(User user, List<String> stacks, Pageable pageable){
+        Page<Post> projectList = filter(stacks, pageable);
         List<ShowForm> showList = new ArrayList<>();
         for (Post post : projectList.getContent()) {
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
-            if(post.getSource()==Source.SOUP) {
-                showForm.setContent(post.getProsemirror());
-            }
-            if(user.getProjectConnectList().size()!=0){
-                List<ProjectConnect> projectConnectList = projectConnectRepository.findByPostId(post.getId()); //바꾸자
-                for (ProjectConnect projectConnect : projectConnectList) {
-                    if(projectConnect.getUser().getId().equals(user.getId())) {
-                        showForm.setIsfav(true);
-                        break;
-                    }
-                }
+            if(post.getSource()==Source.SOUP)
+                showForm.customContent(post.getProsemirror());
+
+            if(user.getProjectConnectList().size()!=0) {
+                List<ProjectConnect> favs = projectConnectRepository.findByPostId(post.getId());
+                if(favs.stream().anyMatch(fav -> fav.getPost().getId().equals(post.getId())))
+                    showForm.setIsfav(true);
             }
             showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
 
-    public PageImpl<ShowForm> projectListForGuest(List<String> stacks, Pageable pageable){
+    public PageImpl<ShowForm> getListForGuest(List<String> stacks, Pageable pageable){
         Page<Post> projectList;
         if(stacks.size()==0)
             projectList = postsRepository.findAllDesc(pageable);
@@ -69,42 +63,34 @@ public class PostService{
         for (Post post : projectList.getContent()) {
             ShowForm showForm = new ShowForm(post.getId(),post.getPostName(),post.getContent(),post.getUserName(),post.getDate(),post.getLink(),post.getStack(),post.getViews(),post.getTalk(),post.getSource(),post.getFav());
             if(post.getSource()==Source.SOUP)
-                showForm.setContent(post.getProsemirror());
+                showForm.customContent(post.getProsemirror());
             showList.add(showForm);
         }
         return new PageImpl<>(showList, pageable, projectList.getTotalElements());
     }
+
     @Transactional
-    public DetailForm showProject(Long id,User user) throws ParseException {
-        Optional<Post> Opost = postsRepository.findById(id);
-        DetailForm form = null;
-        if(Opost.isPresent()){
-            Post post = Opost.get();
-            if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
-                post.addViews();
-            form = getDetailForm(post);
-            for (ProjectConnect connect : user.getProjectConnectList()) {
-                if(connect.getPost().getId().equals(id)){
-                    form.setIsfav(true);
-                }
-            }
+    public DetailForm showProject(Long id, User user) throws ParseException {
+        Post post = postsRepository.findById(id).orElseThrow(PostNotFoundException::new);
+
+        if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
+            post.addViews();
+
+        DetailForm form = getDetailForm(post);
+        for (ProjectConnect connect : user.getProjectConnectList()) {
+            if(connect.getPost().getId().equals(id))
+                form.setIsfav(true);
         }
+
         return form;
     }
+
     @Transactional
     public DetailForm showProject(Long id) throws ParseException {
-        Optional<Post> Opost = postsRepository.findById(id);
-        DetailForm form = null;
-        if(Opost.isPresent()){
-            Post post = Opost.get();
-            if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
-                post.addViews();
-            form = getDetailForm(post);
-        }
-        else{
-            throw new NoSuchElementException();
-        }
-        return form;
+        Post post = postsRepository.findById(id).orElseThrow(PostNotFoundException::new);
+        if(post.getSource()==Source.INFLEARN || post.getSource()==Source.SOUP)
+            post.addViews();
+        return getDetailForm(post);
     }
 
     public List<MainAPIForm> findRecentPost(){
@@ -112,11 +98,9 @@ public class PostService{
         List<MainAPIForm> recentPost = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Post post = projectList.get(i);
-            MainAPIForm mainAPIForm;
+            MainAPIForm mainAPIForm = new MainAPIForm(post.getPostName(), post.getContent(), post.getId());
             if(post.getSource()==Source.SOUP)
-                mainAPIForm = new MainAPIForm(post.getPostName(), post.getProsemirror(),post.getId());
-            else
-                mainAPIForm = new MainAPIForm(post.getPostName(), post.getContent(), post.getId());
+                mainAPIForm.setContent(post.getProsemirror());
             recentPost.add(mainAPIForm);
         }
         return recentPost;
@@ -127,7 +111,7 @@ public class PostService{
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
         List<MainAPIForm> hotList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            Post post = projectList.get(i); //hot에 SOUP게시물 올라올 일이 아직없으니 if문보류
+            Post post = projectList.get(i);
             MainAPIForm form = new MainAPIForm(post.getPostName(),post.getContent(),post.getId());
             hotList.add(form);
         }
@@ -138,7 +122,7 @@ public class PostService{
         List<Post> projectList = postsRepository.findAllNDaysBefore(LocalDateTime.now().minusDays(3).toString().substring(0,18));
         List<ProjectsAPIForm> hotList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            Post post = projectList.get(i); //hot에 SOUP게시물 올라올 일이 아직없으니 if문보류
+            Post post = projectList.get(i);
             ProjectsAPIForm form = new ProjectsAPIForm(post.getPostName(),post.getUserName(),post.getId());
             hotList.add(form);
         }
@@ -201,12 +185,9 @@ public class PostService{
 
     public List<ShowForm> findAllDesc() {
         List<Post> soupList = postsRepository.findTop8BySourceOrderByDateDesc(Source.SOUP);
-        List<ShowForm> showList = new ArrayList<>();
-        for (Post soup : soupList) {
-            ShowForm showForm = new ShowForm(soup.getId(),soup.getPostName(),soup.getProsemirror(),soup.getUserName(),soup.getDate(),soup.getLink(),soup.getStack(),soup.getViews(),soup.getTalk(), Source.SOUP,0);
-            showList.add(showForm);
-        }
-        return showList;
+        return soupList.stream()
+                .map(soup -> new ShowForm(soup.getId(), soup.getPostName(), soup.getProsemirror(), soup.getUserName(), soup.getDate(), soup.getLink(), soup.getStack(), soup.getViews(), soup.getTalk(), Source.SOUP, 0))
+                .collect(Collectors.toList());
     }
 
     private Page<Post> filter(List<String> stacks, Pageable pageable) {

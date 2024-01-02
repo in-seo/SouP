@@ -26,10 +26,7 @@ public class OAuthAttributes {
         this.nameAttributeKey = nameAttributeKey;
         this.name = name;
         this.email = email;
-        if(origin.equals("Facebook"))
-            this.picture = "https://graph.facebook.com/"+picture+"/picture?type=large&width=720&height=720";
-        else
-            this.picture = picture;
+        this.picture = picture;
         this.origin = origin;
     }
 
@@ -37,19 +34,10 @@ public class OAuthAttributes {
         // 여기서 네이버와 카카오 등 구분 (ofNaver, ofKakao)
         if("naver".equals(registrationId)) return ofNaver("id",attributes);
         else if("kakao".equals(registrationId)) return ofKakao("id", attributes);
-        else if("facebook".equals(registrationId)) return ofFaceBook(userNameAttributeName,attributes);
+//        else if("facebook".equals(registrationId)) return ofFaceBook(userNameAttributeName,attributes);
         return ofGoogle(userNameAttributeName, attributes);
     }
-    private static OAuthAttributes ofFaceBook(String userNameAttributeName, Map<String, Object> attributes){
-        return OAuthAttributes.builder()
-                .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
-                .picture((String) attributes.get("id"))
-                .origin("Facebook")
-                .attributes(attributes)
-                .nameAttributeKey(userNameAttributeName)
-                .build();
-    }
+
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes){
         Map<String, Object> kakao_account = (Map<String, Object>) attributes.get("kakao_account");
         Map<String, Object> profile = (Map<String, Object>) kakao_account.get("profile");
