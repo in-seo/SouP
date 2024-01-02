@@ -65,6 +65,13 @@ public class User extends BaseTimeEntity {
         this.nickName = name;
     }
 
+    @Builder
+    public User(String id, String email, Role role) {
+        this.id = Long.valueOf(id);
+        this.email = email;
+        this.role = role;
+    }
+
     protected User() {}
 
     public User update(String name, String picture){
