@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface LoungeRepository extends JpaRepository<Lounge,Long> {
 
-    @Query("select l from Lounge l left join fetch User u where l.user.id = u.id order by l.id DESC")
+    @Query(value = "select * from lounge l left join user u on u.user_id = l.user_id", nativeQuery = true)
     List<Lounge> findAllDesc();
 }
