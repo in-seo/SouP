@@ -1,5 +1,6 @@
 package Matching.SouP.domain.user;
 
+import Matching.SouP.config.auth.dto.CoveringUser;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.post.Lounge;
 import Matching.SouP.domain.post.LoungeConnect;
@@ -65,10 +66,10 @@ public class User extends BaseTimeEntity {
         this.nickName = name;
     }
 
-    public User(Object[] attributes) {
-        this.id = (Long) attributes[0];
-        this.email = (String) attributes[1];
-        if(attributes[2] == "GUEST")
+    public User(CoveringUser user) {
+        this.id = user.getUser_id();
+        this.email = user.getEmail();
+        if(user.getRole().equals("GUEST"))
             this.role = Role.GUEST;
         else
             this.role = Role.ADMIN;

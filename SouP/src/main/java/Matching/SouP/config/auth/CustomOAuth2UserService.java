@@ -1,5 +1,6 @@
 package Matching.SouP.config.auth;
 
+import Matching.SouP.config.auth.dto.CoveringUser;
 import Matching.SouP.config.auth.dto.OAuthAttributes;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.domain.user.User;
@@ -44,9 +45,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     // 유저 생성 및 수정 서비스 로직
     private User saveOrUpdate(OAuthAttributes attributes){
-        Object[] userAttributes = userRepository.findByEmailWithIndex(attributes.getEmail());
-        if(userAttributes.length != 0)
-            return new User(userAttributes);
+        Optional<CoveringUser> optionalUser = userRepository.findByEmailWithIndex(attributes.getEmail()); // id, email, role만 가져오는 커버링 인덱스!
+        if(optionalUser.isPresent())
+            return new User(optionalUser.get());
 
         return userRepository.save(attributes.toEntity());
     }
