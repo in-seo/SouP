@@ -13,10 +13,10 @@ import java.util.List;
 
 public interface PostsRepository extends PagingAndSortingRepository<Post, Long> {
 
-    @Query("select p from Post p order by p.date DESC")
+    @Query("select p from Post p order by p.id DESC")
     List<Post> findAllDesc();
 
-    @Query("select p from Post p order by p.date DESC")
+    @Query("select p from Post p order by p.id DESC")
     Page<Post> findAllDesc(Pageable pageable);
 
     List<Post> findTop8BySourceOrderByDateDesc(Source source);

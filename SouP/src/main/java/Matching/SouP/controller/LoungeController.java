@@ -6,7 +6,6 @@ import Matching.SouP.controller.exception.ErrorResponse;
 import Matching.SouP.domain.user.User;
 import Matching.SouP.dto.LoungeForm;
 import Matching.SouP.dto.FavForm;
-import Matching.SouP.repository.UserRepository;
 import Matching.SouP.service.LoungeService;
 import Matching.SouP.service.UserService;
 import lombok.RequiredArgsConstructor;
