@@ -65,7 +65,7 @@ public class HolaService extends CrawlerService {
                 String postName = eachPost.select("h1").text();
                 StringBuilder stack = parseStack(postName,content);
                 int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
-                Hola hola = new Hola(num, postName, content, userName, date, urlHola + num, stack.toString(), views, talk);
+                Hola hola = new Hola(num, postName, content, userName, date, urlHola + "/study/" + num, stack.toString(), views, talk);
                 holaRepository.save(hola);
                 convertToPost.hola(hola);
             }
