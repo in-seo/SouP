@@ -34,14 +34,14 @@ public class HolaService extends CrawlerService {
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", LastSavedPostNum);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
-            String firstNum = driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(2)"))
+            String firstNum = driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)"))
                     .getAttribute("href").substring(27);
             if(firstNum.compareTo(LastSavedPostNum) <= 0) {
                 log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!", firstNum);
                 return;
             }
             for (int i = count; i > 0; i--) {
-                int aSelector = i * 2; // 짝수번만 사용 예정
+                int aSelector = i * 2 - 1; // 홀수번만 사용 예정
                 Elements eachPost = element.select("a:nth-child(" + aSelector + ")");
                 String num = eachPost.attr("href").substring(7);
                 driver.get(urlHola +"/study/" + num);
