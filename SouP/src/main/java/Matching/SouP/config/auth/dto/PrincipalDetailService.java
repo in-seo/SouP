@@ -1,7 +1,6 @@
 package Matching.SouP.config.auth.dto;
 
 import Matching.SouP.common.error.UserNotFoundException;
-import Matching.SouP.domain.user.User;
 import Matching.SouP.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,13 +23,13 @@ public class PrincipalDetailService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User principal = userRepository.findByEmailWithIndex(email)
+        CoveringUser coveringUser = userRepository.findByEmailWithIndex(email)
                 .orElseThrow(UserNotFoundException::new);
 
         UserDetails result = org.springframework.security.core.userdetails.User.builder()
-                .username(principal.getEmail())
-                .password(String.valueOf(principal.getId()))
-                .roles(principal.getRoleKey())
+                .username(coveringUser.getEmail())
+                .password(String.valueOf(coveringUser.getUser_id()))
+                .roles(coveringUser.getRole())
                 .build();
 
         return result;

@@ -49,7 +49,7 @@ public class InflearnService {
                 if(talk.isEmpty())
                     talk = CrawlerService.parseTalk(content,talk);
 
-                if(talk.length()>=200)
+                if(talk.length()>200)
                     talk = talk.substring(0,199);
 
                 if(content.length()>200)

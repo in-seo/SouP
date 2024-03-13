@@ -40,7 +40,8 @@ public class OkkyService {
                     String postName = title.text();
                     String num;
                     try {
-                        num = title.attr("href").substring(10);
+                        String href = title.attr("href");
+                        num = href.substring(10, href.lastIndexOf('?'));
                     } catch (StringIndexOutOfBoundsException e) {
                         i--;
                         continue;
@@ -50,13 +51,15 @@ public class OkkyService {
 
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(3) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
 
                     StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
                     talk = CrawlerService.parseTalk(content,talk);
                     if(content.length()>200)
                         content = content.substring(0, 199);
+                    if(talk.length()>200)
+                        talk = talk.substring(0, 199);
 
 
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
@@ -101,7 +104,9 @@ public class OkkyService {
             Document doc = Jsoup.parse(html);
             int num = Integer.MAX_VALUE;
             try {
-                String sNum = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child("+cnt+") > div > div.my-2 > a").attr("href").substring(10);//각 페이지 첫 글
+                String href = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + cnt + ") > div > div.my-2 > a")
+                        .attr("href");
+                String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
