@@ -57,6 +57,8 @@ public class OkkyService {
                     talk = CrawlerService.parseTalk(content,talk);
                     if(content.length()>200)
                         content = content.substring(0, 199);
+                    if(talk.length()>200)
+                        talk = talk.substring(0, 199);
 
 
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
