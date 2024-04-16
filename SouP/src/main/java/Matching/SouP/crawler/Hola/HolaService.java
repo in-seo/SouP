@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Slf4j
 public class HolaService extends CrawlerService {
-    private static String urlHola = "https://holaworld.io";
+    private static final String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
     private final int beginIndex = 27;
@@ -27,9 +27,8 @@ public class HolaService extends CrawlerService {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
-        boolean flag = false;
         try {
-            String standard = recentPost();
+            String LastSavedPostNum = recentPost();
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > main > ul");
@@ -37,6 +36,12 @@ public class HolaService extends CrawlerService {
             Thread.sleep(500);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
+            String firstNum = driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)"))
+                    .getAttribute("href").substring(27);
+            if(firstNum.compareTo(LastSavedPostNum) <= 0) {
+                log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!", firstNum);
+                return;
+            }
             for (int i = count; i > 0; i--) {
                 if(i==count){
                     driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(2)")).click();
@@ -50,7 +55,8 @@ public class HolaService extends CrawlerService {
                 }
                 int aSelector = i*2; // 짝수번만 사용 예정
                 Elements eachPost = element.select("a:nth-child(" + aSelector + ")");
-                driver.get(urlHola + eachPost.attr("href"));
+                String num = eachPost.attr("href").substring(7);
+                driver.get(urlHola +"/study/" + num);
                 Thread.sleep(500);
                 Document realPost = Jsoup.parse(driver.getPageSource());
                 String link = driver.getCurrentUrl();
@@ -73,15 +79,10 @@ public class HolaService extends CrawlerService {
                 String postName = eachPost.select("h1").text();
                 StringBuilder stack = parseStack(postName,content);
                 int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
-                Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
+                Hola hola = new Hola(num, postName, content, userName, date, urlHola + "/study/" + num, stack.toString(), views, talk);
                 holaRepository.save(hola);
                 convertToPost.hola(hola);
-                flag = true;
             }
-            if(!flag)
-                log.warn("불러올 글이 없습니다!");
-            else
-                log.info("홀라 크롤링 성공");
         }catch (StringIndexOutOfBoundsException | InterruptedException e) {
             e.printStackTrace();
         } finally {

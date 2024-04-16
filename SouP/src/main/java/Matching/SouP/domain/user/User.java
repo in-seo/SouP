@@ -1,5 +1,6 @@
 package Matching.SouP.domain.user;
 
+import Matching.SouP.config.auth.dto.CoveringUser;
 import Matching.SouP.domain.BaseTimeEntity;
 import Matching.SouP.domain.post.Lounge;
 import Matching.SouP.domain.post.LoungeConnect;
@@ -65,6 +66,15 @@ public class User extends BaseTimeEntity {
         this.nickName = name;
     }
 
+    public User(CoveringUser user) {
+        this.id = user.getUser_id();
+        this.email = user.getEmail();
+        if(user.getRole().equals("GUEST"))
+            this.role = Role.GUEST;
+        else
+            this.role = Role.ADMIN;
+    }
+
     protected User() {}
 
     public User update(String name, String picture){
@@ -80,16 +90,5 @@ public class User extends BaseTimeEntity {
     public void changeName(String name) {
         this.nickName = name;
     }
-
-//    public User updateProfile(UserForm userForm){
-//        if(!userForm.getEmail().isEmpty())
-//            this.role=Role.USER;  //정식 승인
-//        this.email = userForm.getEmail();
-//        this.nickName = userForm.getNickName();
-//        this.stack = userForm.getStack();
-//        this.favor = userForm.getFavor();
-//        this.portfolio=userForm.getPortfolio();
-//        return this;
-//    }
 
 }
