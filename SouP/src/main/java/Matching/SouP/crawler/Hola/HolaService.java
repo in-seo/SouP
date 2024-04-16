@@ -21,6 +21,7 @@ public class HolaService extends CrawlerService {
     private static final String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
+    private final int beginIndex = 27;
 
     public void getHolaPostData(){
         Selenium set = new Selenium();
@@ -31,7 +32,8 @@ public class HolaService extends CrawlerService {
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > main > ul");
-            log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", LastSavedPostNum);
+            log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", standard);
+            Thread.sleep(500);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
             String firstNum = driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)"))
@@ -41,13 +43,25 @@ public class HolaService extends CrawlerService {
                 return;
             }
             for (int i = count; i > 0; i--) {
-                int aSelector = i * 2 - 1; // 홀수번만 사용 예정
+                if(i==count){
+                    driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(2)")).click();
+                    String first = driver.getCurrentUrl().substring(beginIndex);
+                    if(first.compareTo(standard) <= 0) {
+                        log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
+                        return;
+                    }
+                    else
+                        driver.navigate().back();
+                }
+                int aSelector = i*2; // 짝수번만 사용 예정
                 Elements eachPost = element.select("a:nth-child(" + aSelector + ")");
                 String num = eachPost.attr("href").substring(7);
                 driver.get(urlHola +"/study/" + num);
                 Thread.sleep(500);
                 Document realPost = Jsoup.parse(driver.getPageSource());
-                if(num.compareTo(LastSavedPostNum)<=0){
+                String link = driver.getCurrentUrl();
+                String num = link.substring(beginIndex);
+                if(num.compareTo(standard)<=0){
                     driver.navigate().back();
                     continue;   //이미 불러온 글이면 패스
                 }
