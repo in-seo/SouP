@@ -1,6 +1,6 @@
 package Matching.SouP.crawler.inflearn;
 
-import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.PostAdaptor;
 import Matching.SouP.crawler.CrawlerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class InflearnService {
     private static final String urlInf ="https://www.inflearn.com/community/studies";
     private final InflearnRepository inflearnRepository;
-    private final ConvertToPost convertToPost;
+    private final PostAdaptor postAdaptor;
 
 
     public void getInflearnPostData() throws IOException {
@@ -64,7 +64,7 @@ public class InflearnService {
 
                 Inflearn post = new Inflearn(num,postName,content,userName,date,link, stack.toString(),talk);
                 inflearnRepository.save(post);
-                convertToPost.inflearn(post);
+                postAdaptor.saveInflearn(post);
             }
             Page--;
         }

@@ -1,6 +1,6 @@
 package Matching.SouP.crawler.Hola;
 
-import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.PostAdaptor;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class HolaService extends CrawlerService {
     private static String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
-    private final ConvertToPost convertToPost;
+    private final PostAdaptor postAdaptor;
     private final int beginIndex = 27;
 
     public void getHolaPostData(){
@@ -75,7 +75,7 @@ public class HolaService extends CrawlerService {
                 int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
                 Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
                 holaRepository.save(hola);
-                convertToPost.hola(hola);
+                postAdaptor.saveHola(hola);
                 flag = true;
             }
             if(!flag)

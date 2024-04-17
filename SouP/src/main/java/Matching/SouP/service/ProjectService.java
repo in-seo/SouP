@@ -1,7 +1,7 @@
 package Matching.SouP.service;
 
 
-import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.PostAdaptor;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.domain.post.Post;
 import Matching.SouP.domain.post.Source;
@@ -35,7 +35,7 @@ import java.util.List;
 public class ProjectService {
     private final ProjectConnectRepository projectConnectRepository;
     private final PostsRepository postsRepository;
-    private final ConvertToPost convertToPost;
+    private final PostAdaptor postAdaptor;
     private static Long soupId=1L;
 
 
@@ -52,7 +52,7 @@ public class ProjectService {
         StringBuilder stack = CrawlerService.parseStack(pForm.getTitle(),prosemirror);
         Post post = new Post(soupId++, pForm.getTitle(), pForm.getContent().toString(), user.getNickName(), LocalDateTime.now().toString().substring(0,19),"",stack.toString(),5,talk, Source.SOUP);
         post.setProsemirror(prosemirror);
-        Post soup = convertToPost.soup(post, user); //post형태로 회원과 연결 및 저장
+        Post soup = postAdaptor.saveSoup(post, user); //post형태로 회원과 연결 및 저장
         obj.put("id", soup.getId());
         obj.put("success", true);
         return obj;
