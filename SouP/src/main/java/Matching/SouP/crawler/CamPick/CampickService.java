@@ -1,6 +1,6 @@
 package Matching.SouP.crawler.CamPick;
 
-import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.PostAdaptor;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
 import Matching.SouP.service.PropertyUtil;
@@ -24,7 +24,7 @@ public class CampickService {
 
     private static final String urlCampick = "https://www.campuspick.com/study?category=5";
     private final CampickRepository campickRepository;
-    private final ConvertToPost convertToPost;
+    private final PostAdaptor postAdaptor;
     private static String id;
     private static String pass;
 
@@ -84,7 +84,7 @@ public class CampickService {
                 }
                 Campick pick = new Campick(num,postName,content,userName,date,link,stack.toString(),views,talk,people,region);
                 campickRepository.save(pick);
-                convertToPost.campick(pick);
+                postAdaptor.saveCampick(pick);
             }
         } catch (Exception e) {
             e.printStackTrace();

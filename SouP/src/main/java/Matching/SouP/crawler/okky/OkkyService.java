@@ -1,6 +1,6 @@
 package Matching.SouP.crawler.okky;
 
-import Matching.SouP.crawler.ConvertToPost;
+import Matching.SouP.crawler.PostAdaptor;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class OkkyService {
     private static final String urlOkky ="https://okky.kr/community/gathering";
     private final OkkyRepository okkyRepository;
-    private final ConvertToPost convertToPost;
+    private final PostAdaptor postAdaptor;
 
     public void getOkkyPostData() {
         Selenium set = new Selenium();
@@ -66,7 +66,7 @@ public class OkkyService {
                     String date = LocalDateTime.now().toString();
                     Okky okky = new Okky(num,postName,content,userName,date,link,stack.toString(),talk);
                     okkyRepository.save(okky);
-                    convertToPost.okky(okky);
+                    postAdaptor.saveOkky(okky);
                     flag = true;
                 }
                 Page--;
