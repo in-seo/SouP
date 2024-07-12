@@ -51,8 +51,8 @@ public class OkkyService {
 
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
-
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
+                    System.out.println(content);
                     StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
                     talk = CrawlerService.parseTalk(content,talk);
