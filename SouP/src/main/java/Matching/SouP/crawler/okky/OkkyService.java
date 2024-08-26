@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.okky;
 
+import Matching.SouP.common.SlackNotifier;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
@@ -101,7 +102,9 @@ public class OkkyService {
          */
         int cnt = 2;
         while(true){
-            if (page > 5) {
+            if (page > 5 || cnt > 6) {
+                SlackNotifier slackNotifier = new SlackNotifier();
+                slackNotifier.sendMessageToSlack();
                 throw new IllegalStateException("오키 파싱 에러");
             }
             driver.get(urlOkky + "?page=" + page);
@@ -117,6 +120,8 @@ public class OkkyService {
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
                 log.info("StringIndexOutOfBoundsException");
+                SlackNotifier slackNotifier = new SlackNotifier();
+                slackNotifier.sendMessageToSlack();
                 continue;
             }
             if(num<start){
