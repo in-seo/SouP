@@ -50,6 +50,7 @@ dependencies {
 		exclude group: "org.hamcrest", module: "hamcrest-core"
 	}
 	implementation 'org.hibernate.validator:hibernate-validator:6.0.7.Final'
+	implementation 'com.squareup.okhttp3:okhttp:4.9.3'
 }
 
 def frontendDir = "$projectDir/../soup-frontend"
