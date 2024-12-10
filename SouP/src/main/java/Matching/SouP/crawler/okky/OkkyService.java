@@ -99,7 +99,7 @@ public class OkkyService {
          * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
          * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됌
          */
-        int cnt = 3;
+        int cnt = 4;
         while(true){
             if (page > 5 || cnt > 6) {
                 SlackNotifier slackNotifier = new SlackNotifier();
@@ -113,7 +113,7 @@ public class OkkyService {
             try {
                 String href = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + cnt + ") > div > div.my-2 > a")
                     .attr("href");
-                log.info(href);
+
                 String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
