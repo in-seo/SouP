@@ -35,8 +35,8 @@ public class OkkyService {
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
-                for (int i = 23; i > 0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
-                    if(i==1 || i==2|| i==8) // 공지 제거
+                for (int i = 23; i > 4; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
+                    if(i==10) // 공지, 광고 제거
                         continue;
                     Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + i + ")");
                     Elements title = element.select("div > div.my-2 > a");
