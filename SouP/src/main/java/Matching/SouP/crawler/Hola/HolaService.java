@@ -37,7 +37,7 @@ public class HolaService extends CrawlerService {
             Thread.sleep(500);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
-            for (int i = count; i > 0; i--) {
+            for (int i = count; i > 1; i--) {
                 if(i==count){
                     driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)")).click();
                     String first = driver.getCurrentUrl().substring(beginIndex);
