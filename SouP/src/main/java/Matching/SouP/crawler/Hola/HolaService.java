@@ -41,8 +41,8 @@ public class HolaService extends CrawlerService {
             boolean hasAdvertise = false;
             for (int i = count; i > 0; i--) {
                 if(i==count){
-                    driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)")).click();
                     try {
+                        driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)")).click();
                         String first = driver.getCurrentUrl().substring(beginIndex);
                         if(first.compareTo(standard) <= 0) {
                             log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
