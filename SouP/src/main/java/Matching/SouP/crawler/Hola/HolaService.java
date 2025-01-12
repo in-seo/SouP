@@ -9,6 +9,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 
@@ -37,19 +38,26 @@ public class HolaService extends CrawlerService {
             Thread.sleep(500);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
+            boolean hasAdvertise = false;
             for (int i = count; i > 0; i--) {
                 if(i==count){
                     driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)")).click();
-                    String first = driver.getCurrentUrl().substring(beginIndex);
-                    if(first.compareTo(standard) <= 0) {
-                        log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
-                        return;
+                    try {
+                        String first = driver.getCurrentUrl().substring(beginIndex);
+                        if(first.compareTo(standard) <= 0) {
+                            log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
+                            return;
+                        }
+                        else
+                            driver.navigate().back();
+                    } catch (NoSuchElementException e) {
+                        hasAdvertise = true;
                     }
-                    else
-                        driver.navigate().back();
                 }
-                int aSelector = i*2 - 1; // 홀수번만 사용 예정
-                Elements eachPost = element.select("a:nth-child(" + aSelector + ")");
+                int childNum = i * 2 - 1; // 홀수번만 사용 예정
+                if (hasAdvertise)         // 광고가 있을경우 짝수번만 사용
+                    childNum = i * 2;
+                Elements eachPost = element.select("a:nth-child(" + childNum + ")");
                 driver.get(urlHola + eachPost.attr("href"));
                 Thread.sleep(500);
                 Document realPost = Jsoup.parse(driver.getPageSource());
