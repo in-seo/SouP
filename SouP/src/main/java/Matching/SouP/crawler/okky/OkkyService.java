@@ -36,7 +36,7 @@ public class OkkyService {
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
-                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li[class^=\"py\"]\n");
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > ul > li[class^=\"py\"]\n");
                 for (int i = elements.size() - 1; i >= 0; i--) {
                     Element element = elements.get(i);
                     Elements title = element.select("div > div.my-2 > div > a");
@@ -55,7 +55,7 @@ public class OkkyService {
 
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(4) > div > div > div").text();
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div > div > div").text();
                     StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
                     talk = CrawlerService.parseTalk(content,talk);
@@ -63,7 +63,6 @@ public class OkkyService {
                         content = content.substring(0, 199);
                     if(talk.length()>200)
                         talk = talk.substring(0, 199);
-
 
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
@@ -112,7 +111,7 @@ public class OkkyService {
             Document doc = Jsoup.parse(html);
             int num = Integer.MAX_VALUE;
             try {
-                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li[class^=\"py\"]\n");
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > ul > li[class^=\"py\"]\n");
                 String href = elements.get(0).select("div > div.my-2 > div > a").attr("href"); // 각 페이지 첫 글의 번호를 통해 페이지를 선택하자.
                 String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);

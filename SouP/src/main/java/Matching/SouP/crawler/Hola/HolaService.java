@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Slf4j
 public class HolaService extends CrawlerService {
-    private static String urlHola = "https://holaworld.io";
+    private static final String urlHola = "https://holaworld.io";
     private final HolaRepository holaRepository;
     private final ConvertToPost convertToPost;
     private final int beginIndex = 27;
@@ -33,7 +33,7 @@ public class HolaService extends CrawlerService {
             String standard = recentPost();
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            Elements element = doc.select("#root > main > ul");
+            Elements element = doc.select("#root > main > div > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", standard);
             Thread.sleep(500);
             int count = element.select(">a").size();
@@ -42,7 +42,7 @@ public class HolaService extends CrawlerService {
             for (int i = count; i > 0; i--) {
                 if(i==count){
                     try {
-                        driver.findElement(By.cssSelector("#root > main > ul > a:nth-child(1)")).click();
+                        driver.findElement(By.cssSelector("#root > main > div > ul > a:nth-child(1)")).click();
                         String first = driver.getCurrentUrl().substring(beginIndex);
                         if(first.compareTo(standard) <= 0) {
                             log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
@@ -68,19 +68,20 @@ public class HolaService extends CrawlerService {
                     continue;   //이미 불러온 글이면 패스
                 }
                 driver.navigate().back();
-                String content = realPost.select("#root > div.studyContent_wrapper__VVyNH > div.studyContent_postContentWrapper__187Zh > div").text();
-                String talk = realPost.select("#root > div.studyContent_wrapper__VVyNH > div.studyContent_postContentWrapper__187Zh > div").select("a").attr("href");
+                String content = realPost.select("#root > main > div > div > div").text();
+                String talk = realPost.select("#root > main > div > div > div").select("a").attr("href");
                 if(talk.isEmpty()){talk = parseTalk(content,talk);}
                 if(talk.length()>200)
                     talk = talk.substring(0,199);
                 if(content.length()>200)
                     content = content.substring(0, 199);
-                String userName = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_user__1XYmH > div").text();
-                String date = realPost.select("#root > div.studyContent_wrapper__VVyNH > section.studyContent_postHeader__2Qu_y > div.studyContent_userAndDate__1iYDv > div.studyContent_registeredDate__3lybC").text();
+                String userInfo = realPost.select("#root > main > div > section > div[class^=\"_userAndDate\"]").text();
+                String userName = userInfo.split("\\s+")[0];
+                String date = userInfo.split("\\s+")[1];
                 date=standard(date);
                 String postName = eachPost.select("h1").text();
                 StringBuilder stack = parseStack(postName,content);
-                int views = Integer.parseInt(eachPost.select(" section > div.studyItem_viewsAndComment__1Bxpj > div:nth-child(1) > p").text());
+                int views = Integer.parseInt(eachPost.select(" section > div[class^=\"_views\"] > div:nth-child(1) > p").text());
                 Hola hola = new Hola(num,postName,content,userName,date,link,stack.toString(),views,talk);
                 holaRepository.save(hola);
                 convertToPost.hola(hola);
