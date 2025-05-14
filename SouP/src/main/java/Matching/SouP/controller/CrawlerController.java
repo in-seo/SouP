@@ -41,13 +41,13 @@ public class CrawlerController {
 
     @CacheEvict(value = { "front", "featured" }, allEntries = true)
     @Scheduled(fixedDelay = 3600000, initialDelay = 10000) //실행 후 10초 뒤에시작, 1시간마다 실행.
-    public void crawlList() throws InterruptedException, IOException {
+    public void crawlList() throws IOException {
         log.info("현 시각: {} , 크롤링 시작.", LocalDateTime.now());
         okkyService.getOkkyPostData();
         inflearnService.getInflearnPostData();
-        holaService.getHolaPostData();  //잠깐보류  오래걸려서.
+        holaService.getHolaPostData();
 //        campickService.getCampickPostData();
-        log.info("크롤링 종료");
+//        log.info("크롤링 종료");
     }
 
     @Cacheable(value = "front")
