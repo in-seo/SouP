@@ -1,5 +1,6 @@
 package Matching.SouP.crawler.okky;
 
+import Matching.SouP.common.SlackNotifier;
 import Matching.SouP.crawler.ConvertToPost;
 import Matching.SouP.crawler.CrawlerService;
 import Matching.SouP.crawler.Selenium;
@@ -7,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
@@ -34,11 +36,11 @@ public class OkkyService {
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
-                for (int i = 22; i > 0; i--) {  //오래된 글부터 크롤링  그럼 반드시 최신글은 DB에서 가장 밑에꺼임.
-                    if(i==1 || i==6)
-                        continue;
-                    Elements element = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + i + ")");
-                    Elements title = element.select("div > div.my-2 > a");
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > ul > li[class^=\"py\"]\n");
+                for (int i = elements.size() - 1; i >= 0; i--) {
+                    Element element = elements.get(i);
+                    Elements title = element.select("div > div.my-2 > div > a");
+                    // 여기서 각 element에 대한 처리를 진행
                     String postName = title.text();
                     String num;
                     try {
@@ -53,8 +55,7 @@ public class OkkyService {
 
                     String link = "https://okky.kr/articles/"+num;
                     Document realPost = click(driver, link);
-                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > div > div > div").text();
-                    System.out.println(content);
+                    String content = realPost.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(2) > div:nth-child(2) > div:nth-child(2) > div > div > div").text();
                     StringBuilder stack = CrawlerService.parseStack(postName,content);
                     String talk = "";
                     talk = CrawlerService.parseTalk(content,talk);
@@ -62,7 +63,6 @@ public class OkkyService {
                         content = content.substring(0, 199);
                     if(talk.length()>200)
                         talk = talk.substring(0, 199);
-
 
                     String userName = element.select("div > div:nth-child(1) > a:nth-child(2)").text();
                     String date = LocalDateTime.now().toString();
@@ -94,14 +94,16 @@ public class OkkyService {
 
 
     private int startPage(WebDriver driver, int start) throws StringIndexOutOfBoundsException {
-        int page=2;  //page가 1이면 okky에선 1페이지이다..
+        int page=2;
         /**
-         * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됌.
+         * 디비에서 저장된 가장 최근 글이 1페이지에 있나 여부 판단. 만약 글 리젠이 많아서 2페이지 중반부터 크롤링 해야되면? 3페이지 첫글이 start보다 작아야 됨.
          * !!다음 페이지의 맨 첫 번째 글이, 가장 최근에 디비에 저장된 글의 번호보다 크면 다음 페이지로 넘어가야됌
          */
-        int cnt = 2;
+        int cnt = 1;
         while(true){
-            if (page > 5) {
+            if (page > 5 || cnt > 6) {
+                SlackNotifier slackNotifier = new SlackNotifier();
+                slackNotifier.sendMessageToSlack("시작 페이지를 찾지 못했습니다.");
                 throw new IllegalStateException("오키 파싱 에러");
             }
             driver.get(urlOkky + "?page=" + page);
@@ -109,21 +111,21 @@ public class OkkyService {
             Document doc = Jsoup.parse(html);
             int num = Integer.MAX_VALUE;
             try {
-                String href = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > div > ul > li:nth-child(" + cnt + ") > div > div.my-2 > a")
-                    .attr("href");
-                log.info(href);
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > ul > li[class^=\"py\"]\n");
+                String href = elements.get(0).select("div > div.my-2 > div > a").attr("href"); // 각 페이지 첫 글의 번호를 통해 페이지를 선택하자.
                 String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);
             }catch (StringIndexOutOfBoundsException | NullPointerException e){
                 cnt++;
                 log.info("StringIndexOutOfBoundsException");
+                SlackNotifier slackNotifier = new SlackNotifier();
+                slackNotifier.sendMessageToSlack(e.getMessage());
                 continue;
             }
             if(num<start){
                 log.info("{}페이지부터 시작",page-1);
                 return page-1;
             }
-            cnt=1;
             page++;
 
         }
