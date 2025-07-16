@@ -33,7 +33,7 @@ public class HolaService extends CrawlerService {
             String standard = recentPost();
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            Elements element = doc.select("#root > main > div:nth-child(3) > ul");
+            Elements element = doc.select("#root > main > div:nth-child(4) > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", standard);
             Thread.sleep(500);
             int count = element.select(">a").size();
@@ -42,7 +42,7 @@ public class HolaService extends CrawlerService {
             for (int i = count; i > 0; i--) {
                 if(i==count){
                     try {
-                        driver.findElement(By.cssSelector("#root > main > div > ul > a:nth-child(1)")).click();
+                        driver.findElement(By.cssSelector("#root > main > div:nth-child(4) > ul > a:nth-child(1)")).click();
                         String first = driver.getCurrentUrl().substring(beginIndex);
                         if(first.compareTo(standard) <= 0) {
                             log.warn("사이트 내 가장 최신글 번호 = {}, 따라서 불러올 글이 없습니다!",first);
