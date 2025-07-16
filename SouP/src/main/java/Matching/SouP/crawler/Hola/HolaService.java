@@ -33,7 +33,7 @@ public class HolaService extends CrawlerService {
             String standard = recentPost();
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
-            Elements element = doc.select("#root > main > div > ul");
+            Elements element = doc.select("#root > main > div:nth-child(4) > ul");
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", standard);
             Thread.sleep(500);
             int count = element.select(">a").size();
