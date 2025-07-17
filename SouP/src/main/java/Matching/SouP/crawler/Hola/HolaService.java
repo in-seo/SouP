@@ -34,8 +34,9 @@ public class HolaService extends CrawlerService {
             String html = driver.getPageSource();
             Document doc = Jsoup.parse(html);
             Elements element = doc.select("#root > main > div:nth-child(4) > ul");
+            System.out.println(element.html());
             log.info("훌라 크롤링 시작, 가장 최신글번호 = {}", standard);
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             int count = element.select(">a").size();
             log.warn("글 갯수 = {} ",count);
             boolean hasAdvertise = false;
