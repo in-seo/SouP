@@ -28,9 +28,11 @@ public class HolaService extends CrawlerService {
         Selenium set = new Selenium();
         WebDriver driver = set.getDriver();
         driver.get(urlHola);
+
         boolean flag = false;
         try {
             String standard = recentPost();
+            Thread.sleep(3000);
             String html = driver.getPageSource();
             log.info(html);
             Document doc = Jsoup.parse(html);
