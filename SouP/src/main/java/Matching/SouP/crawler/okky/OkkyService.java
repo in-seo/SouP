@@ -32,6 +32,7 @@ public class OkkyService {
             int start = recentPost();
             log.info("OKKY 크롤링 시작. {}번부터",start);
             int Page = startPage(driver,start);
+            log.info("{}페이지부터 시작", Page);
             while(Page>=1){
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
@@ -42,7 +43,8 @@ public class OkkyService {
                     Elements title = element.select("div > div.my-2 > div > a");
                     // 여기서 각 element에 대한 처리를 진행
                     String postName = title.text();
-                    String num;
+                    System.out.println(title + " " + postName);
+                    String num = "";
                     try {
                         String href = title.attr("href");
                         num = href.substring(10, href.lastIndexOf('?'));
@@ -123,7 +125,6 @@ public class OkkyService {
                 continue;
             }
             if(num<start){
-                log.info("{}페이지부터 시작",page-1);
                 return page-1;
             }
             page++;
