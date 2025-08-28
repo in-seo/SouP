@@ -1,5 +1,6 @@
 package Matching.SouP.controller;
 
+import Matching.SouP.common.error.PostNotFoundException;
 import Matching.SouP.config.auth.LoginUser;
 import Matching.SouP.config.auth.dto.SessionUser;
 import Matching.SouP.controller.exception.ErrorResponse;
