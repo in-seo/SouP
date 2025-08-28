@@ -43,7 +43,6 @@ public class OkkyService {
                     Elements title = element.select("div > div.my-2 > div > a");
                     // 여기서 각 element에 대한 처리를 진행
                     String postName = title.text();
-                    System.out.println(title + " " + postName);
                     String num = "";
                     try {
                         String href = title.attr("href");
