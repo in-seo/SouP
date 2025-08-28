@@ -4,3 +4,6 @@ aws:
     prefix: /spring-boot-aws
     name: cloud-parameter-store
     profileSeparator: _
+logging:
+  level:
+    org.springframework.web.servlet.DispatcherServlet: WARN
