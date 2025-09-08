@@ -69,7 +69,7 @@ public class HolaService extends CrawlerService {
                 if (eachPost.isEmpty()) continue;
 
                 driver.get(urlHola + eachPost.attr("href"));
-                Thread.sleep(500);
+                Thread.sleep(1000);
 
                 Document realPost = Jsoup.parse(driver.getPageSource());
                 String link = driver.getCurrentUrl();

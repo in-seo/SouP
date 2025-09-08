@@ -105,6 +105,7 @@ public class OkkyService {
             if (page > 5 || cnt > 6) {
                 SlackNotifier slackNotifier = new SlackNotifier();
                 slackNotifier.sendMessageToSlack("시작 페이지를 찾지 못했습니다.");
+                log.error("오키 크롤링 실패");
                 throw new IllegalStateException("오키 파싱 에러");
             }
             driver.get(urlOkky + "?page=" + page);
