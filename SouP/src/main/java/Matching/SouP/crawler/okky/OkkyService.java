@@ -36,6 +36,7 @@ public class OkkyService {
             while(Page>=1){
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
+                log.info(html);
                 Document doc = Jsoup.parse(html);
                 Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div > div:nth-child(5) > ul > li[class^=\"py\"]\n");
                 for (int i = elements.size() - 1; i >= 0; i--) {
