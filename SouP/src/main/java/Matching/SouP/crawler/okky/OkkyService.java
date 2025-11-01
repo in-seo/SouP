@@ -37,7 +37,7 @@ public class OkkyService {
                 driver.get(urlOkky + "?page=" + Page);
                 String html = driver.getPageSource();
                 Document doc = Jsoup.parse(html);
-                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div:nth-child(3) > ul > li[class^=\"py\"]\n");
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div:nth-child(3) > ul > li[class^=\"p\"]\n");
                 for (int i = elements.size() - 1; i >= 0; i--) {
                     Element element = elements.get(i);
                     Elements title = element.select("div > div.my-2 > div > a");
@@ -113,7 +113,7 @@ public class OkkyService {
             Document doc = Jsoup.parse(html);
             int num = Integer.MAX_VALUE;
             try {
-                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div:nth-child(3) > ul > li[class^=\"py\"]\n");
+                Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div:nth-child(3) > ul > li[class^=\"p\"]\n");
                 String href = elements.get(0).select("div > div.my-2 > div > a").attr("href"); // 각 페이지 첫 글의 번호를 통해 페이지를 선택하자.
                 String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);
