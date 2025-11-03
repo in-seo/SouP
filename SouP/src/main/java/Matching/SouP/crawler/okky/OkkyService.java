@@ -115,6 +115,7 @@ public class OkkyService {
             String href = "";
             try {
                 Elements elements = doc.select("#__next > main > div > div:nth-child(2) > div:nth-child(3) > ul > li[class^=\"px\"]\n");
+                log.info(elements.text());
                 href = elements.get(0).select("div > div:nth-child(2) > div > a.my-2").attr("href"); // 각 페이지 첫 글의 번호를 통해 페이지를 선택하자.
                 String sNum = href.substring(10, href.lastIndexOf('?'));
                 num = Integer.parseInt(sNum);
